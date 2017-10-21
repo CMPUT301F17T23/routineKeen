@@ -1,9 +1,6 @@
 package ca.ualberta.cs.routinekeen;
-
 import org.junit.Test;
-
 import java.util.Date;
-
 import static org.junit.Assert.*;
 
 public class HabitTest{    @Test
@@ -25,5 +22,12 @@ public class HabitTest{    @Test
     assertTrue(testHabit.getHabitReason().equal(newTitle));
     assertTrue(testHabit.getHabitStartDate().euqal(newReason));
 
-    }
+    HabitList testHabitList= new HabitList();
+    testHabitList.add(testHabit);
+    assertTrue(testHabitList.getHabit(newTitle).equal(testHabit));
+    testHabitList.remove(newTitle);
+    assertTrue(testHabitList.size().euqal(0));
+
+
+}
 }
