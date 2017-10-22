@@ -21,7 +21,5 @@ public class HabitTest{    @Test
 
     assertTrue(testHabit.getHabitReason().equal(newTitle));
     assertTrue(testHabit.getHabitStartDate().euqal(newReason));
-
-
 }
 }

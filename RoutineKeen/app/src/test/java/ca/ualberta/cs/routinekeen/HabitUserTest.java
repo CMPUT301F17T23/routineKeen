@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
  */
 
 public class HabitUserTest {
-    public void testUser () throws Exception{
+    public void testUser() throws Exception{
         String testUniqueUserName = "Test user name";
         String testUniqueFollowerName = "Test follower name";
         User testUser = new User(testUniqueUserName);
@@ -30,7 +30,5 @@ public class HabitUserTest {
                 .getRequest(testUniqueFollowerName).euqal(testUniqueFollowerName));
         assertTrue(testUser.getFollwersList()
                 .getFollower(testUniqueFollowerName).euqal(testUniqueFollowerName));
-
-
     }
 }
