@@ -7,9 +7,9 @@ public class HabitUserListTest {
   @Test
   
   public void testFollowerList() throws Exception {
-    String testUniqueFollowerName = "Test follower name";
-    User testFollower = new User(testUniqueFollowerName);
-    assertTrue(testFollower.getUserName().equal(testUniqueFollowerName));
+    String testUniqueUserName = "Test User name";
+    User testUser = new User(testUniqueUserrName);
+    assertTrue(testUser.getUserName().equal(testUniqueUserName));
     
     String testUniqueFollowerName = "Test follower name";
     User testFollower = new User(testUniqueFollowerName);
