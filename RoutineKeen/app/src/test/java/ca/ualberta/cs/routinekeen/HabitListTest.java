@@ -4,22 +4,21 @@ import java.util.Date;
 import static org.junit.Assert.*;
 
 public class HabitListTest{    @Test
-public void testHabitList() throws Exception{
-    String habitTitle = "test habit title", habitReason = "test habit reason";
-    Date testDate = new Date();
-    Habit testHabit = new Habit(habitTitle,habitReason,testDate);
 
-    assertTrue(testHabit.getHabitTitle().equal(habitTitle));
-    assertTrue(testHabit.getHabitReason().equal(habitReason));
-    assertTrue(testHabit.getHabitStartDate().euqal(testDate));
+    public void testHabitList() throws Exception{
+        String habitTitle = "test habit title", habitReason = "test habit reason";
+        Date testDate = new Date();
+        Habit testHabit = new Habit(habitTitle,habitReason,testDate);
 
-    HabitList testHabitList= new HabitList();
-    testHabitList.add(testHabit);
-    assertTrue(testHabitList.getHabit(newTitle).equal(testHabit));
+        assertTrue(testHabit.getHabitTitle().equal(habitTitle));
+        assertTrue(testHabit.getHabitReason().equal(habitReason));
+        assertTrue(testHabit.getHabitStartDate().euqal(testDate));
 
-    testHabitList.remove(newTitle);
-    assertTrue(testHabitList.size().euqal(0));
+        HabitList testHabitList= new HabitList();
+        testHabitList.add(testHabit);
+        assertTrue(testHabitList.getHabit(newTitle).equal(testHabit));
 
-
-}
+        testHabitList.remove(newTitle);
+        assertTrue(testHabitList.size().euqal(0));
+    }
 }
