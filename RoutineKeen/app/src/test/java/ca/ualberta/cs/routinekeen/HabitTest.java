@@ -9,20 +9,20 @@ import static org.junit.Assert.*;
 public class HabitTest{    @Test
     public void testHabit() throws Exception{
     String habitTitle = "test habit title", habitReason = "test habit reason";
-    Date testDate = new Date();
-    Habit testHabit = new Habit(habitTitle,habitReason,testDate);
+    Date startDate = new Date();
+    Habit testHabit = new Habit(habitTitle,habitReason,startDate);
 
-    assertTrue(testHabit.getTitle().equals(habitTitle));
-    assertTrue(testHabit.getReason().equals(habitReason));
-    assertTrue(testHabit.getStartDate().equals(testDate));
+    assertTrue(testHabit.getHabitTitle().equals(habitTitle));
+    assertTrue(testHabit.getHabitReason().equals(habitReason));
+    assertTrue(testHabit.getStartDate().equals(startDate));
 
     String newTitle = "new title";
     String newReason = "new reasoning";
 
-    testHabit.setTitle = newTitle;
-    testHabit.setReason = newReason;
+    testHabit.setHabitTitle(newTitle);
+    testHabit.setHabitReason(newReason);
 
-    assertTrue(testHabit.getReason().equals(newTitle));
-    assertTrue(testHabit.getStartDate().equals(newReason));
+    assertTrue(testHabit.getHabitTitle().equals(newTitle));
+    assertTrue(testHabit.getHabitReason().equals(newReason));
 }
 }

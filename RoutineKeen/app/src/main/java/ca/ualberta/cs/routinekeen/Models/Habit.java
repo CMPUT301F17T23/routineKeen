@@ -1,5 +1,6 @@
 package ca.ualberta.cs.routinekeen.Models;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -8,24 +9,46 @@ import java.util.Date;
 
 public class Habit {
 
-    public String setTitle;
-    public String setReason;
+    private String habitTitle;
+    private String habitReason;
+    private Date startDate;
+    private ArrayList<Date> scheduledHabitDates;
 
-    public Habit(String habitTitle, String habitReason, Date testDate) {
+    public Habit(String habitTitle, String habitReason, Date startDate) {
+        this.habitTitle = habitTitle;
+        this.habitReason = habitReason;
+        this.startDate = startDate;
     }
 
-    public String getTitle() {
-        String title = null;
-        return title;
+    public String getHabitTitle() {
+        return habitTitle;
     }
 
-    public String getReason() {
-        String reason = null;
-        return reason;
+    public void setHabitTitle(String habitTitle) {
+        this.habitTitle = habitTitle;
     }
 
-    public Object getStartDate() {
-        Object startDate = null;
+    public String getHabitReason() {
+        return habitReason;
+    }
+
+    public void setHabitReason(String habitReason) {
+        this.habitReason = habitReason;
+    }
+
+    public Date getStartDate() {
         return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public ArrayList<Date> getScheduledHabitDates() {
+        return scheduledHabitDates;
+    }
+
+    public void setScheduledHabitDates(ArrayList<Date> scheduledHabitDates) {
+        this.scheduledHabitDates = scheduledHabitDates;
     }
 }
