@@ -15,7 +15,7 @@ public class testLocation {
     assertArrayEquals(testHabitEvent.getImage(), testByteArray);
     
     testHabitEvent.deleteImage();
-    assertNull(testHabitEvent.getImage());
+    assertThat(testHabitEvent.getImage(), not(equalTo(testByteArray)));
 
   }
   
