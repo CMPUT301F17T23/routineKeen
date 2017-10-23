@@ -8,14 +8,14 @@ public class HabitEventTest {
         String testHabitEventTitle = "Test HabitEvent title";
         String testHabitComment = "Test HabitEvent comment";
         HabitEvent testHabitEvent = new HabitEvent(testHabitEventTitle,testHabitComment);
-        assertTrue(testHabitEvent.getEventTitle().equal(testHabitEventTitle));
-        assertTrue(testHabitEvent.getEventComment().equal(testHabitComment));
+        assertTrue(testHabitEvent.getTitle().equals(testHabitEventTitle));
+        assertTrue(testHabitEvent.getComment().equals(testHabitComment));
 
         String newHabitEventTitle = "New HabitEvent title";
         String newHabitEventComment = "New HabitEvent comment";
-        testHabitEvent.setEventTitle(newHabitEventTitle);
-        testHabitEvent.setEventComment(newHabitEventComment);
-        assertTrue(testHabitEvent.getEventTitle().equal(newHabitEventTitle));
-        assertTrue(testHabitEvent.getEventComment().equal(newHabitComment));
+        testHabitEvent.setTitle(newHabitEventTitle);
+        testHabitEvent.setComment(newHabitEventComment);
+        assertTrue(testHabitEvent.getTitle().equals(newHabitEventTitle));
+        assertTrue(testHabitEvent.getComment().equals(newHabitEventComment));
     }
 }
