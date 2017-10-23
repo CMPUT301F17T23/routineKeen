@@ -15,7 +15,7 @@ public class testLocation {
     assertTrue(testHabitEvent.getLocation().equal(testLocation);
     
     testHabitEvent.removeLocation(testLocation);
-    assertNull(testHabitEvent.getLocation());
+    assertTrue(testHabitEvent.getLocation().equal("");
   
   }
   
