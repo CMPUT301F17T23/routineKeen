@@ -12,26 +12,25 @@ import static org.junit.Assert.*;
 
 public class UserTest {
     public void testUser() throws Exception{
-        String testUniqueUserName = "Test user name";
+        String testUniqueUserName = "Test username";
         String testUniqueFollowerName = "Test follower name";
         User testUser = new User(testUniqueUserName);
         User testFollower = new User(testUniqueFollowerName);
-        assertTrue(testUser.getUserName().equal(testUniqueUserName));
-        assertTrue(testFollower.getUserName().equal(testUniqueFollowerName));
+        assertTrue(testUser.getUsername().equals(testUniqueUserName));
+        assertTrue(testFollower.getUsername().equals(testUniqueFollowerName));
 
         String habitTitle = "test habit title", habitReason = "test habit reason";
         Date testDate = new Date();
         Habit testHabit = new Habit(habitTitle,habitReason,testDate);
 
         testUser.getHabits().add(testHabit);
-        assertTrue(testUser.getHabits().size().equal(1));
-        assertTrue(testUser.getHabitEvents.size().equal(0));
+        assertTrue(testUser.getHabits().size() == 1);
+        assertTrue(testUser.getHabitEvents().size() == 0);
 
         testUser.getFollowerRequests().add(testFollower);
-        testUser.getFollowersList().add(testFollower);
-        assertTrue(testUser.getFollwersRequests()
-                .getRequest(testUniqueFollowerName).euqal(testUniqueFollowerName));
-        assertTrue(testUser.getFollwersList()
-                .getFollower(testUniqueFollowerName).euqal(testUniqueFollowerName));
+        testUser.getFollowerList().add(testFollower);
+        // get(0) hardcoded for testing purposes
+        assertTrue(testUser.getFollowerRequests().get(0).equals(testUniqueFollowerName));
+        assertTrue(testUser.getFollowerList().get(0).equals(testUniqueFollowerName));
     }
 }

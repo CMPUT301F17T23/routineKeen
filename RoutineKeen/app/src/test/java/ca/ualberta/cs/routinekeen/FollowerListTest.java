@@ -10,18 +10,19 @@ public class FollowerListTest {
   
   public void testFollowerList() throws Exception {
     String testUniqueUserName = "Test User name";
-    User testUser = new User(testUniqueUserrName);
-    assertTrue(testUser.getUserName().equal(testUniqueUserName));
+    User testUser = new User(testUniqueUserName);
+    assertTrue(testUser.getUsername().equals(testUniqueUserName));
     
     String testUniqueFollowerName = "Test follower name";
     User testFollower = new User(testUniqueFollowerName);
-    assertTrue(testFollower.getUserName().equal(testUniqueFollowerName));
+    assertTrue(testFollower.getUsername().equals(testUniqueFollowerName));
     
     testUser.getFollowerList().add(testFollower);
-    assertTrue(testUser.getFollowersList().getFollower(testUniqueFollowerName).equal(testUniqueFollowerName));
+    // get(0) hardcoded for testing purposes
+    assertTrue(testUser.getFollowerList().get(0).equals(testUniqueFollowerName));
     
     testUser.getFollowerList().remove(testFollower);
-    assertEquals(testUser.getFollowerList.size(), 0);
+    assertEquals(testUser.getFollowerList().size(), 0);
     
   }
   
