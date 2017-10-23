@@ -12,6 +12,7 @@ public class HabitHistoryTest{
         HabitHistory testHabitHistory = new HabitHistory();
 
         testHabitHistory.addHabitEvent(testHabitEvent);
+        assertTrue(testHabitHistory.size().equal(1));
         assertTrue(testHabitHistory.getHabitEvent(testHabitEventTitle).equal(testHabitEvent));
 
         testHabitHistory.removeHabitEvent(testHabitEventTitle);
