@@ -1,5 +1,6 @@
 package ca.ualberta.cs.routinekeen;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
@@ -14,15 +15,16 @@ public class HabitHistoryTest{
         HabitHistory testHabitHistory = new HabitHistory();
 
         testHabitHistory.addHabitEvent(testHabitEvent);
-        assertTrue(testHabitHistory.size().equal(1));
-        assertTrue(testHabitHistory.getHabitEvent(testHabitEventTitle).equal(testHabitEvent));
+        assertTrue(testHabitHistory.habitHistorySize() == 1);
+        assertTrue(testHabitHistory.getHabitEventByName(testHabitEventTitle).equals(testHabitEvent));
 
-        testHabitHistory.removeHabitEvent(testHabitEventTitle);
-        assertTrue(testHabitHistory.size().equal(0));
+        testHabitHistory.removeHabitEventByName(testHabitEventTitle);
+        assertTrue(testHabitHistory.habitHistorySize() == 0);
 
         testHabitHistory.addHabitEvent(testHabitEvent);
         String testHabitFilter = "test filter Habit type";
-        Collection<HabitEvent> testFilteredList = testHabitHistory.getFilterdList(testHabitFilter);
-        assertTrue(testFilteredList.get(testHabitEventTitle).equal(testHabitEvent));
+        testHabitHistory.setCurrentHabitTypeFilter(testHabitFilter);
+        ArrayList<HabitEvent> testFilteredList = (ArrayList<HabitEvent>)testHabitHistory.getFilteredList();
+        assertTrue(testFilteredList.get(0).equals(testHabitEvent));
     }
 }

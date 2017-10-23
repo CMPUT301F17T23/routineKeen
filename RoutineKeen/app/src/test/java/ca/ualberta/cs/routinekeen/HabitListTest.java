@@ -3,6 +3,7 @@ import org.junit.Test;
 import java.util.Date;
 
 import ca.ualberta.cs.routinekeen.Models.Habit;
+import ca.ualberta.cs.routinekeen.Models.HabitList;
 
 import static org.junit.Assert.*;
 
@@ -14,17 +15,17 @@ public class HabitListTest{    @Test
         Date testDate = new Date();
         Habit testHabit = new Habit(habitTitle,habitReason,testDate);
 
-        assertTrue(testHabit.getHabitTitle().equal(habitTitle));
-        assertTrue(testHabit.getHabitReason().equal(habitReason));
-        assertTrue(testHabit.getHabitStartDate().euqal(testDate));
+        assertTrue(testHabit.getHabitTitle().equals(habitTitle));
+        assertTrue(testHabit.getHabitReason().equals(habitReason));
+        assertTrue(testHabit.getStartDate().equals(testDate));
 
         String newTitle = "another habit title";
-        testHabit.setTitle(newTitle);
+        testHabit.setHabitTitle(newTitle);
         HabitList testHabitList= new HabitList();
-        testHabitList.add(testHabit);
-        assertTrue(testHabitList.getHabit(newTitle).equal(testHabit));
+        testHabitList.addHabit(testHabit);
+        assertTrue(testHabitList.getHabitByType(newTitle).equals(testHabit));
 
-        testHabitList.remove(newTitle);
-        assertTrue(testHabitList.size().euqal(0));
+        testHabitList.removeHabitByType(newTitle);
+        assertTrue(testHabitList.habitListSize() == 0);
     }
 }
