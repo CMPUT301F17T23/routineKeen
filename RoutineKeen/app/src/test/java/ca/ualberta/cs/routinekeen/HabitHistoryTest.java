@@ -1,8 +1,10 @@
 package ca.ualberta.cs.routinekeen;
-import org.junit.Test;
 
 import java.util.Collection;
-import java.util.Date;
+
+import ca.ualberta.cs.routinekeen.Models.HabitEvent;
+import ca.ualberta.cs.routinekeen.Models.HabitHistory;
+
 import static org.junit.Assert.*;
 public class HabitHistoryTest{
     public void testHabitHistory() throws Exception {

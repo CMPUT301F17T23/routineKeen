@@ -1,6 +1,9 @@
 package ca.ualberta.cs.routinekeen;
 import org.junit.Test;
 import java.util.Date;
+
+import ca.ualberta.cs.routinekeen.Models.Habit;
+
 import static org.junit.Assert.*;
 
 public class HabitListTest{    @Test

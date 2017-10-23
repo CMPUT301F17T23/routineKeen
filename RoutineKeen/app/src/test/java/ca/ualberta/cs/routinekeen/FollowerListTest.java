@@ -1,9 +1,11 @@
 package ca.ualberta.cs.routinekeen;
 import org.junit.Test;
-import java.util.Date;
+
+import ca.ualberta.cs.routinekeen.Models.User;
+
 import static org.junit.Assert.*;
 
-public class HabitUserListTest {
+public class FollowerListTest {
   @Test
   
   public void testFollowerList() throws Exception {

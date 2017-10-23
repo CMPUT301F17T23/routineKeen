@@ -1,12 +1,14 @@
 package ca.ualberta.cs.routinekeen;
 import org.junit.Test;
-import java.util.Date;
+
+import ca.ualberta.cs.routinekeen.Models.User;
+
 import static org.junit.Assert.*;
 
-public class HabitUserListTest {
+public class FollowerRequestsTest {
   @Test
   
-  public void testFollowerRequests() throwsException {
+  public void testFollowerRequests() throws Exception {
      String testUniqueUserName = "Test user name";
      User testUser = new User(testUniqueUserrName);
      assertTrue(testUser.getUserName().equal(testUniqueUserName));

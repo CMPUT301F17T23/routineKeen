@@ -1,6 +1,7 @@
 package ca.ualberta.cs.routinekeen;
-import org.junit.Test;
-import java.util.Date;
+
+import ca.ualberta.cs.routinekeen.Models.HabitEvent;
+
 import static org.junit.Assert.*;
 public class HabitEventTest {
     public void testHabitEvent() throws Exception {
