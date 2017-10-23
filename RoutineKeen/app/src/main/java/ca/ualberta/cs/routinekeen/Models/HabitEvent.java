@@ -67,4 +67,8 @@ public class HabitEvent {
     public void setPhoto(Photo photo) {
         this.photo = photo;
     }
+
+    public void deleteImage() {
+        this.photo = null;
+    }
 }

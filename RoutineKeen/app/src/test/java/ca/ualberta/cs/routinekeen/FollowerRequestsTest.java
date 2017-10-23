@@ -18,6 +18,7 @@ public class FollowerRequestsTest {
      assertTrue(testFollower.getUsername().equals(testUniqueFollowerName));
      
      testUser.getFollowerRequests().add(testFollower);
+      // get(0) hardcoded for testing purposes
      assertTrue(testUser.getFollowerRequests().get(0).equals(testUniqueFollowerName));
      
      testUser.getFollowerRequests().remove(testFollower);
