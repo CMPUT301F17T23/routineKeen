@@ -12,9 +12,9 @@ public class HabitTest{    @Test
     Date testDate = new Date();
     Habit testHabit = new Habit(habitTitle,habitReason,testDate);
 
-    assertTrue(testHabit.getTitle().equal(habitTitle));
-    assertTrue(testHabit.getReason().equal(habitReason));
-    assertTrue(testHabit.getStartDate().euqal(testDate));
+    assertTrue(testHabit.getTitle().equals(habitTitle));
+    assertTrue(testHabit.getReason().equals(habitReason));
+    assertTrue(testHabit.getStartDate().equals(testDate));
 
     String newTitle = "new title";
     String newReason = "new reasoning";
@@ -22,7 +22,7 @@ public class HabitTest{    @Test
     testHabit.setTitle = newTitle;
     testHabit.setReason = newReason;
 
-    assertTrue(testHabit.getReason().equal(newTitle));
-    assertTrue(testHabit.getStartDate().euqal(newReason));
+    assertTrue(testHabit.getReason().equals(newTitle));
+    assertTrue(testHabit.getStartDate().equals(newReason));
 }
 }
