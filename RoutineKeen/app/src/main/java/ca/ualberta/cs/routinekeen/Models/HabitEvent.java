@@ -5,4 +5,15 @@ package ca.ualberta.cs.routinekeen.Models;
  */
 
 public class HabitEvent {
+    public HabitEvent(String testHabitEventTitle) {
+    }
+
+    public void addLocation(String testLocation) {
+    }
+
+    public Any getLocation() {
+        return location;
+    }
+
+
 }

@@ -5,10 +5,10 @@ import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 
 import static org.junit.Assert.*;
 
-public class testLocation {
+public class PhotoTest {
   @Test
   
-  public void testPhoto() throws Exception {
+  public void PhotoTest() throws Exception {
     String testHabitEventTitle = "Test HabitEvent title";
     HabitEvent testHabitEvent = new HabitEvent(testHabitEventTitle);
     
