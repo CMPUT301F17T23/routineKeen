@@ -5,7 +5,7 @@ import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 
 import static org.junit.Assert.*;
 
-public class testLocation {
+public class LocationTest {
   @Test
   
   public void testLocation() throws Exception {

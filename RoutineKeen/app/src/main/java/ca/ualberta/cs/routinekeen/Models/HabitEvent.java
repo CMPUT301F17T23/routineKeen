@@ -7,11 +7,11 @@ import java.util.Date;
  */
 
 public class HabitEvent {
-    String title;
-    Date date;
-    HabitLocation location;
-    String comment;
-    Photo photo;
+    private String title;
+    private Date date;
+    private HabitLocation location;
+    private String comment;
+    private Photo photo;
 
     public HabitEvent(String title) {
         this.title = title;

@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  * Created by Saddog on 10/21/2017.
  */
 
-public class HabitUserTest {
+public class UserTest {
     public void testUser() throws Exception{
         String testUniqueUserName = "Test user name";
         String testUniqueFollowerName = "Test follower name";

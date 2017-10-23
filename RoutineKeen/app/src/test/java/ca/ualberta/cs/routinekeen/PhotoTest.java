@@ -1,20 +1,23 @@
 package ca.ualberta.cs.routinekeen;
 import org.junit.Test;
 
+import java.math.BigInteger;
+
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
+import ca.ualberta.cs.routinekeen.Models.Photo;
 
 import static org.junit.Assert.*;
 
-public class testLocation {
+public class PhotoTest {
   @Test
   
   public void testPhoto() throws Exception {
     String testHabitEventTitle = "Test HabitEvent title";
     HabitEvent testHabitEvent = new HabitEvent(testHabitEventTitle);
     
-    byte[] testByteArray = new BigInteger("1111000011110000", 2).toByteArray();
-    testHabitEvent.addPhoto(testByteArray);
-    assertArrayEquals(testHabitEvent.getImage(), testByteArray);
+    Photo testPhoto = new Photo(BigInteger("1111000011110000", 2).toByteArray());
+    testHabitEvent.setPhoto(testByteArray);
+    assertArrayEquals(testHabitEvent.getPhoto(), testByteArray);
     
     testHabitEvent.deleteImage();
     assertThat(testHabitEvent.getImage(), not(equalTo(testByteArray)));
