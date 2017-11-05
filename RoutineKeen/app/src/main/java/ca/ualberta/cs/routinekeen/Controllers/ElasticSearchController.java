@@ -17,6 +17,7 @@ import io.searchbox.indices.mapping.PutMapping;
 public class ElasticSearchController {
     private static JestDroidClient client;
     private static final String ELASTICSEARCH_URL = "http://cmput301.softwareprocess.es:8080";
+    private static final String INDEX_NAME = "cmput301f17t23_routinekeen";
 
     public static class AddUserTask extends AsyncTask<User, Void, Void> {
         @Override
