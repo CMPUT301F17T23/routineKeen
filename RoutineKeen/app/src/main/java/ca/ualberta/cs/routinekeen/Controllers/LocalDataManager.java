@@ -11,7 +11,8 @@ import java.io.FileOutputStream;
  */
 
 public class LocalDataManager {
-    private String userDataFileLocation = "";
+    private final String prefFile = "UserList";
+    private final String userDataFileLocation = "";
     private Gson gson;
     private FileOutputStream fos;
     private Context context;

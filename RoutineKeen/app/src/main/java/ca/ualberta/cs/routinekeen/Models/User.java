@@ -3,12 +3,16 @@ package ca.ualberta.cs.routinekeen.Models;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import io.searchbox.annotations.JestId;
+
 /**
  * Created by hughc on 2017-10-23.
  */
 
 public class User {
     private String username;
+    @JestId
+    private String userID;
     private ArrayList<User> followerList;
     private ArrayList<User> followerRequests;
     private ArrayList<Habit> habits;
@@ -16,6 +20,19 @@ public class User {
 
     public User(String username) {
         this.username = username;
+    }
+
+    public User(String username, String userID) {
+        this.username = username;
+        this.userID = userID;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String UUID) {
+        this.userID = userID;
     }
 
     public String getUsername() {
