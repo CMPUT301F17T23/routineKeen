@@ -1,5 +1,7 @@
 package ca.ualberta.cs.routinekeen.Controllers;
 
+import android.content.Context;
+
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.Models.UserList;
 
@@ -9,6 +11,7 @@ import ca.ualberta.cs.routinekeen.Models.UserList;
 
 public class UserListController {
     private static UserList userList = null;
+    private Context context;
 
     static public UserList getUserList(){
         if (userList == null){

@@ -2,12 +2,14 @@ package ca.ualberta.cs.routinekeen.Views;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.google.android.gms.common.data.DataBufferObserver;
@@ -50,6 +52,23 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 // Navigate to popup view where user can enter unique profile name
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(LoginActivity.this);
+                View mView = getLayoutInflater().inflate(R.layout.dialog_login_addprofile, null);
+                final EditText mProfile = (EditText) mView.findViewById(R.id.login_edit_profileName);
+                Button mButton = (Button) mView.findViewById(R.id.login_btn_addProfileAccept);
+
+                mButton.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view){
+                        if(!mProfile.getText().toString().isEmpty()){
+                            // Add profile request logic
+                        }
+                    }
+                });
+
+                mBuilder.setView(mView);
+                AlertDialog dialog = mBuilder.create();
+                dialog.show();
             }
         });
 
