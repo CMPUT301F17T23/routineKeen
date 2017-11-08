@@ -7,9 +7,15 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+
+import java.util.ArrayList;
+
 import ca.ualberta.cs.routinekeen.Models.User;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
+import io.searchbox.core.Search;
+import io.searchbox.core.SearchResult;
 import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.mapping.PutMapping;
 
@@ -47,8 +53,21 @@ public class ElasticSearchController {
 
     public static class GetUserTask extends AsyncTask<String, Void, User> {
         @Override
-        protected User doInBackground(String... strings) {
-            return null;
+        protected User doInBackground(String... search_parameters) {
+            verifySettings();
+
+            User user;
+            SearchSourceBuilder ssBldr = new SearchSourceBuilder();
+            //ssBldr.query()
+
+            Search search = new Search.Builder(search_parameters[0]).addIndex(INDEX_NAME).addType("user").build();
+
+            try{
+                SearchResult result = client.execute(search);
+                if(result.isSucceeded()){
+                    //user = new User(result.getFirstHit())
+                }
+            }
         }
     }
 
