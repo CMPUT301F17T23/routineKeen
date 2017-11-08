@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">RoutineKeen</string>
     <string name="login_addProfileTip">Add a new user profile, or enter an existing profile name to retrieve the account.</string>
+    <string name="addHabit_20max">Max 20 characters</string>
+    <string name="addHabit_30max">Max 30 characters</string>
 </resources>
