@@ -2,21 +2,26 @@ package ca.ualberta.cs.routinekeen.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
+import java.util.ArrayList;
+
+import ca.ualberta.cs.routinekeen.Models.Habit;
+import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.R;
 
 /**
  * Created by tiakindele on 2017-11-07.
  */
 
-public class HabitListView extends AppCompatActivity {
+public class HabitListActivity extends AppCompatActivity {
 
     ImageButton addHabitBtn;
+    private ListView lv;
 
     @Override
     protected void onStart() {
@@ -26,7 +31,7 @@ public class HabitListView extends AppCompatActivity {
         addHabitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HabitListView.this, LoginActivity.class);
+                Intent intent = new Intent(HabitListActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -36,6 +41,15 @@ public class HabitListView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.habit_list);
+
+        HabitList hL = new HabitList();
+        ArrayList<Habit> habitList = hL.getHabitList();
+
+        lv = (ListView) findViewById(R.id.listOfUserHabits);
+
+        // might need a controller to implement this well
+        lv.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, habitList));
 
         onStart();
     }
