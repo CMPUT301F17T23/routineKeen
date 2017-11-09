@@ -2,9 +2,11 @@ package ca.ualberta.cs.routinekeen.Views;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Network;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -66,6 +68,8 @@ public class LoginActivity extends AppCompatActivity{
                             // and save them to the local data storage (shared preferences)
                             User newUser = new User(mProfile.getText().toString());
                             NetworkDataManager.AddNewUser(newUser);
+                            User getUser = NetworkDataManager.GetUser(newUser);
+                            Log.i("YO", "HEY");
                         }
                     }
                 });

@@ -1,5 +1,7 @@
 package ca.ualberta.cs.routinekeen.Controllers;
 
+import android.util.Log;
+
 import ca.ualberta.cs.routinekeen.Models.User;
 
 /**
@@ -12,7 +14,15 @@ public class NetworkDataManager {
         addUserTask.execute(user);
     }
 
-    public static void GetUser(User user){
+    public static User GetUser(User user){
         ElasticSearchController.GetUserTask getUserTask = new ElasticSearchController.GetUserTask();
+        User retrievedUser = null;
+        try{
+            retrievedUser = getUserTask.execute(user.getUsername()).get();
+        } catch(Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return retrievedUser;
     }
 }
