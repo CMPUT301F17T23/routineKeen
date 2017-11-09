@@ -49,21 +49,21 @@ public class NewHabitActivity extends AppCompatActivity {
         EditText hTitle = (EditText) findViewById(R.id.addHabit_editText_name);
         EditText hReason = (EditText) findViewById(R.id.addHabit_editText_reason);
         EditText hDate = (EditText) findViewById(R.id.addHabit_editText_date);
-
+        Date date = null;
         if (hDate.getText().toString().trim().length() == 0) {
 
         } else {
             String hDate_string = hDate.getText().toString();
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
             try {
-                hDate = format.parse(dateVal_string);
+                date = format.parse(hDate_string);
             } catch(ParseException e) {
                 e.printStackTrace();
             }
         }
 
         hlc.addHabit(new Habit(hTitle.getText().toString(),
-                hReason.getText().toString(), null));
+                hReason.getText().toString(), date));
         Intent intent = new Intent(
                 NewHabitActivity.this, HabitListActivity.class);
         Toast.makeText(this, "Habit added", Toast.LENGTH_SHORT).show();

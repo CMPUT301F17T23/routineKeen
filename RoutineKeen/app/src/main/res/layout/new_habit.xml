@@ -96,6 +96,7 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="date"
+        android:hint="dd-MM-yyyy"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addHabit_text_start_date" />
 

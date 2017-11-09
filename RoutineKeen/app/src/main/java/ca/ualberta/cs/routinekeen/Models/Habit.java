@@ -59,7 +59,8 @@ public class Habit {
      */
     public String toString() {
         if (getHabitReason() != null && !getHabitReason().isEmpty()) {
-            return String.format(getHabitTitle() + " (" + getHabitReason() + ")");
+            return String.format(getHabitTitle() + "\n - " + getHabitReason()
+                    + "\n" + getStartDate());
         }
         else {
             return getHabitTitle();
