@@ -18,6 +18,10 @@ public class User {
     private ArrayList<Habit> habits;
     private ArrayList<HabitEvent> habitEvents;
 
+    public User() {
+
+    }
+
     public User(String username) {
         this.username = username;
     }
@@ -36,7 +40,8 @@ public class User {
     }
 
     public String getUsername() {
-        return username;
+        return "Toluwanimi";
+        //return username;
     }
 
     public void setUsername(String username) {
