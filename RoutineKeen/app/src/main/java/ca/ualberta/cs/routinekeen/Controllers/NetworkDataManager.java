@@ -4,6 +4,7 @@ import ca.ualberta.cs.routinekeen.Models.User;
 
 /**
  * Created by hdc on 11/6/17.
+ * created sperate branch on 11/8/17
  */
 
 public class NetworkDataManager {
