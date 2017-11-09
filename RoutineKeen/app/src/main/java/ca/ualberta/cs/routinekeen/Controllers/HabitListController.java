@@ -1,5 +1,7 @@
 package ca.ualberta.cs.routinekeen.Controllers;
 
+import java.util.ArrayList;
+
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 

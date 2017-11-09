@@ -3,6 +3,7 @@ package ca.ualberta.cs.routinekeen.Views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,6 +26,20 @@ public class HabitListActivity extends AppCompatActivity {
     private ListView lv;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.habit_list);
+        HabitList hL = new HabitList();
+        ArrayList<Habit> habitList = hL.getHabitList();
+        // DEBUG TOOL
+        // Log.d("myTag", String.valueOf(habitList));
+        lv = (ListView) findViewById(R.id.listOfUserHabits);
+        ArrayAdapter<Habit> habitArrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, habitList);
+        lv.setAdapter(habitArrayAdapter);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         addHabitBtn = (ImageButton) findViewById(R.id.addNewHabit);
@@ -32,26 +47,10 @@ public class HabitListActivity extends AppCompatActivity {
         addHabitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HabitListActivity.this, NewHabitActivity.class);
+                Intent intent = new Intent(HabitListActivity.this,
+                        NewHabitActivity.class);
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.habit_list);
-
-        HabitList hL = new HabitList();
-        ArrayList<Habit> habitList = hL.getHabitList();
-
-        lv = (ListView) findViewById(R.id.listOfUserHabits);
-
-        // might need a controller to implement this well
-        lv.setAdapter(new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, habitList));
-
-        onStart();
     }
 }
