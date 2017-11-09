@@ -88,16 +88,33 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addHabit_text_reason" />
 
-    <EditText
-        android:id="@+id/addHabit_editText_date"
-        android:layout_width="215dp"
-        android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/show_habit_date"
+        android:layout_width="155dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="32dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="date"
-        android:hint="dd-MM-yyyy"
+        android:hint="Date will appear here"
+        android:textSize="16dp"
+        android:gravity="center"
+        android:inputType="textPersonName"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/addHabit_date"
+        app:layout_constraintTop_toBottomOf="@+id/addHabit_text_start_date" />
+
+    <Button
+        android:id="@+id/addHabit_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="8dp"
+        android:inputType="date"
+        android:text="Pick Start Date"
+        android:textStyle="bold"
+        android:textColor="@color/common_google_signin_btn_text_light"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addHabit_text_start_date" />
 
     <Button
@@ -108,8 +125,9 @@
         android:layout_marginTop="32dp"
         android:text="Cancel"
         android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addHabit_editText_date"
+        app:layout_constraintTop_toBottomOf="@+id/addHabit_date"
         tools:layout_editor_absoluteX="32dp"
         tools:layout_editor_absoluteY="415dp" />
 
@@ -122,6 +140,7 @@
         android:onClick="addHabit"
         android:text="Add"
         android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addHabit_editText_date" />
+        app:layout_constraintTop_toBottomOf="@+id/addHabit_date" />
 </android.support.constraint.ConstraintLayout>
