@@ -13,6 +13,8 @@
         android:layout_marginTop="16dp"
         android:text="Add New Habit"
         android:textSize="40sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -26,9 +28,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="Habit Name"
+        android:textStyle="bold"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addHabit_text_title" />
+        app:layout_constraintTop_toBottomOf="@+id/addHabit_text_title"
+        android:layout_marginLeft="16dp" />
 
     <TextView
         android:id="@+id/addHabit_text_reason"
@@ -37,9 +41,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="Reason for Habit"
+        android:textStyle="bold"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addHabit_editText_name" />
+        app:layout_constraintTop_toBottomOf="@+id/addHabit_editText_name"
+        android:layout_marginLeft="16dp" />
 
     <TextView
         android:id="@+id/addHabit_text_start_date"
@@ -48,9 +54,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="Start Date"
+        android:textStyle="bold"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addHabit_editText_reason" />
+        app:layout_constraintTop_toBottomOf="@+id/addHabit_editText_reason"
+        android:layout_marginLeft="16dp" />
 
     <EditText
         android:id="@+id/addHabit_editText_name"
@@ -90,4 +98,29 @@
         android:inputType="date"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addHabit_text_start_date" />
+
+    <Button
+        android:id="@+id/cancel_newHabit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:text="Cancel"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addHabit_editText_date"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="415dp" />
+
+    <Button
+        android:id="@+id/add_newHabit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="32dp"
+        android:onClick="addHabit"
+        android:text="Add"
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addHabit_editText_date" />
 </android.support.constraint.ConstraintLayout>

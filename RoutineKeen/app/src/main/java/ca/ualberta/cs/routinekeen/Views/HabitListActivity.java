@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -31,7 +32,7 @@ public class HabitListActivity extends AppCompatActivity {
         addHabitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HabitListActivity.this, LoginActivity.class);
+                Intent intent = new Intent(HabitListActivity.this, NewHabitActivity.class);
                 startActivity(intent);
             }
         });
