@@ -66,10 +66,9 @@ public class LoginActivity extends AppCompatActivity{
                         if(!mProfile.getText().toString().isEmpty()){
                             // Create/Retrieve the user on the network, then add them to the user list,
                             // and save them to the local data storage (shared preferences)
-                            User newUser = new User(mProfile.getText().toString());
-                            NetworkDataManager.AddNewUser(newUser);
-                            User getUser = NetworkDataManager.GetUser(newUser);
-                            Log.i("YO", "HEY");
+                            String username = mProfile.getText().toString();
+                            //NetworkDataManager.AddNewUser(newUser);
+                            //User getUser = NetworkDataManager.GetUser(newUser);
                         }
                     }
                 });
