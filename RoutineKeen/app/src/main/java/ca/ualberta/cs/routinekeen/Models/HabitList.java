@@ -26,7 +26,6 @@ public class HabitList {
     }
 
     public void addHabit(Habit habit){
-        // habitList.add(new Habit("x","y", null));
         habitList.add(habit);
     }
 

@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
+import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.R;
 
@@ -45,9 +46,7 @@ public class UserMenu extends AppCompatActivity{
         viewHabitList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // change from LoginActivity.class to appropriate class
-                // LoginActivity.class was used for testing
-                Intent intent = new Intent(UserMenu.this, LoginActivity.class);
+                Intent intent = new Intent(UserMenu.this, HabitListActivity.class);
                 startActivity(intent);
             }
         });

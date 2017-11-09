@@ -11,7 +11,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
+import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.R;
@@ -29,12 +31,12 @@ public class HabitListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.habit_list);
-        HabitList hL = new HabitList();
-        ArrayList<Habit> habitList = hL.getHabitList();
         // DEBUG TOOL
         // Log.d("myTag", String.valueOf(habitList));
         lv = (ListView) findViewById(R.id.listOfUserHabits);
-        ArrayAdapter<Habit> habitArrayAdapter = new ArrayAdapter<>(this,
+        Collection<Habit> habits = HabitListController.getHabitList().getHabitList();
+        final ArrayList<Habit> habitList = new ArrayList<Habit>(habits);
+        final ArrayAdapter<Habit> habitArrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, habitList);
         lv.setAdapter(habitArrayAdapter);
     }

@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -47,6 +49,19 @@ public class NewHabitActivity extends AppCompatActivity {
         EditText hTitle = (EditText) findViewById(R.id.addHabit_editText_name);
         EditText hReason = (EditText) findViewById(R.id.addHabit_editText_reason);
         EditText hDate = (EditText) findViewById(R.id.addHabit_editText_date);
+
+        if (hDate.getText().toString().trim().length() == 0) {
+
+        } else {
+            String hDate_string = hDate.getText().toString();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                hDate = format.parse(dateVal_string);
+            } catch(ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
         hlc.addHabit(new Habit(hTitle.getText().toString(),
                 hReason.getText().toString(), null));
         Intent intent = new Intent(
