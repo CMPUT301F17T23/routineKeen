@@ -17,7 +17,25 @@ public class LocalDataManager {
     private FileOutputStream fos;
     private Context context;
 
-    public LocalDataManager(Context context){
-        this.context = context;
+    static private LocalDataManager localDataManager = null;
+
+    //constructor
+    public LocalDataManager(Context context){this.context = context;}
+
+    public static void InitManager(Context context) {
+        if (context == null) {
+            throw new RuntimeException("Missing context for LocalListManager");
+        }
+        localDataManager = new LocalDataManager(context);
     }
+
+    public static LocalDataManager getManager(){
+        if(localDataManager == null){
+            throw new RuntimeException("Did not initalize Manager");
+        }
+        return localDataManager;
+    }
+
+    
+
 }
