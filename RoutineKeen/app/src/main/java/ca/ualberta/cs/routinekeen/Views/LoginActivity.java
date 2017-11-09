@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Observer;
 
+import ca.ualberta.cs.routinekeen.Controllers.NetworkDataManager;
 import ca.ualberta.cs.routinekeen.Controllers.UserListController;
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.Models.UserList;
@@ -61,7 +62,10 @@ public class LoginActivity extends AppCompatActivity{
                     @Override
                     public void onClick(View view){
                         if(!mProfile.getText().toString().isEmpty()){
-                            // Add profile request logic
+                            // Create/Retrieve the user on the network, then add them to the user list,
+                            // and save them to the local data storage (shared preferences)
+                            User newUser = new User(mProfile.getText().toString());
+                            NetworkDataManager.AddNewUser(newUser);
                         }
                     }
                 });
