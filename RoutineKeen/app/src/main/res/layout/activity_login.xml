@@ -29,7 +29,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/login_text_selectProfile"
+        app:layout_constraintLeft_toLeftOf="@+id/login_text_selectProfile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_text_selectProfile" />
 
@@ -42,7 +42,7 @@
         android:textColor="@android:color/background_dark"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/login_text_routineKeenLogo"
-        app:layout_constraintLeft_toLeftOf="@id/login_text_routineKeenLogo"
+        app:layout_constraintLeft_toLeftOf="@+id/login_text_routineKeenLogo"
         tools:layout_editor_absoluteX="8dp" />
 
     <Button
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Add New Profile"
-        app:layout_constraintLeft_toLeftOf="@id/login_listview_userSelect"
+        app:layout_constraintLeft_toLeftOf="@+id/login_listview_userSelect"
         app:layout_constraintTop_toBottomOf="@+id/login_listview_userSelect"
         tools:layout_editor_absoluteX="8dp" />
 </android.support.constraint.ConstraintLayout>
