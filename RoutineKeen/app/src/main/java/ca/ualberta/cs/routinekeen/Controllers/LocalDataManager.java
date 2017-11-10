@@ -49,7 +49,7 @@ public class LocalDataManager {
         if (habitListData.equals("")) {
             throw new RuntimeException("no such user exist");
         }else{
-            return offlineDataFromString(); //FIRST CONVERT STRING TO JSON, THEN JSON TO OBJECT USING GSON
+            return null; //offlineDataFromString(); //FIRST CONVERT STRING TO JSON, THEN JSON TO OBJECT USING GSON
         }
     }
 
