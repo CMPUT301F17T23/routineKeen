@@ -15,23 +15,26 @@ public class UserListController {
 
     static public UserList getUserList(){
         if (userList == null){
-            // Get the user list from local data manger (stored in shared pref)
+            // Get the user list from the IOManager
 
-            // Add an observer to the controller that saves the user list
-            // using the local data manager when the user list model is updated
         }
 
         return userList;
     }
 
-    static public void addUserToList(User user){
+    static public void addUserToList(String username){
         // Create/Retrieve the user from the network storage
         // add a new user to the user list
-        getUserList().addUser(user);
+        User tempUser = new User(username);
+        if(NetworkDataManager.GetUser(tempUser) == null) {
+            NetworkDataManager.AddNewUser(tempUser);
+        }
+        getUserList().addUser(tempUser);
     }
 
     static public void saveUserList() {
-        // Use the local data manager to save the user list to shared preferences
+        // Use the IOManager to save the user list to shared preferences
+        // for the login activity
     }
 
 }

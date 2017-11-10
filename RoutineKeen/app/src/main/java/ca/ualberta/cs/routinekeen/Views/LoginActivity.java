@@ -19,6 +19,7 @@ import com.google.android.gms.common.data.DataBufferObserver;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Observable;
 import java.util.Observer;
 
 import ca.ualberta.cs.routinekeen.Controllers.NetworkDataManager;
@@ -27,7 +28,7 @@ import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.Models.UserList;
 import ca.ualberta.cs.routinekeen.R;
 
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity implements Observer{
     private ListView userSelectListView;
     private Button addProfBtn;
     private ArrayList<User> users;
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity{
         setContentView(R.layout.activity_login);
         userSelectListView = (ListView) findViewById(R.id.login_listview_userSelect);
         addProfBtn = (Button) findViewById(R.id.login_btn_addUser);
+        UserListController.getUserList().addObserver(this);
         initListeners();
     }
 
@@ -67,8 +69,7 @@ public class LoginActivity extends AppCompatActivity{
                             // Create/Retrieve the user on the network, then add them to the user list,
                             // and save them to the local data storage (shared preferences)
                             String username = mProfile.getText().toString();
-                            //NetworkDataManager.AddNewUser(newUser);
-                            //User getUser = NetworkDataManager.GetUser(newUser);
+                            UserListController.addUserToList(username);
                         }
                     }
                 });
@@ -85,5 +86,10 @@ public class LoginActivity extends AppCompatActivity{
                 // Navigate to the main menu for the selected user
             }
         });
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+
     }
 }

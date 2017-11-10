@@ -10,9 +10,14 @@ import com.searchly.jestdroid.JestDroidClient;
 //import org.elasticsearch.index.query.QueryBuilders;
 //import org.elasticsearch.search.builder.SearchSourceBuilder;
 
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+
 import java.util.ArrayList;
 
 import ca.ualberta.cs.routinekeen.Models.User;
+import io.searchbox.client.JestResult;
+import io.searchbox.client.JestResultHandler;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
