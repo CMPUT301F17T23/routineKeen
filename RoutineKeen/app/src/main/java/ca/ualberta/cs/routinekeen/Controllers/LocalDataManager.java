@@ -23,8 +23,8 @@ public class LocalDataManager {
 //    private final String prefFile = "LocalData";
     private final String habitListPrefFile = "HabitList";
     private final String userListPrefFile = "UserListFile";
-    private String userNameKey;
-    private String userName;
+    private final String HabitListKey = "HabitList";
+//    private String userName;
     private Gson gson;
     String jsonString;
     private Context context;
@@ -56,7 +56,7 @@ public class LocalDataManager {
         SharedPreferences settings = context.getSharedPreferences(habitListPrefFile,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         jsonString = gson.toJson(habitList);
-        editor.putString(userNameKey,jsonString);
+        editor.putString(HabitListKey,jsonString);
         editor.apply();
     }
 
@@ -66,7 +66,7 @@ public class LocalDataManager {
 
     public HabitList loadHabitList(){
         SharedPreferences settings = context.getSharedPreferences(habitListPrefFile,Context.MODE_PRIVATE);
-        String habitListData = settings.getString(userNameKey,"");
+        String habitListData = settings.getString(HabitListKey,"");
     if (habitListData.equals("")) {
             return new HabitList();
         }else{
