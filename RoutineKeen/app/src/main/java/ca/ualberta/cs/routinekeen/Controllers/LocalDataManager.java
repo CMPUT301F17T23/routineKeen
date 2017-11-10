@@ -9,12 +9,14 @@ import java.io.FileOutputStream;
 
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.Models.User;
+import ca.ualberta.cs.routinekeen.Models.UserList;
 
 /**
  * Created by hughc on 2017-11-05.
  */
 
 public class LocalDataManager {
+    private final String userListPrefFile = "UserListFile";
     private final String prefFile = "LocalData";
     private String userName;
     private Gson gson;
@@ -24,16 +26,17 @@ public class LocalDataManager {
     static private LocalDataManager localDataManager = null;
 
     //constructor
-    public LocalDataManager(Context context, String username){
+    public LocalDataManager(Context context){
         this.context = context;
-        this.userName = username;
     }
 
-    public static void InitManager(Context context, String username) {
-        if (context == null) {
-            throw new RuntimeException("Missing context for LocalListManager");
+    public static void InitManager(Context context) {
+        if(localDataManager == null) {
+            if (context == null) {
+                throw new RuntimeException("Missing context for LocalListManager");
+            }
+            localDataManager = new LocalDataManager(context);
         }
-        localDataManager = new LocalDataManager(context, username);
     }
 
     public static LocalDataManager getManager(){
@@ -43,7 +46,10 @@ public class LocalDataManager {
         return localDataManager;
     }
 
-//<<<<<<< HEAD
+    public UserList loadUserList(){
+        return null;
+    }
+
     public User loadLocalUserData(HabitList habitList){
         SharedPreferences settings = context.getSharedPreferences(prefFile,Context.MODE_PRIVATE);
         String habitListData = settings.getString(userName,"");
@@ -53,18 +59,7 @@ public class LocalDataManager {
             return null; //offlineDataFromString(); //FIRST CONVERT STRING TO JSON, THEN JSON TO OBJECT USING GSON
         }
     }
-//=======
-////    public User loadLocalUserData(HabitList habitList){
-////        SharedPreferences settings = context.getSharedPreferences(prefFile,Context.MODE_PRIVATE);
-////        String habitListData = settings.getString(userName,"");
-////        if (habitListData.equals("")) {
-////            throw new RuntimeException("no such user exist");
-////        }else{
-////            return offlineDataFromString(); //FIRST CONVERT STRING TO JSON, THEN JSON TO OBJECT USING GSON
-////        }
-////    }
-//>>>>>>> master
-//
+
     public void saveHabitList(HabitList habitList){
 
     }
