@@ -23,6 +23,7 @@ public class LocalDataManager {
 //    private final String prefFile = "LocalData";
     private final String habitListPrefFile = "HabitList";
     private final String userListPrefFile = "UserListFile";
+    private final String userListKey = "userList";
     private String userNameKey;
     private String userName;
     private Gson gson;
@@ -61,7 +62,22 @@ public class LocalDataManager {
     }
 
     public UserList loadUserList(){
-        return null;
+        SharedPreferences settings = context.getSharedPreferences(userListPrefFile, Context.MODE_PRIVATE);
+        String userListData = settings.getString(userNameKey, "");
+        if (userListData.equals("")){
+            return new UserList();
+        } else{
+            Type listType = new TypeToken<ArrayList<User>>(){}.getType();
+            return gson.fromJson(userListData, listType);
+        }
+    }
+
+    public void saveUserList(UserList userList){
+        SharedPreferences settings = context.getSharedPreferences(userListPrefFile, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        jsonString = gson.toJson(userList);
+        editor.putString(userListKey, jsonString);
+        editor.apply();
     }
 
     public HabitList loadHabitList(){

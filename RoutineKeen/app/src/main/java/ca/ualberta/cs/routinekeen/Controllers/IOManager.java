@@ -37,7 +37,7 @@ public class IOManager {
     }
 
     public UserList loadUserList() {
-        return null;
+        return localDM.loadUserList();
     }
 
     public void saveUserList(){

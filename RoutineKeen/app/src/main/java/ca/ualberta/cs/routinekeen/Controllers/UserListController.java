@@ -11,7 +11,7 @@ import ca.ualberta.cs.routinekeen.Models.UserList;
 
 public class UserListController {
     private static UserList userList = null;
-    private Context context;
+    private static Context context;
     private static IOManager ioManager = IOManager.getManager();
 
     private UserListController(){
