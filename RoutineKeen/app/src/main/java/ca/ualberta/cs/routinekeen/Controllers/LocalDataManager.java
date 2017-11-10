@@ -20,12 +20,11 @@ import ca.ualberta.cs.routinekeen.Models.UserList;
  */
 
 public class LocalDataManager {
-//    private final String prefFile = "LocalData";
     private final String habitListPrefFile = "HabitList";
     private final String userListPrefFile = "UserListFile";
     private final String userListKey = "userList";
-    private String userNameKey;
-    private String userName;
+    private final String HabitListKey = "HabitList";
+
     private Gson gson;
     String jsonString;
     private Context context;
@@ -57,13 +56,13 @@ public class LocalDataManager {
         SharedPreferences settings = context.getSharedPreferences(habitListPrefFile,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         jsonString = gson.toJson(habitList);
-        editor.putString(userNameKey,jsonString);
+        editor.putString(HabitListKey,jsonString);
         editor.apply();
     }
 
     public UserList loadUserList(){
         SharedPreferences settings = context.getSharedPreferences(userListPrefFile, Context.MODE_PRIVATE);
-        String userListData = settings.getString(userNameKey, "");
+        String userListData = settings.getString(userListKey, "");
         if (userListData.equals("")){
             return new UserList();
         } else{
@@ -82,7 +81,7 @@ public class LocalDataManager {
 
     public HabitList loadHabitList(){
         SharedPreferences settings = context.getSharedPreferences(habitListPrefFile,Context.MODE_PRIVATE);
-        String habitListData = settings.getString(userNameKey,"");
+        String habitListData = settings.getString(HabitListKey,"");
     if (habitListData.equals("")) {
             return new HabitList();
         }else{
