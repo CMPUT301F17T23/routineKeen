@@ -43,7 +43,7 @@ public class LocalDataManager {
         return localDataManager;
     }
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
     public User loadLocalUserData(HabitList habitList){
         SharedPreferences settings = context.getSharedPreferences(prefFile,Context.MODE_PRIVATE);
         String habitListData = settings.getString(userName,"");
@@ -53,18 +53,18 @@ public class LocalDataManager {
             return null; //offlineDataFromString(); //FIRST CONVERT STRING TO JSON, THEN JSON TO OBJECT USING GSON
         }
     }
-=======
-//    public User loadLocalUserData(HabitList habitList){
-//        SharedPreferences settings = context.getSharedPreferences(prefFile,Context.MODE_PRIVATE);
-//        String habitListData = settings.getString(userName,"");
-//        if (habitListData.equals("")) {
-//            throw new RuntimeException("no such user exist");
-//        }else{
-//            return offlineDataFromString(); //FIRST CONVERT STRING TO JSON, THEN JSON TO OBJECT USING GSON
-//        }
-//    }
->>>>>>> master
-
+//=======
+////    public User loadLocalUserData(HabitList habitList){
+////        SharedPreferences settings = context.getSharedPreferences(prefFile,Context.MODE_PRIVATE);
+////        String habitListData = settings.getString(userName,"");
+////        if (habitListData.equals("")) {
+////            throw new RuntimeException("no such user exist");
+////        }else{
+////            return offlineDataFromString(); //FIRST CONVERT STRING TO JSON, THEN JSON TO OBJECT USING GSON
+////        }
+////    }
+//>>>>>>> master
+//
     public void saveHabitList(HabitList habitList){
 
     }

@@ -1,6 +1,8 @@
 package ca.ualberta.cs.routinekeen.Controllers;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
@@ -13,7 +15,7 @@ public class HabitListController {
 
     // Lazy Singleton
     private static HabitList habitList = null;
-    static public HabitList getHabitList() {
+    public static HabitList getHabitList() {
         if (habitList == null) {
             habitList = new HabitList();
         }
@@ -23,4 +25,5 @@ public class HabitListController {
     public void addHabit(Habit habit) {
         getHabitList().addHabit(habit);
     }
+
 }
