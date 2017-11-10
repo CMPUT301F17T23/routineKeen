@@ -12,4 +12,16 @@ import ca.ualberta.cs.routinekeen.Models.Photo;
 public class HabitHistoryController {
     private ArrayList<HabitEvent> habitHistory = new ArrayList<HabitEvent>();
 
+
+    public HabitEvent getHabitEvent(int position)
+    {
+        return habitHistory.get(position);
+    }
+
+    public void setHabitEvent(HabitEvent habitEvent)
+    {
+        habitHistory.add(habitEvent);
+    }
+
+
 }

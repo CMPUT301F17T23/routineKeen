@@ -1,18 +1,25 @@
 package ca.ualberta.cs.routinekeen.Models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by hughc on 2017-10-23.
  */
 
-public class HabitEvent {
+public class HabitEvent implements Serializable{
     private String title;
     private Date date;
     private HabitLocation location;
     private String comment;
     private Photo photo;
 
+    //Default Constructor
+    public HabitEvent(){
+        title = "Event";
+        date = new Date();
+        //Should add more stuff here later
+    }
     public HabitEvent(String title) {
         this.title = title;
         this.date = new Date();
