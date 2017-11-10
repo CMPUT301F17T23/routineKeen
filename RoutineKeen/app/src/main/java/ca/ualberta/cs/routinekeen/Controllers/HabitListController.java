@@ -13,6 +13,7 @@ import ca.ualberta.cs.routinekeen.Models.HabitList;
 
 public class HabitListController {
 
+    private HabitListController(){}
     // Lazy Singleton
     private static HabitList habitList = null;
     public static HabitList getHabitList() {
@@ -22,7 +23,11 @@ public class HabitListController {
         return habitList;
     }
 
-    public void addHabit(Habit habit) {
+    public static void saveHabitList(){
+
+    }
+
+    public static void addHabit(Habit habit) {
         getHabitList().addHabit(habit);
     }
 
