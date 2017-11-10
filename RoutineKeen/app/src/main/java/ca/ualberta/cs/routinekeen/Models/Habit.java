@@ -51,4 +51,28 @@ public class Habit {
     public void setScheduledHabitDates(ArrayList<Date> scheduledHabitDates) {
         this.scheduledHabitDates = scheduledHabitDates;
     }
+
+    /**
+     * Overrides the toString function in this class.
+     * Returns just the title if no reason is given and both otherwise.
+     * @return habitTitle (habitReason)
+     */
+    public String toString() {
+        if (getHabitReason() != null && !getHabitReason().isEmpty()) {
+            if (getStartDate() != null) {
+                return String.format(getHabitTitle() + " (" + getHabitReason()
+                        + ")\n" + getStartDate());
+            }
+            else {
+                return String.format(getHabitTitle() + " (" + getHabitReason()
+                        + ")\n" + getStartDate());
+            }
+        }
+        else if (getStartDate() != null) {
+            return String.format(getHabitTitle() + "\n" + getStartDate());
+        }
+        else {
+            return getHabitTitle();
+        }
+    }
 }
