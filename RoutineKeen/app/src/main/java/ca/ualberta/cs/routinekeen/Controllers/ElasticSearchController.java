@@ -7,7 +7,8 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
-import org.elasticsearch.search.builder.SearchSourceBuilder;
+//import org.elasticsearch.index.query.QueryBuilders;
+//import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.util.ArrayList;
 
@@ -16,8 +17,6 @@ import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
-import io.searchbox.indices.CreateIndex;
-import io.searchbox.indices.mapping.PutMapping;
 
 /**
  * Created by hdc on 11/4/17.
@@ -55,19 +54,30 @@ public class ElasticSearchController {
         @Override
         protected User doInBackground(String... search_parameters) {
             verifySettings();
-
-            User user;
-            SearchSourceBuilder ssBldr = new SearchSourceBuilder();
-            //ssBldr.query()
-
-            Search search = new Search.Builder(search_parameters[0]).addIndex(INDEX_NAME).addType("user").build();
-
+            User userResult = null;
+            String username = search_parameters[0];
+            String query = "{\n" +
+                    "    \"query\": {\n" +
+                    "        \"query_string\" : {\n" +
+                    "           \"default_field\" : \"username\",\n" +
+                    "               \"query\" : \"" + username + "\"\n" +
+                    "               }\n" +
+                    "           }\n" +
+                    "       }";
+            Search search = new Search.Builder(query)
+                                    .addIndex(INDEX_NAME)
+                                    .addType("user")
+                                    .build();
             try{
                 SearchResult result = client.execute(search);
                 if(result.isSucceeded()){
-                    //user = new User(result.getFirstHit())
+                    userResult = result.getSourceAsObject(User.class);
                 }
+            } catch(Exception e){
+                Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
             }
+
+            return userResult;
         }
     }
 

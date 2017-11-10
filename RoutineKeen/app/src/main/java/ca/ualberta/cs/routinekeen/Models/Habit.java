@@ -9,6 +9,7 @@ import java.util.Date;
 
 public class Habit {
 
+    private String habitUserID;
     private String habitTitle;
     private String habitReason;
     private Date startDate;
@@ -18,6 +19,14 @@ public class Habit {
         this.habitTitle = habitTitle;
         this.habitReason = habitReason;
         this.startDate = startDate;
+    }
+
+    public String getHabitUserID() {
+        return habitUserID;
+    }
+
+    public void setHabitUserID(String habitUserID) {
+        this.habitUserID = habitUserID;
     }
 
     public String getHabitTitle() {
