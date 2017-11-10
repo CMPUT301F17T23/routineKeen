@@ -13,17 +13,20 @@ import java.util.ArrayList;
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.Models.User;
+import ca.ualberta.cs.routinekeen.Models.UserList;
 
 /**
  * Created by hughc on 2017-11-05.
  */
 
 public class LocalDataManager {
+//    private final String prefFile = "LocalData";
     private final String habitListPrefFile = "HabitList";
+    private final String userListPrefFile = "UserListFile";
     private String userNameKey;
+    private String userName;
     private Gson gson;
     String jsonString;
-//    private FileOutputStream fos;
     private Context context;
 
     static private LocalDataManager localDataManager = null;
@@ -57,10 +60,14 @@ public class LocalDataManager {
         editor.apply();
     }
 
+    public UserList loadUserList(){
+        return null;
+    }
+
     public HabitList loadHabitList(){
         SharedPreferences settings = context.getSharedPreferences(habitListPrefFile,Context.MODE_PRIVATE);
         String habitListData = settings.getString(userNameKey,"");
-        if (habitListData.equals("")) {
+    if (habitListData.equals("")) {
             return new HabitList();
         }else{
             Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
