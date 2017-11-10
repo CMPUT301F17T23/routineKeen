@@ -2,9 +2,11 @@ package ca.ualberta.cs.routinekeen.Views;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Network;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -64,8 +66,9 @@ public class LoginActivity extends AppCompatActivity{
                         if(!mProfile.getText().toString().isEmpty()){
                             // Create/Retrieve the user on the network, then add them to the user list,
                             // and save them to the local data storage (shared preferences)
-                            User newUser = new User(mProfile.getText().toString());
-                            NetworkDataManager.AddNewUser(newUser);
+                            String username = mProfile.getText().toString();
+                            //NetworkDataManager.AddNewUser(newUser);
+                            //User getUser = NetworkDataManager.GetUser(newUser);
                         }
                     }
                 });

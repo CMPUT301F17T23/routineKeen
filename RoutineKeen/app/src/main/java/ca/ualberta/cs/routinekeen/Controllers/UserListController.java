@@ -26,9 +26,8 @@ public class UserListController {
 
     static public void addUserToList(User user){
         // Create/Retrieve the user from the network storage
-
         // add a new user to the user list
-        userList.addUser(user);
+        getUserList().addUser(user);
     }
 
     static public void saveUserList() {
