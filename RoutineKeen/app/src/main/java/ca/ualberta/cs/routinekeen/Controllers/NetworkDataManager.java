@@ -10,9 +10,16 @@ import ca.ualberta.cs.routinekeen.Models.User;
  */
 
 public class NetworkDataManager {
-    public static void AddNewUser(User user){
+    public static User AddNewUser(User user){
         ElasticSearchController.AddUserTask addUserTask = new ElasticSearchController.AddUserTask();
-        addUserTask.execute(user);
+        User addedUser = null;
+        try{
+            addedUser = addUserTask.execute(user).get();
+        } catch(Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return addedUser;
     }
 
     public static User GetUser(String username){

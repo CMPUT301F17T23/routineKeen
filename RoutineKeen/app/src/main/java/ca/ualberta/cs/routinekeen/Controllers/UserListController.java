@@ -26,13 +26,16 @@ public class UserListController {
         return userList;
     }
 
-    static public void addUserToList(String username){
-        User tempUser = new User(username);
-        if(NetworkDataManager.GetUser(username) == null) {
-            NetworkDataManager.AddNewUser(tempUser);
+    public static void addUserToList(String username){
+        User retrievedUser = NetworkDataManager.GetUser(username);
+        if(retrievedUser == null) {
+            retrievedUser = NetworkDataManager.AddNewUser(new User(username));
         }
-        tempUser = NetworkDataManager.GetUser(username);
-        getUserList().addUser(tempUser);
+        getUserList().addUser(retrievedUser);
+        ioManager.saveUserList(getUserList());
+    }
+
+    public static void saveUserList(){
         ioManager.saveUserList(getUserList());
     }
 }

@@ -29,24 +29,29 @@ public class ElasticSearchController {
     private static final String ELASTICSEARCH_URL = "http://cmput301.softwareprocess.es:8080";
     private static final String INDEX_NAME = "cmput301f17t23_routinekeen";
 
-    public static class AddUserTask extends AsyncTask<User, Void, Void> {
+    public static class AddUserTask extends AsyncTask<User, Void, User> {
         @Override
-        protected Void doInBackground(User... users) {
+        protected User doInBackground(User... users) {
             verifySettings();
 
-            for (User user : users) {
-                Index index = new Index.Builder(user).index(INDEX_NAME).type("user").build();
+            // Enforce adding only one user with this async task
+            if (users.length > 1)
+                throw new RuntimeException("Illegal Task Call: One user at a time.");
 
-                try {
-                    DocumentResult result = client.execute(index);
-                    if (!result.isSucceeded()) {
-                        Log.i("Error", "Elastic search was not able to add the user.");
-                    }
-                } catch (Exception e) {
-                    Log.i("Error", "The application failed to build and send the users.");
+            User user = users[0];
+            Index index = new Index.Builder(user).index(INDEX_NAME).type("user").build();
+            try {
+                DocumentResult result = client.execute(index);
+                if (result.isSucceeded()){
+                    user.setUserID(result.getId());
                 }
+                else {
+                    Log.i("Error", "Elastic search was not able to add the user.");
+                }
+            } catch (Exception e) {
+                Log.i("Error", "The application failed to build and send the users.");
             }
-            return null;
+            return user;
         }
     }
 

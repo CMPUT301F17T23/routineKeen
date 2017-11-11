@@ -2,6 +2,7 @@ package ca.ualberta.cs.routinekeen.Controllers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,7 +27,7 @@ public class LocalDataManager {
     private final String userListKey = "userList";
     private String userNameKey;
     private String userName;
-    private Gson gson;
+    private Gson gson = new Gson();
     String jsonString;
     private Context context;
 
@@ -63,19 +64,19 @@ public class LocalDataManager {
 
     public UserList loadUserList(){
         SharedPreferences settings = context.getSharedPreferences(userListPrefFile, Context.MODE_PRIVATE);
-        String userListData = settings.getString(userNameKey, "");
+        String userListData = settings.getString(userListKey, "");
         if (userListData.equals("")){
             return new UserList();
         } else{
             Type listType = new TypeToken<ArrayList<User>>(){}.getType();
-            return gson.fromJson(userListData, listType);
+            ArrayList<User> listOfUsers = gson.fromJson(userListData, listType);
+            return new UserList(listOfUsers);
         }
     }
 
     public void saveUserList(UserList userList){
         SharedPreferences settings = context.getSharedPreferences(userListPrefFile, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
-        gson = new Gson();
         jsonString = gson.toJson(userList.getUsers());
         editor.putString(userListKey, jsonString);
         editor.apply();
@@ -91,4 +92,26 @@ public class LocalDataManager {
             return( gson.fromJson(habitListData,listType) );
         }
     }
+    public void loadSharedPrefs(String ... prefs) {
+        // Helper function to view local data within shared preferences
+        // Taken from https://stackoverflow.com/questions/23635644/
+        // how-can-i-view-the-shared-preferences-file-using-android-studio
+        // Date: Nov. 11, 2017
+        // Logging messages left in to view Shared Preferences.
+        // I filter out all logs except for ERROR; hence why I am printing error messages.
+
+        Log.i("Loading Shared Prefs", "-----------------------------------");
+        Log.i("----------------", "---------------------------------------");
+
+        for (String pref_name: prefs) {
+            SharedPreferences preference = context.getSharedPreferences(pref_name, Context.MODE_PRIVATE);
+            for (String key : preference.getAll().keySet()) {
+                Log.i(String.format("Shared Preference : %s - %s", pref_name, key),
+                        preference.getString(key, "error!"));
+            }
+            Log.i("----------------", "---------------------------------------");
+        }
+        Log.i("Finished Shared Prefs", "----------------------------------");
+    }
+
 }
