@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Editing Habit Details"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/editHabit_habitTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Habit Title:"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextView" />
+
+    <EditText
+        android:id="@+id/editHabit_habitTitleField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="2dp"
+        android:ems="10"
+        android:hint="New Habit Title"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/editHabit_habitTitle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/editHabit_habitReason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Habit Reason:"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editHabit_habitTitleField" />
+
+    <EditText
+        android:id="@+id/editHabit_habitReasonField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="2dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:hint="New Habit Reason"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/editHabit_habitReason"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/choosePracticeDays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Choose Practice Days:"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editHabit_habitReasonField" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="104dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Cancel"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        android:layout_marginStart="16dp" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="104dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:onClick="saveHabitEdit"
+        android:text="Save"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Switch
+        android:id="@+id/monSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Mon "
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@+id/editHabit_habitReasonField"
+        app:layout_constraintTop_toBottomOf="@+id/choosePracticeDays" />
+
+    <Switch
+        android:id="@+id/tueSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Tue "
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@+id/monSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/monSwitch" />
+
+    <Switch
+        android:id="@+id/wedSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Wed "
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@+id/monSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/tueSwitch" />
+
+    <Switch
+        android:id="@+id/thuSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Thu "
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@+id/monSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/wedSwitch" />
+
+    <Switch
+        android:id="@+id/friSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Fri "
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toRightOf="@+id/monSwitch"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/choosePracticeDays" />
+
+    <Switch
+        android:id="@+id/satSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Sat "
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@+id/friSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/friSwitch" />
+
+    <Switch
+        android:id="@+id/sunSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Sun"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@+id/satSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/satSwitch" />
+
+</android.support.constraint.ConstraintLayout>

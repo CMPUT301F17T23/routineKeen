@@ -39,6 +39,20 @@
             </intent-filter>
         </activity>
         <activity android:name=".Views.HabitHistoryActivity"></activity>
+        <activity android:name=".Views.HabitDetailsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Views.HabitEditActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
