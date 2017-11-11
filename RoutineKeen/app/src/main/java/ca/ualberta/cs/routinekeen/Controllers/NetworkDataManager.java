@@ -15,11 +15,11 @@ public class NetworkDataManager {
         addUserTask.execute(user);
     }
 
-    public static User GetUser(User user){
+    public static User GetUser(String username){
         ElasticSearchController.GetUserTask getUserTask = new ElasticSearchController.GetUserTask();
         User retrievedUser = null;
         try{
-            retrievedUser = getUserTask.execute(user.getUsername()).get();
+            retrievedUser = getUserTask.execute(username).get();
         } catch(Exception e){
             Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
         }

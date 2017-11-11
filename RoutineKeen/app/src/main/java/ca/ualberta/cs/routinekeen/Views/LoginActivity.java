@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
+import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Controllers.NetworkDataManager;
 import ca.ualberta.cs.routinekeen.Controllers.UserListController;
 import ca.ualberta.cs.routinekeen.Models.User;
@@ -37,6 +38,7 @@ public class LoginActivity extends AppCompatActivity implements Observer{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        IOManager.initManager(getApplicationContext());
         setContentView(R.layout.activity_login);
         userSelectListView = (ListView) findViewById(R.id.login_listview_userSelect);
         addProfBtn = (Button) findViewById(R.id.login_btn_addUser);
@@ -47,9 +49,9 @@ public class LoginActivity extends AppCompatActivity implements Observer{
     @Override
     protected void onStart(){
         super.onStart();
-        //users = UserListController.getUserList().getUsers();
-        //adapter = new ArrayAdapter<User>(this, R.layout.login_list_item, users);
-        //userSelectListView.setAdapter(adapter);
+        users = UserListController.getUserList().getUsers();
+        adapter = new ArrayAdapter<User>(this, R.layout.login_list_item, users);
+        userSelectListView.setAdapter(adapter);
     }
 
     private void initListeners() {
@@ -90,6 +92,7 @@ public class LoginActivity extends AppCompatActivity implements Observer{
 
     @Override
     public void update(Observable observable, Object o) {
-
+        this.users = (ArrayList<User>) o;
+        adapter.notifyDataSetChanged();
     }
 }

@@ -7,9 +7,6 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
-//import org.elasticsearch.index.query.QueryBuilders;
-//import org.elasticsearch.search.builder.SearchSourceBuilder;
-
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
@@ -42,9 +39,7 @@ public class ElasticSearchController {
 
                 try {
                     DocumentResult result = client.execute(index);
-                    if (result.isSucceeded()) {
-                        user.setUserID(result.getId());
-                    } else {
+                    if (!result.isSucceeded()) {
                         Log.i("Error", "Elastic search was not able to add the user.");
                     }
                 } catch (Exception e) {

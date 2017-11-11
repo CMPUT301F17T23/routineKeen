@@ -41,8 +41,8 @@ public class IOManager {
         return localDM.loadUserList();
     }
 
-    public void saveUserList() {
-
+    public void saveUserList(UserList userList) {
+        localDM.saveUserList(userList);
     }
 
     public void saveLocalHabitList(HabitList habitList) {

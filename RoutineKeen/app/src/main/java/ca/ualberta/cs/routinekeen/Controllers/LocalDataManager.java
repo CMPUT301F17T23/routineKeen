@@ -75,7 +75,8 @@ public class LocalDataManager {
     public void saveUserList(UserList userList){
         SharedPreferences settings = context.getSharedPreferences(userListPrefFile, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
-        jsonString = gson.toJson(userList);
+        gson = new Gson();
+        jsonString = gson.toJson(userList.getUsers());
         editor.putString(userListKey, jsonString);
         editor.apply();
     }

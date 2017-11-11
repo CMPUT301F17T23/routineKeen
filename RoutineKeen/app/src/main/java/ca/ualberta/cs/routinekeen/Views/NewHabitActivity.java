@@ -91,37 +91,37 @@ public class NewHabitActivity extends AppCompatActivity {
         });
     }
 
-    public void addHabit(View v) {
-        HabitListController hlc = new HabitListController();
-        EditText hTitle = (EditText) findViewById(R.id.addHabit_editText_name);
-
-        if (hTitle.getText().toString() != null && !hTitle.getText().toString().isEmpty()) {
-            EditText hReason = (EditText) findViewById(R.id.addHabit_editText_reason);
-            TextView hDate = (TextView) findViewById(R.id.show_habit_date);
-            Date date = null;
-            if (hDate.getText().toString().trim().length() == 0) {
-
-            } else {
-                String hDate_string = hDate.getText().toString();
-                DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-                Log.d("myTag", "before: " + hDate_string);
-                try {
-                    date = formatter.parse(hDate_string);
-                    Log.d("myTag", "after: " + String.valueOf(date));
-                } catch(ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-            hlc.addHabit(new Habit(hTitle.getText().toString(),
-                    hReason.getText().toString(), date));
-            Intent intent = new Intent(
-                    NewHabitActivity.this, HabitListActivity.class);
-            Toast.makeText(this, "Habit added", Toast.LENGTH_SHORT).show();
-            startActivity(intent);
-        }
-        else {
-            Toast.makeText(this, "Please enter a habit name", Toast.LENGTH_SHORT).show();
-        }
-
-    }
+//    public void addHabit(View v) {
+//        HabitListController hlc = new HabitListController();
+//        EditText hTitle = (EditText) findViewById(R.id.addHabit_editText_name);
+//
+//        if (hTitle.getText().toString() != null && !hTitle.getText().toString().isEmpty()) {
+//            EditText hReason = (EditText) findViewById(R.id.addHabit_editText_reason);
+//            TextView hDate = (TextView) findViewById(R.id.show_habit_date);
+//            Date date = null;
+//            if (hDate.getText().toString().trim().length() == 0) {
+//
+//            } else {
+//                String hDate_string = hDate.getText().toString();
+//                DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+//                Log.d("myTag", "before: " + hDate_string);
+//                try {
+//                    date = formatter.parse(hDate_string);
+//                    Log.d("myTag", "after: " + String.valueOf(date));
+//                } catch(ParseException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            hlc.addHabit(new Habit(hTitle.getText().toString(),
+//                    hReason.getText().toString(), date));
+//            Intent intent = new Intent(
+//                    NewHabitActivity.this, HabitListActivity.class);
+//            Toast.makeText(this, "Habit added", Toast.LENGTH_SHORT).show();
+//            startActivity(intent);
+//        }
+//        else {
+//            Toast.makeText(this, "Please enter a habit name", Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
 }

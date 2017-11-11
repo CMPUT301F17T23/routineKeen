@@ -25,7 +25,6 @@ public class HabitListController {
 
     public static void saveHabitList(){
         IOManager iom = IOManager.getManager();
-        iom.local
     }
 
     public static void addHabit(Habit habit) {
