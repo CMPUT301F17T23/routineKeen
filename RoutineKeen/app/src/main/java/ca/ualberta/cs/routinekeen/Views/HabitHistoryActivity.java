@@ -62,7 +62,7 @@ public class HabitHistoryActivity extends AppCompatActivity {
     }
 
     /*
-    //Load Up User Habit events here
+    //Load Up User Habit history here
     @Override
     protected void onStart() {
         super.onStart();
@@ -82,21 +82,56 @@ public class HabitHistoryActivity extends AppCompatActivity {
         HabitEvent habitevent = habitEvents.get(habitEvents.size() - 1);
         viewPosition = (habitEvents.size() - 1);
         viewEvent = habitevent;
-        intent.putExtra("View Event", habitevent);
+        intent.putExtra("Add Event", habitevent);
         startActivityForResult(intent, 2);
+    }
+
+    public void changeHabitEvent(String eData)
+    {
+        if(!eData.isEmpty() && !eData.equals("Delete"))
+        {
+            String values[] = eData.split("\\r?\\n");
+            viewEvent.setTitle(values[0]);
+            viewEvent.setComment(values[1]);
+
+            habitEvents.set(viewPosition, viewEvent);
+            CL = (ListView) findViewById(R.id.habitHistoryList);
+
+            adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
+            CL.setAdapter(adapter);
+
+            //SAVE FUNCTION HERE
+        }
+        else if(eData.equals("Delete"))
+        {
+            habitEvents.remove(viewPosition);
+            CL = (ListView) findViewById(R.id.habitHistoryList);
+
+            adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
+            CL.setAdapter(adapter);
+
+            //SAVE FUNCTION HERE
+        }
+        else//is empty
+        {
+            //Nothing happens
+
+
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         //TODO Auto-generated method stub
-        super.onActivityResult(requestCode, resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
         //viewHabit event
         if(requestCode == 1)
         {
             if(resultCode == RESULT_OK)
             {
-
+                String eData = data.getStringExtra("Viewed Event");
+                changeHabitEvent(eData);
             }
         }
         //Add new event
@@ -104,7 +139,8 @@ public class HabitHistoryActivity extends AppCompatActivity {
         {
             if(resultCode == RESULT_OK)
             {
-
+                String eData = data.getStringExtra("Added Event");
+                changeHabitEvent(eData);
             }
         }
     }

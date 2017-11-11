@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class HabitEvent implements Serializable{
     private String title;
-    private Date date;
+    private String date;
     private HabitLocation location;
     private String comment;
     private Photo photo;
@@ -17,12 +17,12 @@ public class HabitEvent implements Serializable{
     //Default Constructor
     public HabitEvent(){
         title = "Event";
-        date = new Date();
+        date = new Date().toString();
         //Should add more stuff here later
     }
     public HabitEvent(String title) {
         this.title = title;
-        this.date = new Date();
+        this.date = new Date().toString();
     }
 
     public HabitEvent(String title, String comment) {
@@ -78,4 +78,11 @@ public class HabitEvent implements Serializable{
     public void deleteImage() {
         this.photo = null;
     }
+
+    @Override
+    public String toString()
+    {
+        return this.title + "\n" + this.date;
+    }
+
 }

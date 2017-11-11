@@ -6,8 +6,25 @@
     android:layout_height="match_parent"
     tools:context="ca.ualberta.cs.routinekeen.Views.AddHabitEvent">
 
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="250dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="425dp"
+        android:onClick="addEvent"
+        android:text="Add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.368"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.59" />
+
     <EditText
-        android:id="@+id/counterName"
+        android:id="@+id/eventTitle"
         android:layout_width="0dp"
         android:layout_height="39dp"
 
@@ -21,13 +38,15 @@
         app:layout_constraintBottom_toTopOf="@+id/text_comment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_title" />
+        app:layout_constraintTop_toBottomOf="@+id/text_title"
+        tools:layout_editor_absoluteX="16dp"
+        android:layout_marginTop="0dp" />
 
     <EditText
-        android:id="@+id/comment"
+        android:id="@+id/eventComment"
         android:layout_width="352dp"
         android:layout_height="69dp"
-        android:layout_marginBottom="256dp"
+        android:layout_marginBottom="250dp"
 
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="16dp"
@@ -49,7 +68,7 @@
         android:layout_marginBottom="8dp"
         android:text="Habit Comments:"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/comment"
+        app:layout_constraintBottom_toTopOf="@+id/eventComment"
         tools:layout_editor_absoluteX="16dp" />
 
     <TextView
@@ -57,11 +76,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="Habit Event Title"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addHabitEvent" />
+        app:layout_constraintTop_toBottomOf="@+id/addHabitEvent"
+        tools:layout_editor_absoluteX="16dp" />
 
     <TextView
         android:id="@+id/addHabitEvent"

@@ -32,8 +32,16 @@ public class HabitHistory {
         return null; // implement
     }
 
-    public void removeHabitEventByName(String name) {
+    public void removeHabitEventByName(String name) {}
 
+    //Added my mikeev
+    public HabitEvent getHabitEventByIndex(int index)
+    {
+        return this.habitEvents.get(index);
+    }
+    public void removeHabitEventByIndex(int index)
+    {
+        this.habitEvents.remove(index);
     }
 
     public Collection<HabitEvent> getFilteredList() {
