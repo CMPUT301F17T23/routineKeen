@@ -53,7 +53,6 @@ public class LoginActivity extends AppCompatActivity implements Observer{
         users.addAll(UserListController.getUserList().getUsers());
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, users);
         userSelectListView.setAdapter(adapter);
-        IOManager.getManager().loadSharedPrefs();
     }
 
     @Override

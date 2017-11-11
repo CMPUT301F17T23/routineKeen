@@ -79,4 +79,9 @@ public class User {
     public void setHabitEvents(ArrayList<HabitEvent> habitEvents) {
         this.habitEvents = habitEvents;
     }
+
+    @Override
+    public String toString() {
+        return username;
+    }
 }
