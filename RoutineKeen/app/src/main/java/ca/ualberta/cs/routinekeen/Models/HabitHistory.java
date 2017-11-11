@@ -2,38 +2,47 @@ package ca.ualberta.cs.routinekeen.Models;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Created by hughc on 2017-10-23.
  */
 
 public class HabitHistory {
-    private ArrayList<HabitEvent> habitEvents;
+    private ArrayList<HabitEvent> habitHistory;
     private String currentHabitTypeFilter;
     private String currentHabitCommentFilter;
 
     public HabitHistory(){
-        this.habitEvents = new ArrayList<HabitEvent>();
+        this.habitHistory = new ArrayList<HabitEvent>();
     }
 
-    public HabitHistory(ArrayList<HabitEvent> habitEvents) {
-        this.habitEvents = habitEvents;
+    public HabitHistory(ArrayList<HabitEvent> habitHistory) {
+        this.habitHistory = habitHistory;
+        Collections.sort(habitHistory);
     }
 
-    public void addHabitEvent(HabitEvent habitEvent){
-        this.habitEvents.add(habitEvent);
+    public void addHabitEvent(HabitEvent habitEvent) {
+        this.habitHistory.add(habitEvent);
+        Collections.sort(habitHistory);
     }
 
-    public int habitHistorySize(){
-        return habitEvents.size();
+    public int getSize(){
+        return habitHistory.size();
     }
 
-    public HabitEvent getHabitEventByName(String name) {
-        return null; // implement
+    public ArrayList<HabitEvent> getHabitEventsByType(String type) {
+        ArrayList<HabitEvent> filterList = new ArrayList<HabitEvent>();
+        for(HabitEvent event : habitHistory){
+            if ( event.getTitle() == type ){
+                filterList.add(event);
+            }
+        }
+        return filterList;
     }
 
-    public void removeHabitEventByName(String name) {
-
+    public void removeHabitEvent(HabitEvent eventToRemove) {
+        habitHistory.remove(eventToRemove);
     }
 
     public Collection<HabitEvent> getFilteredList() {

@@ -25,7 +25,7 @@ public class LocalDataManager {
     private final String userListKey = "userList";
     private final String HabitListKey = "HabitList";
 
-    private Gson gson;
+    private Gson gson =  new Gson();
     String jsonString;
     private Context context;
 

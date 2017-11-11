@@ -92,7 +92,7 @@ public class NewHabitActivity extends AppCompatActivity {
     }
 
     public void addHabit(View v) {
-        HabitListController hlc = new HabitListController();
+        HabitListController.getHabitList();
         EditText hTitle = (EditText) findViewById(R.id.addHabit_editText_name);
 
         if (hTitle.getText().toString() != null && !hTitle.getText().toString().isEmpty()) {
@@ -112,7 +112,7 @@ public class NewHabitActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-            hlc.addHabit(new Habit(hTitle.getText().toString(),
+            HabitListController.getHabitList().addHabit(new Habit(hTitle.getText().toString(),
                     hReason.getText().toString(), date));
             Intent intent = new Intent(
                     NewHabitActivity.this, HabitListActivity.class);

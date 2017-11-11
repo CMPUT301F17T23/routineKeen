@@ -15,11 +15,11 @@ public class HabitHistoryTest{
         HabitHistory testHabitHistory = new HabitHistory();
 
         testHabitHistory.addHabitEvent(testHabitEvent);
-        assertTrue(testHabitHistory.habitHistorySize() == 1);
-        assertTrue(testHabitHistory.getHabitEventByName(testHabitEventTitle).equals(testHabitEvent));
+        assertTrue(testHabitHistory.getSize() == 1);
+        assertTrue(testHabitHistory.getHabitEventsByType(testHabitEventTitle).equals(testHabitEvent));
 
-        testHabitHistory.removeHabitEventByName(testHabitEventTitle);
-        assertTrue(testHabitHistory.habitHistorySize() == 0);
+        testHabitHistory.removeHabitEvent(testHabitEvent);
+        assertTrue(testHabitHistory.getSize() == 0);
 
         testHabitHistory.addHabitEvent(testHabitEvent);
         String testHabitFilter = "test filter Habit type";
