@@ -52,7 +52,6 @@ public class HabitList extends Observable {
         }
         setChanged();
         notifyObservers();
-
     }
 
     public int habitListSize(){

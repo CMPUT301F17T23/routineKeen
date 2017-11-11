@@ -1,6 +1,7 @@
 package ca.ualberta.cs.routinekeen.Controllers;
 
 import android.content.Context;
+import android.util.Log;
 
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.Models.UserList;
@@ -22,22 +23,20 @@ public class UserListController {
         if (userList == null){
             // Get the user list from local data manger (stored in shared pref)
             userList = ioManager.loadUserList();
-            // Add an observer to the controller that saves the user list
-            // using the local data manager when the user list model is updated
         }
-
         return userList;
     }
 
-    static public void addUserToList(User user){
-        // Create/Retrieve the user from the network storage
-        // add a new user to the user list
-
-        getUserList().addUser(user);
+    public static void addUserToList(String username){
+        User retrievedUser = NetworkDataManager.GetUser(username);
+        if(retrievedUser == null) {
+            retrievedUser = NetworkDataManager.AddNewUser(new User(username));
+        }
+        getUserList().addUser(retrievedUser);
+        ioManager.saveUserList(getUserList());
     }
 
-    static public void saveUserList() {
-        // Use the local data manager to save the user list to shared preferences
+    public static void saveUserList(){
+        ioManager.saveUserList(getUserList());
     }
-
 }
