@@ -43,7 +43,7 @@ public class ElasticSearchController {
             try {
                 DocumentResult result = client.execute(index);
                 if (result.isSucceeded()){
-                    user.setUserID(result.getId());
+                    user.setUserID(result.getId().toString());
                 }
                 else {
                     Log.i("Error", "Elastic search was not able to add the user.");

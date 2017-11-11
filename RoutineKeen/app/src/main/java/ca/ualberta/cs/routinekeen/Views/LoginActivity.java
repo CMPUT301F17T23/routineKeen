@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements Observer{
     @Override
     protected void onStart(){
         super.onStart();
+        users.clear();
         users.addAll(UserListController.getUserList().getUsers());
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, users);
         userSelectListView.setAdapter(adapter);

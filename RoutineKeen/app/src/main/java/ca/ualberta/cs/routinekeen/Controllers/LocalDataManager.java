@@ -85,13 +85,14 @@ public class LocalDataManager {
     public HabitList loadHabitList(){
         SharedPreferences settings = context.getSharedPreferences(habitListPrefFile,Context.MODE_PRIVATE);
         String habitListData = settings.getString(userNameKey,"");
-    if (habitListData.equals("")) {
+        if (habitListData.equals("")) {
             return new HabitList();
         }else{
             Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
             return( gson.fromJson(habitListData,listType) );
         }
     }
+
     public void loadSharedPrefs(String ... prefs) {
         // Helper function to view local data within shared preferences
         // Taken from https://stackoverflow.com/questions/23635644/

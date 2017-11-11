@@ -1,6 +1,7 @@
 package ca.ualberta.cs.routinekeen.Controllers;
 
 import android.content.Context;
+import android.util.Log;
 
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.Models.UserList;

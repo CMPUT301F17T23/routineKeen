@@ -18,9 +18,7 @@ public class User {
     private ArrayList<Habit> habits;
     private ArrayList<HabitEvent> habitEvents;
 
-    public User() {
-
-    }
+    public User() {}
 
     public User(String username) {
         this.username = username;
@@ -35,13 +33,12 @@ public class User {
         return userID;
     }
 
-    public void setUserID(String UUID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
     public String getUsername() {
-        return "Toluwanimi";
-        //return username;
+        return username;
     }
 
     public void setUsername(String username) {
