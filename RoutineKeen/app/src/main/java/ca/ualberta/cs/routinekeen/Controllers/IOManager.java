@@ -49,11 +49,11 @@ public class IOManager {
         localDM.saveUserList(userList);
     }
 
-    public void saveLocalHabitList(HabitList habitList) {
+    public void saveHabitList(HabitList habitList) {
         localDM.saveHabitList(habitList);
     }
 
-    public HabitList loadLocalHabitList() {
+    public HabitList loadHabitList() {
         return ( localDM.loadHabitList() );
     }
 }

@@ -18,17 +18,18 @@ public class HabitListController {
     private static HabitList habitList = null;
     public static HabitList getHabitList() {
         if (habitList == null) {
-            habitList = new HabitList();
+            habitList = IOManager.getManager().loadHabitList();
         }
         return habitList;
     }
 
     public static void saveHabitList(){
-        IOManager iom = IOManager.getManager();
+        IOManager.getManager().saveHabitList(getHabitList());
     }
 
     public static void addHabit(Habit habit) {
+        //todo network IO here
         getHabitList().addHabit(habit);
+        saveHabitList();
     }
-
 }
