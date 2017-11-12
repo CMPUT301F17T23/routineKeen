@@ -2,6 +2,7 @@ package ca.ualberta.cs.routinekeen.Models;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -9,7 +10,7 @@ import java.util.Date;
  * Created by hughc on 2017-10-23.
  */
 
-public class HabitEvent implements Comparable<HabitEvent> {
+public class HabitEvent implements Comparable<HabitEvent>, Serializable {
     private String title;
     private Date date;
     private HabitLocation location;

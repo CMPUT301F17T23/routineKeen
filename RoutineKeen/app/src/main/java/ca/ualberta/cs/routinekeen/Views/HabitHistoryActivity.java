@@ -75,7 +75,8 @@ public class HabitHistoryActivity extends AppCompatActivity {
     public void addHabitEvent(View view)
     {
         Intent intent = new Intent(this, AddHabitEvent.class);
-        habitEvents.add(new HabitEvent());
+        //// TODO: 11/12/2017 habitEvent needs to have title and habit type as arguments for constructor 
+//        habitEvents.add(new HabitEvent());
         adapter.notifyDataSetChanged();
         CL = (ListView) findViewById(R.id.habitHistoryList);
 
