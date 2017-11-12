@@ -11,7 +11,8 @@ public class LocationTest {
   
   public void LocationTest() throws Exception {
     String testHabitEventTitle = "Test HabitEvent title";
-    HabitEvent testHabitEvent = new HabitEvent(testHabitEventTitle);
+    String testHabitType = "test habit type";
+    HabitEvent testHabitEvent = new HabitEvent(testHabitEventTitle,testHabitType);
 
     HabitLocation testLocation = new HabitLocation("Test Location");
     testHabitEvent.setLocation(testLocation);

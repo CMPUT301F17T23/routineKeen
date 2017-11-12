@@ -27,7 +27,7 @@ public class UserList extends Observable {
     public void addUser(User user){
         users.add(user);
         setChanged();
-        notifyObservers();
+        notifyObservers(users);
     }
 
     public int userListSize(){
