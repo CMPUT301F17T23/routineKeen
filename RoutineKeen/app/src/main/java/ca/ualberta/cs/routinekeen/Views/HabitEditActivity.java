@@ -16,6 +16,7 @@ import ca.ualberta.cs.routinekeen.R;
 public class HabitEditActivity extends AppCompatActivity {
 
     Button cancelBtn;
+    Button saveBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,16 @@ public class HabitEditActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        saveBtn = (Button) findViewById(R.id.saveButton);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveHabitEdit(view);
+            }
+        });
     }
+
 
     public void saveHabitEdit(View v) {
 //        Button saveBtn;
@@ -42,4 +52,5 @@ public class HabitEditActivity extends AppCompatActivity {
                 HabitListActivity.class);
         startActivity(intent);
     }
+
 }

@@ -7,6 +7,19 @@
     tools:layout_editor_absoluteY="81dp"
     tools:layout_editor_absoluteX="0dp">
 
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="54dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:text="Edit"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
     <TextView
         android:id="@+id/TextView"
         android:layout_width="wrap_content"
@@ -94,7 +107,7 @@
 
     <Button
         android:id="@+id/backButton"
-        android:layout_width="104dp"
+        android:layout_width="wrap_content"
         android:layout_height="54dp"
         android:layout_marginBottom="16dp"
         android:text="Back"
@@ -103,8 +116,7 @@
         android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="441dp"
-        app:layout_constraintHorizontal_bias="0.502" />
+        android:layout_marginLeft="16dp"
+        app:layout_constraintHorizontal_bias="0.347" />
 
 </android.support.constraint.ConstraintLayout>

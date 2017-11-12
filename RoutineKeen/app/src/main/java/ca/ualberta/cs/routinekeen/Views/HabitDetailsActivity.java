@@ -17,6 +17,7 @@ import ca.ualberta.cs.routinekeen.R;
 public class HabitDetailsActivity extends AppCompatActivity {
 
     private Button backBtn;
+    private Button editBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,8 +26,7 @@ public class HabitDetailsActivity extends AppCompatActivity {
 
         Habit habit = new Habit();
 
-        Intent intent = getIntent();
-        String data = intent.getExtras().getString("data");
+        final Bundle data = getIntent().getExtras();
 
         final TextView title = (TextView) findViewById(R.id.viewHabit_habitTitleField);
         final TextView reason = (TextView) findViewById(R.id.viewHabit_habitReasonField);
@@ -41,6 +41,16 @@ public class HabitDetailsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        editBtn = (Button) findViewById(R.id.editButton);
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HabitDetailsActivity.this, HabitEditActivity.class);
+                intent.putExtras(data);
+                startActivity(intent);
+            }
+        })
 
         //set data
 //        title.setText(data);
