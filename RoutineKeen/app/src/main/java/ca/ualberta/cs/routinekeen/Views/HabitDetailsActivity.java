@@ -24,13 +24,17 @@ public class HabitDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_habit_details);
 
-        Habit habit = new Habit();
+        //Habit habit = new Habit();
 
         final Bundle data = getIntent().getExtras();
 
         final TextView title = (TextView) findViewById(R.id.viewHabit_habitTitleField);
         final TextView reason = (TextView) findViewById(R.id.viewHabit_habitReasonField);
         final TextView date = (TextView) findViewById(R.id.viewHabit_habitDateField);
+
+        title.setText(data.getString("title"));
+        reason.setText(data.getString("reason"));
+        date.setText(data.getString("startDate"));
 
         backBtn = (Button) findViewById(R.id.backButton);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +54,7 @@ public class HabitDetailsActivity extends AppCompatActivity {
                 intent.putExtras(data);
                 startActivity(intent);
             }
-        })
+        });
 
         //set data
 //        title.setText(data);
