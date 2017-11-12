@@ -12,6 +12,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.util.ArrayList;
 
+import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.User;
 import io.searchbox.client.JestResult;
 import io.searchbox.client.JestResultHandler;
@@ -83,6 +84,62 @@ public class ElasticSearchController {
             }
 
             return userResult;
+        }
+    }
+
+    public static class AddHabitTask extends AsyncTask<Habit, Void, Void> {
+        @Override
+        protected Void doInBackground(Habit... habits){
+            verifySettings();
+
+            // Enforce adding only one user with this async task
+            if (habits.length > 1)
+                throw new RuntimeException("Illegal Task Call: One habit at a time.");
+
+            Habit habit = habits[0];
+            Index index = new Index.Builder(habit).index(INDEX_NAME).type("habit").build();
+            try {
+                DocumentResult result = client.execute(index);
+                if (!result.isSucceeded()){
+                    Log.i("Error", "Elastic search was not able to add the habit.");
+                }
+            } catch (Exception e) {
+                Log.i("Error", "The application failed to build and send the users.");
+            }
+
+            return null;
+        }
+    }
+
+    public static class GetHabitByTitleTask extends AsyncTask<String, Void, Habit> {
+        @Override
+        protected Habit doInBackground(String... search_parameters) {
+            verifySettings();
+
+            Habit habitResult = null;
+            String habitTitle = search_parameters[0];
+            String query = "{\n" +
+                    "    \"query\": {\n" +
+                    "        \"query_string\" : {\n" +
+                    "           \"default_field\" : \"habitTitle\",\n" +
+                    "               \"query\" : \"" +  habitTitle + "\"\n" +
+                    "               }\n" +
+                    "           }\n" +
+                    "       }";
+            Search search = new Search.Builder(query)
+                    .addIndex(INDEX_NAME)
+                    .addType("habit")
+                    .build();
+            try{
+                SearchResult result = client.execute(search);
+                if(result.isSucceeded()){
+                    habitResult = result.getSourceAsObject(Habit.class);
+                }
+            } catch(Exception e){
+                Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
+            }
+
+            return habitResult;
         }
     }
 
