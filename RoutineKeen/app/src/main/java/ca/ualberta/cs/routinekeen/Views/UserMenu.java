@@ -78,7 +78,7 @@ public class UserMenu extends AppCompatActivity{
             public void onClick(View view) {
                 // change from LoginActivity.class to appropriate class
                 // LoginActivity.class was used for testing
-                Intent intent = new Intent(UserMenu.this, LoginActivity.class);
+                Intent intent = new Intent(UserMenu.this, HabitHistoryActivity.class);
                 startActivity(intent);
             }
         });

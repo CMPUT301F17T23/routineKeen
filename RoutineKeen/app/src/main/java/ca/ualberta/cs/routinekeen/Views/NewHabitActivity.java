@@ -43,22 +43,30 @@ public class NewHabitActivity extends AppCompatActivity {
         setContentView(R.layout.new_habit);
         dateDisplay = (Button) findViewById(R.id.addHabit_date);
         textViewDate = (TextView) findViewById(R.id.show_habit_date);
+        initListeners();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    public void initListeners(){
         dateDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Calendar c = Calendar.getInstance();
-//                int year = c.get(Calendar.YEAR);
-//                int month = c.get(Calendar.MONTH);
-//                int day = c.get(Calendar.DAY_OF_MONTH);
+                // Taken from: https://stackoverflow.com/questions/6451837/
+                // how-do-i-set-the-current-date-in-a-datepicker
+                // Date: Nov 12, 2017
+                Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog= new DatePickerDialog(
                         NewHabitActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        dateSetListener,
-//                        year,month,day);
-                        // setting default value to Nov 01, 2017
-                        2017, 10, 01);
+                        dateSetListener, year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -72,13 +80,6 @@ public class NewHabitActivity extends AppCompatActivity {
                 textViewDate.setText(date);
             }
         };
-    }
-
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
         cancelBtn = (Button) findViewById(R.id.cancel_newHabit);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
