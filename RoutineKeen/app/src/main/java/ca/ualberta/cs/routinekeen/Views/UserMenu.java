@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
-import ca.ualberta.cs.routinekeen.Models.HabitHistory;
+import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.R;
@@ -25,16 +25,27 @@ public class UserMenu extends AppCompatActivity{
     private TextView viewHabitHistory;
     private TextView userSocialMedia;
     private TextView geoAndMaps;
+    private TextView loggedInUser;
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.user_menu);
         logoutBtn = (Button) findViewById(R.id.logout);
         viewHabitList = (TextView) findViewById(R.id.view_habit_list);
         viewHabitSchedule = (TextView) findViewById(R.id.view_habit_schedule);
         viewHabitHistory = (TextView) findViewById(R.id.view_habit_history);
         userSocialMedia = (TextView) findViewById(R.id.user_social_media);
         geoAndMaps = (TextView) findViewById(R.id.geo_and_maps);
+        loggedInUser = (TextView) findViewById(R.id.username);
+
+        String currentUser = "Logged in as: " + UserSingleton.getCurrentUser().getUsername();
+        loggedInUser.setText(currentUser);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,19 +103,5 @@ public class UserMenu extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_menu);
-
-        // get user name from User
-        User user = new User();
-        String strUsername = user.getUsername();
-        final TextView username = (TextView) findViewById(R.id.username);
-        username.setText(strUsername);
-
-        onStart();
     }
 }

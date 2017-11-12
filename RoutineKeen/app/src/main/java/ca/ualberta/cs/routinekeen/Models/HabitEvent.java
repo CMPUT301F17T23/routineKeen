@@ -1,46 +1,58 @@
 package ca.ualberta.cs.routinekeen.Models;
 
-import java.io.Serializable;
+import android.support.annotation.NonNull;
+
+import java.util.Comparator;
 import java.util.Date;
 
 /**
  * Created by hughc on 2017-10-23.
  */
 
-public class HabitEvent implements Serializable{
+public class HabitEvent implements Comparable<HabitEvent> {
     private String title;
-    private String date;
+    private Date date;
     private HabitLocation location;
     private String comment;
     private Photo photo;
+    private String habitType; //todo in habitEvent activity, check if habitType exist before calling class constructor
 
-    //Default Constructor
-    public HabitEvent(){
-        title = "Event";
-        date = new Date().toString();
-        //Should add more stuff here later
-    }
-    public HabitEvent(String title) {
+    public HabitEvent(String title, String habitType) {
         this.title = title;
-        this.date = new Date().toString();
-    }
+        this.habitType = habitType;
+        this.date = new Date();
+   }
 
-    public HabitEvent(String title, String comment) {
+    public HabitEvent(String title,String habitType, String comment) {
         this.title = title;
+        this.habitType = habitType;
         this.comment = comment;
+        this.date = new Date();
     }
 
-    public HabitEvent(String title, String comment, HabitLocation location) {
+    public HabitEvent(String title, String habitType, String comment, HabitLocation location) {
         this.title = title;
+        this.habitType = habitType;
         this.location = location;
         this.comment = comment;
+        this.date = new Date();
     }
 
-    public HabitEvent(String title, String comment, HabitLocation location, Photo photo) {
+    public HabitEvent(String title, String habitType, String comment, HabitLocation location, Photo photo) {
         this.title = title;
+        this.habitType = habitType;
         this.location = location;
         this.comment = comment;
         this.photo = photo;
+        this.date = new Date();
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getTitle() {
@@ -79,10 +91,8 @@ public class HabitEvent implements Serializable{
         this.photo = null;
     }
 
-    @Override
-    public String toString()
-    {
-        return this.title + "\n" + this.date;
+    public int compareTo(@NonNull HabitEvent compareEvent) {
+        int currentDate = (int)(date.getTime()/1000),compareDate = (int)(compareEvent.getDate().getTime()/1000);
+        return compareDate - currentDate;
     }
-
 }

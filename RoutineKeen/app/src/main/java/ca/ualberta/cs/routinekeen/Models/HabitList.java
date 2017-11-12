@@ -10,11 +10,9 @@ import java.util.Observer;
 
 public class HabitList extends Observable {
     private ArrayList<Habit> habitList;
-    private Observer obs;
 
     public HabitList(){
         habitList = new ArrayList<Habit>();
-//        addObserver(obs);
     }
     public HabitList(ArrayList<Habit> habitList) {
         this.habitList = habitList;
@@ -36,8 +34,11 @@ public class HabitList extends Observable {
 
     //todo, make sure the habit title is unique, or find another way to
     public Habit getHabit(String type) { //return Habit from list by habit type/name
+
         for(Habit habit : habitList){
             if( habit.getHabitTitle().equals(type) ){
+                setChanged();
+                notifyObservers();
                 return habit;
             }
         }
@@ -48,11 +49,10 @@ public class HabitList extends Observable {
         for(Habit habit : habitList) {
             if( habit.getHabitTitle().equals(type) ) {
                 habitList.remove(habit);
+                setChanged();
+                notifyObservers();
             }
         }
-        setChanged();
-        notifyObservers();
-
     }
 
     public int habitListSize(){
