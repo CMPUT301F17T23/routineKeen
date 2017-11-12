@@ -3,15 +3,16 @@ package ca.ualberta.cs.routinekeen.Models;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Observable;
 
 /**
  * Created by hughc on 2017-10-23.
  */
 
-public class HabitHistory {
+public class HabitHistory extends Observable{
     private ArrayList<HabitEvent> habitHistory;
-    private String currentHabitTypeFilter;
-    private String currentHabitCommentFilter;
+//    private String currentHabitTypeFilter;
+//    private String currentHabitCommentFilter;
 
     public HabitHistory(){
         this.habitHistory = new ArrayList<HabitEvent>();
@@ -25,6 +26,9 @@ public class HabitHistory {
     public void addHabitEvent(HabitEvent habitEvent) {
         this.habitHistory.add(habitEvent);
         Collections.sort(habitHistory);
+        setChanged();
+        notifyObservers();
+
     }
 
     public int getSize(){
@@ -38,30 +42,44 @@ public class HabitHistory {
                 filterList.add(event);
             }
         }
+        Collections.sort(filterList);
         return filterList;
     }
 
-    public void removeHabitEvent(HabitEvent eventToRemove) {
+    public void removeHabitEvent(HabitEvent eventToRemove)
+    {
         habitHistory.remove(eventToRemove);
+        Collections.sort(habitHistory);
+        setChanged();
+        notifyObservers();
     }
 
-    public Collection<HabitEvent> getFilteredList() {
+    public HabitEvent getHabitEventsFilteredByComment(String comment){
+        for (HabitEvent events : habitHistory){
+            if ( events.getComment().contains(comment) ){
+                return events;
+            }
+        }
         return null;
     }
 
-    public String getCurrentHabitTypeFilter() {
-        return currentHabitTypeFilter;
-    }
+//    public Collection<HabitEvent> getFilteredList() {
+//        return null;
+//    }
 
-    public void setCurrentHabitTypeFilter(String currentHabitTypeFilter) {
-        this.currentHabitTypeFilter = currentHabitTypeFilter;
-    }
-
-    public String getCurrentHabitCommentFilter() {
-        return currentHabitCommentFilter;
-    }
-
-    public void setCurrentHabitCommentFilter(String currentHabitCommentFilter) {
-        this.currentHabitCommentFilter = currentHabitCommentFilter;
-    }
+//    public String getCurrentHabitTypeFilter() {
+//        return currentHabitTypeFilter;
+//    }
+//
+//    public void setCurrentHabitTypeFilter(String currentHabitTypeFilter) {
+//        this.currentHabitTypeFilter = currentHabitTypeFilter;
+//    }
+//
+//    public String getCurrentHabitCommentFilter() {
+//        return currentHabitCommentFilter;
+//    }
+//
+//    public void setCurrentHabitCommentFilter(String currentHabitCommentFilter) {
+//        this.currentHabitCommentFilter = currentHabitCommentFilter;
+//    }
 }

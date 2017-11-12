@@ -12,6 +12,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import ca.ualberta.cs.routinekeen.Models.Habit;
+import ca.ualberta.cs.routinekeen.Models.HabitHistory;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.Models.UserList;
@@ -21,10 +22,12 @@ import ca.ualberta.cs.routinekeen.Models.UserList;
  */
 
 public class LocalDataManager {
-    private final String habitListPrefFile = "HabitList";
+    private final String habitListPrefFile = "HabitListFile";
     private final String userListPrefFile = "UserListFile";
+    private final String habitHistoryPreFile = "HabitHistoryFile";
     private final String userListKey = "userList";
-    private final String HabitListKey = "HabitList";
+    private final String habitListKey = "habitList";
+    private final String habitHistoryKey = "habitHistoryList";
     private Gson gson = new Gson();
     private String jsonString;
     private Context context;
@@ -56,7 +59,26 @@ public class LocalDataManager {
         SharedPreferences settings = context.getSharedPreferences(habitListPrefFile,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         jsonString = gson.toJson(habitList);
-        editor.putString(HabitListKey,jsonString);
+        editor.putString(habitListKey,jsonString);
+        editor.apply();
+    }
+
+    public HabitList loadHabitList(){
+        SharedPreferences settings = context.getSharedPreferences(habitListPrefFile,Context.MODE_PRIVATE);
+        String habitListData = settings.getString(habitListKey,"");
+        if (habitListData.equals("")) {
+            return new HabitList();
+        }else{
+            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
+            return( gson.fromJson(habitListData,listType) );
+        }
+    }
+
+    public void saveUserList(UserList userList){
+        SharedPreferences settings = context.getSharedPreferences(userListPrefFile, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        jsonString = gson.toJson(userList.getUsers());
+        editor.putString(userListKey, jsonString);
         editor.apply();
     }
 
@@ -72,24 +94,21 @@ public class LocalDataManager {
         }
     }
 
-    public void saveUserList(UserList userList){
-        SharedPreferences settings = context.getSharedPreferences(userListPrefFile, Context.MODE_PRIVATE);
+    public void saveHabitHistory(HabitHistory habitHistory) {
+        SharedPreferences settings = context.getSharedPreferences(habitHistoryPreFile, context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
-        jsonString = gson.toJson(userList.getUsers());
-        editor.putString(userListKey, jsonString);
+        jsonString = gson.toJson(habitHistory);
+        editor.putString(habitHistoryKey,jsonString);
         editor.apply();
     }
 
-    public HabitList loadHabitList(){
-        SharedPreferences settings = context.getSharedPreferences(habitListPrefFile,Context.MODE_PRIVATE);
-        String habitListData = settings.getString(HabitListKey,"");
-        if (habitListData.equals("")) {
-            return new HabitList();
-        }else{
-            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
-            return( gson.fromJson(habitListData,listType) );
-        }
+    public HabitHistory loadHabitHistory() {
+        //TODO: 11/11/2017  implement
+        SharedPreferences settings = context.getSharedPreferences(habitHistoryPreFile,context.MODE_PRIVATE);
+        
+        return null;
     }
+
 
     public void loadSharedPrefs(String ... prefs) {
         // Helper function to view local data within shared preferences

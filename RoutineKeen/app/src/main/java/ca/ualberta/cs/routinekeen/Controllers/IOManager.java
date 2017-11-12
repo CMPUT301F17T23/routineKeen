@@ -2,6 +2,7 @@ package ca.ualberta.cs.routinekeen.Controllers;
 
 import android.content.Context;
 
+import ca.ualberta.cs.routinekeen.Models.HabitHistory;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.Models.UserList;
@@ -55,5 +56,13 @@ public class IOManager {
 
     public HabitList loadHabitList() {
         return ( localDM.loadHabitList() );
+    }
+
+    public HabitHistory loadHabitHistory() {
+        return localDM.loadHabitHistory();
+    }
+
+    public void saveHabitHistory(HabitHistory habitHistory) {
+        localDM.saveHabitHistory(habitHistory);
     }
 }

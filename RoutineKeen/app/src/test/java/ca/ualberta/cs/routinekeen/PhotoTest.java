@@ -17,7 +17,8 @@ public class PhotoTest {
   
   public void PhotoTest() throws Exception {
     String testHabitEventTitle = "Test HabitEvent title";
-    HabitEvent testHabitEvent = new HabitEvent(testHabitEventTitle);
+    String testHabitType = "test habit type";
+    HabitEvent testHabitEvent = new HabitEvent(testHabitEventTitle,testHabitType);
     
     Photo testPhoto = new Photo(new BigInteger("1111000011110000", 2).toByteArray());
     testHabitEvent.setPhoto(testPhoto);
