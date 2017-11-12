@@ -34,7 +34,7 @@ public class HabitListController implements  Observer{
     @Override
     public void update(Observable observable, Object data) {
         if(observable == habitList){
-            //todo do remote IO as well
+            //todo do remote I/O as well
             saveHabitList();
         }
     }

@@ -32,6 +32,10 @@ public class HabitHistoryController implements Observer{
 
     @Override
     public void update(Observable observable, Object data) {
+        if(observable == habitHistory){
+            //// TODO: 11/11/2017 do remove I/O as well 
+            saveHabitHistory();
+        }
 
     }
 
