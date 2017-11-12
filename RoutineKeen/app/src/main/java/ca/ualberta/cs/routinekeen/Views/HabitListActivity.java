@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -40,8 +41,14 @@ public class HabitListActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-                Intent intent = new Intent(HabitListActivity.this,
-                        HabitDetailsActivity.class);
+                Intent intent = new Intent(HabitListActivity.this, HabitDetailsActivity.class);
+                Habit selectedHabit = (Habit) adapterView.getItemAtPosition(pos);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/mm/dd");
+                intent.putExtra("title", selectedHabit.getHabitTitle());
+                intent.putExtra("reason", selectedHabit.getHabitReason());
+                intent.putExtra("startDate", sdf.format(selectedHabit.getStartDate()));
+
 //                String data =(String)adapterView.getItemAtPosition(pos);
 //                intent.putExtra("data", data);
                 startActivity(intent);
