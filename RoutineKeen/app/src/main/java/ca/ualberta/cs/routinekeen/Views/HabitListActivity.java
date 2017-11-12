@@ -42,6 +42,8 @@ public class HabitListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
                 Intent intent = new Intent(HabitListActivity.this,
                         HabitDetailsActivity.class);
+//                String data =(String)adapterView.getItemAtPosition(pos);
+//                intent.putExtra("data", data);
                 startActivity(intent);
             }
         });

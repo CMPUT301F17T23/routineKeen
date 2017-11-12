@@ -14,6 +14,10 @@ public class Habit {
     private Date startDate;
     private ArrayList<Date> scheduledHabitDates;
 
+    public Habit() {
+
+    }
+
     public Habit(String habitTitle, String habitReason, Date startDate) {
         this.habitTitle = habitTitle;
         this.habitReason = habitReason;

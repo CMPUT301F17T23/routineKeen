@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.R;
 
 /**
@@ -14,12 +16,21 @@ import ca.ualberta.cs.routinekeen.R;
 
 public class HabitDetailsActivity extends AppCompatActivity {
 
-    Button backBtn;
+    private Button backBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_habit_details);
+
+        Habit habit = new Habit();
+
+        Intent intent = getIntent();
+        String data = intent.getExtras().getString("data");
+
+        final TextView title = (TextView) findViewById(R.id.viewHabit_habitTitleField);
+        final TextView reason = (TextView) findViewById(R.id.viewHabit_habitReasonField);
+        final TextView date = (TextView) findViewById(R.id.viewHabit_habitDateField);
 
         backBtn = (Button) findViewById(R.id.backButton);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -30,5 +41,16 @@ public class HabitDetailsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //set data
+//        title.setText(data);
+
+//        String titleStr = habit.getHabitTitle();
+//        title.setText(titleStr);
+//        String reasonStr = habit.getHabitReason();
+//        reason.setText(reasonStr);
+//        Date dateDate = habit.getStartDate();
+//        date.setText(dateDate.toString());
+
     }
 }
