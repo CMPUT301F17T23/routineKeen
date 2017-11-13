@@ -11,7 +11,11 @@ import android.widget.Toast;
 import ca.ualberta.cs.routinekeen.R;
 
 /**
- * Created by tiakindele on 2017-11-10.
+ * Allows the user to edit and update the details of the selected activity
+ *
+ * @author  RoutineKeen
+ * @see     HabitDetailsActivity
+ * @version 1.0.0
  */
 
 public class HabitEditActivity extends AppCompatActivity {

@@ -11,7 +11,12 @@ import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.R;
 
 /**
- * Created by tiakindele on 2017-11-10.
+ * Allows the user to view the details of a selected Habit
+ *
+ * @author  RoutineKeen
+ * @see     HabitEditActivity
+ * @see     HabitListActivity
+ * @version 1.0.0
  */
 
 public class HabitDetailsActivity extends AppCompatActivity {
