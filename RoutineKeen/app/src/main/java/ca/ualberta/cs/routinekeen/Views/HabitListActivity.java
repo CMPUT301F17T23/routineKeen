@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
         habitList.clear();
         habitList.addAll((ArrayList<Habit>) o);
         habitArrayAdapter.notifyDataSetChanged();
+        Toast.makeText(this, "Habit added to your list.", Toast.LENGTH_SHORT).show();
     }
 
     public void initListeners(){

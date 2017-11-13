@@ -27,6 +27,7 @@ import java.util.Locale;
 
 import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
 import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
+import ca.ualberta.cs.routinekeen.Helpers.DateHelpers;
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.R;
@@ -110,13 +111,8 @@ public class NewHabitActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(validationSuccess()){
-                    DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-                    Date date = null;
-                    try{
-                        date = sdf.parse(hDate.getText().toString());
-                    } catch (ParseException e){
-                        e.printStackTrace();
-                    }
+                    Date date = DateHelpers.formatStringToDate(
+                            hDate.getText().toString(), "MM/dd/yyyy");
                     String title = hTitle.getText().toString();
                     String reason = hReason.getText().toString();
                     Habit habitToAdd = new Habit(title, reason, date);
@@ -131,13 +127,13 @@ public class NewHabitActivity extends AppCompatActivity {
     }
 
     private boolean validationSuccess() {
-        if (hTitle.getText().toString() != null && hTitle.getText().toString().isEmpty()) {
+        if (hTitle.getText().toString().isEmpty()) {
             Toast.makeText(this, "Please enter a habit name.",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if (hReason.getText().toString() != null && hReason.getText().toString().isEmpty()) {
+        if (hReason.getText().toString().isEmpty()) {
             Toast.makeText(this, "Please enter a habit reason.",
                     Toast.LENGTH_SHORT).show();
             return false;
@@ -149,14 +145,10 @@ public class NewHabitActivity extends AppCompatActivity {
             return false;
 
         } else {
-            DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-            Date hDateInput = null;
-            try {
-                hDateInput = sdf.parse(hDate.getText().toString());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if (hDateInput.compareTo(new Date()) < 0) {
+            Date hDateInput = DateHelpers.formatStringToDate(
+                    hDate.getText().toString(), "MM/dd/yyyy");
+            Date currentDate = DateHelpers.removeTime(new Date());
+            if (hDateInput.before(currentDate)) {
                 Toast.makeText(this, "Date is in the past, try again.",
                         Toast.LENGTH_SHORT).show();
                 return false;
