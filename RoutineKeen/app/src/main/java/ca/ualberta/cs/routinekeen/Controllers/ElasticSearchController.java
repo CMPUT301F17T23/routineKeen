@@ -22,7 +22,13 @@ import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 /**
- * Created by hdc on 11/4/17.
+ * Controller to issue CRUD operations to elastic search. Allows user
+ * of this class to issue commands such as: add habits, add users,
+ * add habit events, etc.
+ *
+ * @author Hugh Craig
+ * @see NetworkDataManager
+ * @version 1.2.0
  */
 
 public class ElasticSearchController {

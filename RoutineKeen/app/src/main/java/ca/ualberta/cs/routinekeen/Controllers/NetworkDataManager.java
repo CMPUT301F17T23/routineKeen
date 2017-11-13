@@ -5,8 +5,14 @@ import android.util.Log;
 import ca.ualberta.cs.routinekeen.Models.User;
 
 /**
- * Created by hdc on 11/6/17.
- * created sperate branch on 11/8/17
+ * A class used to communicate with the network storage for
+ * the application. Most of the methods within this class simply
+ * pass on their parameters to the elastic search controller to execute
+ * the request asynchronously.
+ *
+ * @author Hugh Craig
+ * @see ElasticSearchController
+ * @version 1.0.0
  */
 
 public class NetworkDataManager {
