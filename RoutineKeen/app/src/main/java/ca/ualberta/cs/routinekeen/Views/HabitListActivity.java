@@ -25,7 +25,7 @@ import ca.ualberta.cs.routinekeen.R;
  * an existing one to view more details
  *
  * @author  RoutineKeen
- * @see     HabitDetailsActivity
+ * @see     HabitEditActivity
  * @version 1.0.0
  */
 
@@ -81,13 +81,13 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-                Intent intent = new Intent(HabitListActivity.this, HabitDetailsActivity.class);
+                Intent intent = new Intent(HabitListActivity.this, HabitEditActivity.class);
                 Habit selectedHabit = (Habit) adapterView.getItemAtPosition(pos);
-
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                 intent.putExtra("title", selectedHabit.getHabitTitle());
                 intent.putExtra("reason", selectedHabit.getHabitReason());
                 intent.putExtra("startDate", sdf.format(selectedHabit.getStartDate()));
+                intent.putStringArrayListExtra("scheduledDays", selectedHabit.getScheduledHabitDays());
                 intent.putExtra("position", pos);
                 startActivity(intent);
             }

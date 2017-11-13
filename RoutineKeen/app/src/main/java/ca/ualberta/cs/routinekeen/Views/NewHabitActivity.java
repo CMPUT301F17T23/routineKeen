@@ -36,7 +36,6 @@ import ca.ualberta.cs.routinekeen.R;
  * View that allows user to input habit parameters, and creates a new habit from the user's input
  *
  * @author  RoutineKeen
- * @see     HabitDetailsActivity
  * @see     HabitEditActivity
  * @version 1.0.0
  */

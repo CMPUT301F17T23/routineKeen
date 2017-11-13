@@ -1,5 +1,6 @@
 package ca.ualberta.cs.routinekeen.Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,13 +12,11 @@ import ca.ualberta.cs.routinekeen.Helpers.DateHelpers;
  *
  * @author  RoutineKeen
  * @see     HabitList
- * @see     ca.ualberta.cs.routinekeen.Views.HabitDetailsActivity
  * @see     ca.ualberta.cs.routinekeen.Views.HabitEditActivity
  * @version 1.0.0
  */
 
-public class Habit {
-
+public class Habit implements Serializable {
     private String habitUserID;
     private String habitTitle;
     private String habitReason;

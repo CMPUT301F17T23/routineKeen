@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import ca.ualberta.cs.routinekeen.R;
 
@@ -14,7 +17,7 @@ import ca.ualberta.cs.routinekeen.R;
  * Allows the user to edit and update the details of the selected activity
  *
  * @author  RoutineKeen
- * @see     HabitDetailsActivity
+ * @see     HabitListActivity
  * @version 1.0.0
  */
 
@@ -23,6 +26,13 @@ public class HabitEditActivity extends AppCompatActivity {
     Button saveBtn;
     EditText titleEditText;
     EditText reasonEditText;
+    Switch monSwitch;
+    Switch tueSwitch;
+    Switch wedSwitch;
+    Switch thuSwitch;
+    Switch friSwitch;
+    Switch satSwitch;
+    Switch sunSwitch;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,6 +41,13 @@ public class HabitEditActivity extends AppCompatActivity {
         titleEditText = (EditText) findViewById(R.id.editHabit_habitTitleField);
         reasonEditText = (EditText) findViewById(R.id.editHabit_habitReasonField);
         saveBtn = (Button) findViewById(R.id.saveButton);
+        monSwitch = (Switch) findViewById(R.id.monSwitch);
+        tueSwitch = (Switch) findViewById(R.id.tueSwitch);;
+        wedSwitch = (Switch) findViewById(R.id.wedSwitch);;
+        thuSwitch = (Switch) findViewById(R.id.thuSwitch);
+        friSwitch = (Switch) findViewById(R.id.friSwitch);;
+        satSwitch = (Switch) findViewById(R.id.satSwitch);;
+        sunSwitch = (Switch) findViewById(R.id.sunSwitch);;
         initListeners();
     }
 
@@ -77,6 +94,10 @@ public class HabitEditActivity extends AppCompatActivity {
                 saveHabitEdit(view);
             }
         });
+    }
+
+    private void setDaySwitches(){
+
     }
 
 }
