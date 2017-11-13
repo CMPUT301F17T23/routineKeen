@@ -12,6 +12,8 @@ import android.widget.ListView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Observable;
+import java.util.Observer;
 
 import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
 import ca.ualberta.cs.routinekeen.Models.Habit;
@@ -21,23 +23,49 @@ import ca.ualberta.cs.routinekeen.R;
  * Created by tiakindele on 2017-11-07.
  */
 
-public class HabitListActivity extends AppCompatActivity {
-
-    ImageButton addHabitBtn;
+public class HabitListActivity extends AppCompatActivity implements Observer{
+    private ImageButton addHabitBtn;
     private ListView lv;
+    private final ArrayList<Habit> habitList = new ArrayList<Habit>();
+    private ArrayAdapter<Habit> habitArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.habit_list);
-        // DEBUG TOOL
-        // Log.d("myTag", String.valueOf(habitList));
         lv = (ListView) findViewById(R.id.listOfUserHabits);
-        Collection<Habit> habits = HabitListController.getHabitList().getHabitList();
-        final ArrayList<Habit> habitList = new ArrayList<Habit>(habits);
-        final ArrayAdapter<Habit> habitArrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, habitList);
+        addHabitBtn = (ImageButton) findViewById(R.id.addNewHabit);
+        HabitListController.getHabitList().addObserver(this);
+        initListeners();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        habitArrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, habitList);
         lv.setAdapter(habitArrayAdapter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+
+    }
+
+    public void initListeners(){
+        addHabitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HabitListActivity.this,
+                        NewHabitActivity.class);
+                startActivity(intent);
+            }
+        });
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
@@ -51,21 +79,6 @@ public class HabitListActivity extends AppCompatActivity {
 
 //                String data =(String)adapterView.getItemAtPosition(pos);
 //                intent.putExtra("data", data);
-                startActivity(intent);
-            }
-        });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        addHabitBtn = (ImageButton) findViewById(R.id.addNewHabit);
-
-        addHabitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HabitListActivity.this,
-                        NewHabitActivity.class);
                 startActivity(intent);
             }
         });

@@ -32,10 +32,14 @@ import ca.ualberta.cs.routinekeen.R;
 
 public class NewHabitActivity extends AppCompatActivity {
 
+    private Button addHabitButton;
     private Button cancelBtn;
     private Button dateDisplay;
     private TextView textViewDate;
     private DatePickerDialog.OnDateSetListener dateSetListener;
+    private EditText hTitle;
+    private EditText hReason;
+    private TextView hDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,11 @@ public class NewHabitActivity extends AppCompatActivity {
         setContentView(R.layout.new_habit);
         dateDisplay = (Button) findViewById(R.id.addHabit_date);
         textViewDate = (TextView) findViewById(R.id.show_habit_date);
+        cancelBtn = (Button) findViewById(R.id.cancel_newHabit);
+        addHabitButton = (Button) findViewById(R.id.add_newHabit);
+        hTitle = (EditText) findViewById(R.id.addHabit_editText_name);
+        hReason = (EditText) findViewById(R.id.addHabit_editText_reason);
+        hDate = (TextView) findViewById(R.id.show_habit_date);
         initListeners();
     }
 
@@ -51,7 +60,12 @@ public class NewHabitActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    public void initListeners(){
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    private void initListeners(){
         dateDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,48 +95,61 @@ public class NewHabitActivity extends AppCompatActivity {
             }
         };
 
-        cancelBtn = (Button) findViewById(R.id.cancel_newHabit);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(
                         NewHabitActivity.this, HabitListActivity.class);
                 startActivity(intent);
+                finish();
+            }
+        });
+
+        addHabitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(validationSuccess()){
+                    Intent intent = new Intent(NewHabitActivity.this, HabitListActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
     }
 
-//    public void addHabit(View v) {
-//        HabitListController hlc = new HabitListController();
-//        EditText hTitle = (EditText) findViewById(R.id.addHabit_editText_name);
-//
-//        if (hTitle.getText().toString() != null && !hTitle.getText().toString().isEmpty()) {
-//            EditText hReason = (EditText) findViewById(R.id.addHabit_editText_reason);
-//            TextView hDate = (TextView) findViewById(R.id.show_habit_date);
-//            Date date = null;
-//            if (hDate.getText().toString().trim().length() == 0) {
-//
-//            } else {
-//                String hDate_string = hDate.getText().toString();
-//                DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-//                Log.d("myTag", "before: " + hDate_string);
-//                try {
-//                    date = formatter.parse(hDate_string);
-//                    Log.d("myTag", "after: " + String.valueOf(date));
-//                } catch(ParseException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            hlc.addHabit(new Habit(hTitle.getText().toString(),
-//                    hReason.getText().toString(), date));
-//            Intent intent = new Intent(
-//                    NewHabitActivity.this, HabitListActivity.class);
-//            Toast.makeText(this, "Habit added", Toast.LENGTH_SHORT).show();
-//            startActivity(intent);
-//        }
-//        else {
-//            Toast.makeText(this, "Please enter a habit name", Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
+    private boolean validationSuccess() {
+        if (hTitle.getText().toString() != null && hTitle.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter a habit name.",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (hReason.getText().toString() != null && hReason.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter a habit reason.",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (hDate.getText().toString().trim().length() == 0) {
+            Toast.makeText(this, "Please enter a start date.",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+
+        } else {
+            DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            Date hDateInput = null;
+            try {
+                hDateInput = sdf.parse(hDate.getText().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (hDateInput.compareTo(new Date()) < 0) {
+                Toast.makeText(this, "Date is in the past, try again.",
+                        Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
