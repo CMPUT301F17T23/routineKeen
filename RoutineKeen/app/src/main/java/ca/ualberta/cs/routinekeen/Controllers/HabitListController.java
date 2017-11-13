@@ -12,15 +12,25 @@ import java.util.Observer;
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 
-/**
- * Created by tiakindele on 2017-11-07.
- */
 
+/**
+ * Controller used to access and modify Habits in the current user's HabitList
+ * @author  RoutineKeen
+ * @see     IOManager
+ * @see     HabitList
+ * @version 1.0.0
+ */
 public class HabitListController{
     private static HabitList habitList = null;
     private static IOManager ioManager = IOManager.getManager();
 
     private HabitListController(){}
+
+    /**
+     * Returns a list of all habits belonging to the current user.
+     * @return  A HabitList containing all the user's habits
+     * @see     HabitList
+     */
     public static HabitList getHabitList() {
         if (habitList == null) {
             habitList = ioManager.loadHabitList();
@@ -28,8 +38,13 @@ public class HabitListController{
         return habitList;
     }
 
+    /**
+     * Returns a list of all habits belonging to the current user that are scheduled for the current
+     * day of the week.
+     * @return  A HabitList containing today's habits
+     * @see     HabitList
+     */
     public static HabitList getTodaysHabits() {
-        Log.d("Schedule-Con", "flag1");
         String today = "";
         int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         switch (day) {
@@ -42,33 +57,38 @@ public class HabitListController{
             case Calendar.SATURDAY: today = "Sat";  break;
             default:                today = null;   break;
         }
-        Log.d("Schedule-Con", "flag2");
         /*
          Taken from: https://stackoverflow.com/questions/5574673/what-is-the-easiest-way-to-get-the-current-day-of-the-week-in-android
          Nov 13, 2017
         */
-        if (today == null) {
-            Log.d("HLControllerCheck", "Today is null");
-        }
-        Log.d("Schedule-Con", "flag3");
+
         HabitList returnList = new HabitList();
-        Log.d("Schedule-Con", "flag31");
         for (Habit x:getHabitList().getHabits()) {
             if (x.getScheduledHabitDays().contains(today)) {
                 returnList.addHabit(x);
             }
-            Log.d("Schedule-Con", "flag32");
         }
-        Log.d("Schedule-Con", "flag4");
 
         return returnList;
     }
 
+    /**
+     * Adds the provided habit to the current user's HabitList
+     * @param   habit The Habit to be added
+     * @see     Habit
+     * @see     HabitList
+     */
     public static void addHabit(Habit habit){
         getHabitList().addHabit(habit);
         saveHabitList();
     }
 
+    /**
+     * Saves changed to the user's HabitList. Called after additions, deletions, or edits are made
+     * to the HabitList
+     * @see     IOManager
+     * @see     HabitList
+     */
     public static void saveHabitList(){
         ioManager.saveHabitList(getHabitList());
     }
