@@ -25,6 +25,9 @@ public class HabitListActivity extends AppCompatActivity {
 
     ImageButton addHabitBtn;
     private ListView lv;
+    private ArrayAdapter<Habit> habitArrayAdapter;
+
+    private static final int HABIT_DETAILS_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class HabitListActivity extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.listOfUserHabits);
         Collection<Habit> habits = HabitListController.getHabitList().getHabitList();
         final ArrayList<Habit> habitList = new ArrayList<Habit>(habits);
-        final ArrayAdapter<Habit> habitArrayAdapter = new ArrayAdapter<>(this,
+        habitArrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, habitList);
         lv.setAdapter(habitArrayAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -44,10 +47,11 @@ public class HabitListActivity extends AppCompatActivity {
                 Intent intent = new Intent(HabitListActivity.this, HabitDetailsActivity.class);
                 Habit selectedHabit = (Habit) adapterView.getItemAtPosition(pos);
 
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/mm/dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
                 intent.putExtra("title", selectedHabit.getHabitTitle());
                 intent.putExtra("reason", selectedHabit.getHabitReason());
                 intent.putExtra("startDate", sdf.format(selectedHabit.getStartDate()));
+                intent.putExtra("position", pos);
 
 //                String data =(String)adapterView.getItemAtPosition(pos);
 //                intent.putExtra("data", data);
@@ -66,8 +70,25 @@ public class HabitListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(HabitListActivity.this,
                         NewHabitActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, HABIT_DETAILS_REQUEST);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == HABIT_DETAILS_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Bundle data = intent.getExtras();
+                int pos = data.getInt("position");
+
+                if (data.getBoolean("habitEdited")) {
+                    Habit selectedHabit = (Habit) lv.getItemAtPosition(pos);
+                    selectedHabit.setHabitTitle(data.getString("title"));
+                    selectedHabit.setHabitReason(data.getString("reason"));
+                    habitArrayAdapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 }

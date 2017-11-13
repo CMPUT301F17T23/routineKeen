@@ -19,30 +19,46 @@ public class HabitDetailsActivity extends AppCompatActivity {
     private Button backBtn;
     private Button editBtn;
 
+    private static final int EDIT_HABIT_REQUEST = 1;
+
+    private String title;
+    private String reason;
+    private String startDate;
+
+    private int pos;
+
+    private Intent returnIntent;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_habit_details);
 
         //Habit habit = new Habit();
+        returnIntent = new Intent();
+        returnIntent.putExtra("habitEdited", false);
 
         final Bundle data = getIntent().getExtras();
 
-        final TextView title = (TextView) findViewById(R.id.viewHabit_habitTitleField);
-        final TextView reason = (TextView) findViewById(R.id.viewHabit_habitReasonField);
-        final TextView date = (TextView) findViewById(R.id.viewHabit_habitDateField);
+        final TextView titleTextView = (TextView) findViewById(R.id.viewHabit_habitTitleField);
+        final TextView reasonTextView = (TextView) findViewById(R.id.viewHabit_habitReasonField);
+        final TextView dateTextView = (TextView) findViewById(R.id.viewHabit_habitDateField);
 
-        title.setText(data.getString("title"));
-        reason.setText(data.getString("reason"));
-        date.setText(data.getString("startDate"));
+        title = data.getString("title");
+        reason = data.getString("reason");
+        startDate = data.getString("startDate");
+        pos = data.getInt("position");
+
+        titleTextView.setText(title);
+        reasonTextView.setText(reason);
+        dateTextView.setText(startDate);
 
         backBtn = (Button) findViewById(R.id.backButton);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HabitDetailsActivity.this,
-                        HabitListActivity.class);
-                startActivity(intent);
+                setResult(RESULT_OK, returnIntent);
+                finish();
             }
         });
 
@@ -52,7 +68,7 @@ public class HabitDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(HabitDetailsActivity.this, HabitEditActivity.class);
                 intent.putExtras(data);
-                startActivity(intent);
+                startActivityForResult(intent, EDIT_HABIT_REQUEST);
             }
         });
 
@@ -66,5 +82,28 @@ public class HabitDetailsActivity extends AppCompatActivity {
 //        Date dateDate = habit.getStartDate();
 //        date.setText(dateDate.toString());
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == EDIT_HABIT_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Bundle data = intent.getExtras();
+                title = data.getString("title");
+                reason = data.getString("reason");
+
+                returnIntent = new Intent();
+                returnIntent.putExtra("habitEdited", true);
+                returnIntent.putExtra("title", title);
+                returnIntent.putExtra("reason", reason);
+                returnIntent.putExtra("position", pos);
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK, returnIntent);
+        super.onBackPressed();
     }
 }
