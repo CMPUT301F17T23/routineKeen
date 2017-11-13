@@ -42,12 +42,12 @@ public class HabitHistoryController implements Observer{
 
     public HabitEvent getHabitEvent(int position)
     {
-        return habitHistory.get(position);
+        return habitHistory.getHabitEvent(position);
     }
 
     public void setHabitEvent(HabitEvent habitEvent)
     {
-        habitHistory.add(habitEvent);
+        habitHistory.addHabitEvent(habitEvent);
     }
 
 

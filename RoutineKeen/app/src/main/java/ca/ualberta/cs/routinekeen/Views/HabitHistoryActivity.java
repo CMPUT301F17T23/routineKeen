@@ -9,24 +9,26 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
+import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.Models.HabitHistory;
 import ca.ualberta.cs.routinekeen.Controllers.HabitHistoryController;
 import ca.ualberta.cs.routinekeen.R;
 
 /*
- - Change android manifest so that main menu is parent and habit history is child, so that when back
-  button pressed when on main menu, it will go to main menu (onBackPressed(){//do something})
 
  -Add filter later
  */
-public class HabitHistoryActivity extends AppCompatActivity {
+public class HabitHistoryActivity extends AppCompatActivity implements Observer{
 
     private ListView CL;
     private ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>();
     private ArrayAdapter<HabitEvent> adapter;
-    private HabitHistory habitHistory = new HabitHistory(habitEvents);// For controller purposes later
+    //private HabitHistory habitHistory = new HabitHistory(habitEvents);// For controller purposes later
+    //private HabitHistoryController habitHistoryController = new HabitHistoryController();
 
     private HabitEvent viewEvent;
     private int viewPosition;
@@ -36,11 +38,14 @@ public class HabitHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_history);
 
+        IOManager.initManager(getApplicationContext());
 
         CL = (ListView) findViewById(R.id.habitHistoryList);
         adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
         CL.setAdapter(adapter);
 
+        HabitHistoryController.getHabitHistory().addObserver(this);
+        //HabitHistoryController.addObvToHistory();
         /*
         //"Grabs" data on click and transfer it to second activity to be modified or updated.
 
@@ -61,16 +66,17 @@ public class HabitHistoryActivity extends AppCompatActivity {
         });
     }
 
-    /*
+
     //Load Up User Habit history here
     @Override
     protected void onStart() {
         super.onStart();
         //Load Function
-        adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, counters);
+
+        adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
         CL.setAdapter(adapter);
     }
-    */
+
 
     public void addHabitEvent(View view)
     {
@@ -113,12 +119,7 @@ public class HabitHistoryActivity extends AppCompatActivity {
 
             //SAVE FUNCTION HERE
         }
-        else//is empty
-        {
-            //Nothing happens
 
-
-        }
     }
 
     @Override
@@ -148,6 +149,11 @@ public class HabitHistoryActivity extends AppCompatActivity {
 
     public void filterList(View view)
     {
+
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
 
     }
 }

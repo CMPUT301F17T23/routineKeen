@@ -63,6 +63,13 @@ public class HabitHistory extends Observable{
         return null;
     }
 
+    public HabitEvent getHabitEvent(int position)
+    {
+        return habitHistory.get(position);
+    }
+
+
+
 //    public Collection<HabitEvent> getFilteredList() {
 //        return null;
 //    }
