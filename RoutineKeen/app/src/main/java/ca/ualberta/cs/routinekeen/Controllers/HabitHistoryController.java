@@ -12,7 +12,7 @@ import ca.ualberta.cs.routinekeen.Models.Photo;
  */
 
 public class HabitHistoryController implements Observer{
-    private HabitHistoryController(){}
+
     private static HabitHistory habitHistory = null;
 
     public static HabitHistory getHabitHistory(){

@@ -11,8 +11,6 @@ import java.util.Observable;
 
 public class HabitHistory extends Observable{
     private ArrayList<HabitEvent> habitHistory;
-//    private String currentHabitTypeFilter;
-//    private String currentHabitCommentFilter;
 
     public HabitHistory(){
         this.habitHistory = new ArrayList<HabitEvent>();
@@ -67,8 +65,6 @@ public class HabitHistory extends Observable{
     {
         return habitHistory.get(position);
     }
-
-
 
 //    public Collection<HabitEvent> getFilteredList() {
 //        return null;

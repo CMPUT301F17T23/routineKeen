@@ -44,11 +44,12 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
         CL.setAdapter(adapter);
 
-        HabitHistoryController.getHabitHistory().addObserver(this);
-        //HabitHistoryController.addObvToHistory();
+        HabitHistoryController hhc = new HabitHistoryController();
+        hhc.getHabitHistory().addObserver(this);
+        hhc.addObvToHistory();
+
         /*
         //"Grabs" data on click and transfer it to second activity to be modified or updated.
-
          */
 
         CL.setOnItemClickListener(new AdapterView.OnItemClickListener() {
