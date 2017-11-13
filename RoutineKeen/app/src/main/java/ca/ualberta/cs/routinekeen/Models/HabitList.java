@@ -58,7 +58,7 @@ public class HabitList extends Observable {
     public void updateHabit(String title, String reason,
                             ArrayList<String> schedDays, int position){
         habitList.get(position).setHabitTitle(title);
-        habitList.get(position).setHabitReason(title);
+        habitList.get(position).setHabitReason(reason);
         habitList.get(position).setScheduledHabitDays(schedDays);
         setChanged();
         notifyObservers(habitList);
