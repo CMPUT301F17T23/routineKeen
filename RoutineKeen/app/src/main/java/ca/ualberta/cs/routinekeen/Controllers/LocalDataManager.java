@@ -12,6 +12,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import ca.ualberta.cs.routinekeen.Models.Habit;
+import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.Models.HabitHistory;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.Models.User;
@@ -70,7 +71,8 @@ public class LocalDataManager {
             return new HabitList();
         }else{
             Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
-            return( gson.fromJson(habitListData,listType) );
+            ArrayList<Habit> list = gson.fromJson(habitListData, listType);
+            return new HabitList(list);
         }
     }
 
@@ -105,8 +107,14 @@ public class LocalDataManager {
     public HabitHistory loadHabitHistory() {
         //TODO: 11/11/2017  implement
         SharedPreferences settings = context.getSharedPreferences(habitHistoryPreFile,context.MODE_PRIVATE);
-        
-        return null;
+        String habitHistoryData = settings.getString(habitHistoryKey,"");
+        if(habitHistoryData == ""){
+            return new HabitHistory();
+        }else{
+            Type listType = new TypeToken<ArrayList<HabitEvent>>(){}.getType();
+            ArrayList<HabitEvent> list = gson.fromJson(habitHistoryData,listType);
+            return new HabitHistory(list);
+        }
     }
 
 

@@ -13,7 +13,7 @@ import ca.ualberta.cs.routinekeen.Models.HabitList;
 
 public class HabitListController implements  Observer{
 
-    private HabitListController(){}
+    public HabitListController(){}
     // Lazy Singleton
     private static HabitList habitList = null;
     public static HabitList getHabitList() {
@@ -34,7 +34,7 @@ public class HabitListController implements  Observer{
     @Override
     public void update(Observable observable, Object data) {
         if(observable == habitList){
-            //todo do remote IO as well
+            //todo do remote I/O as well
             saveHabitList();
         }
     }

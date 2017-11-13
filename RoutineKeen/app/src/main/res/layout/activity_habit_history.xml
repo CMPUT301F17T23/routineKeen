@@ -15,10 +15,12 @@
         android:onClick="filterList"
         android:text="Filter List"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.171"
+        app:layout_constraintHorizontal_bias="0.172"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/habitHistoryList" />
+        app:layout_constraintTop_toBottomOf="@+id/habitHistoryList"
+        app:layout_constraintRight_toLeftOf="@+id/addButton"
+        android:layout_marginRight="16dp"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/habitHistoryTitle"
@@ -36,7 +38,12 @@
         app:layout_constraintBottom_toTopOf="@+id/habitHistoryList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginRight="47dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="47dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
         android:id="@+id/addButton"
@@ -47,10 +54,12 @@
         android:onClick="addHabitEvent"
         android:text="Add Habit Event"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.915"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/habitHistoryList" />
+        app:layout_constraintTop_toBottomOf="@+id/habitHistoryList"
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginRight="16dp" />
 
     <ListView
         android:id="@+id/habitHistoryList"
