@@ -11,31 +11,24 @@ import ca.ualberta.cs.routinekeen.Models.HabitList;
  * Created by tiakindele on 2017-11-07.
  */
 
-public class HabitListController implements  Observer{
+public class HabitListController{
+    private static HabitList habitList = null;
+    private static IOManager ioManager = IOManager.getManager();
 
     private HabitListController(){}
-    // Lazy Singleton
-    private static HabitList habitList = null;
     public static HabitList getHabitList() {
         if (habitList == null) {
-            habitList = IOManager.getManager().loadHabitList();
+            habitList = ioManager.loadHabitList();
         }
         return habitList;
     }
 
-    public void addObvToList(){
-        getHabitList().addObserver(this);
+    public static void addHabit(Habit habit){
+        getHabitList().addHabit(habit);
+        saveHabitList();
     }
 
     public static void saveHabitList(){
-        IOManager.getManager().saveHabitList(getHabitList());
-    }
-
-    @Override
-    public void update(Observable observable, Object data) {
-        if(observable == habitList){
-            //todo do remote IO as well
-            saveHabitList();
-        }
+        ioManager.saveHabitList(getHabitList());
     }
 }

@@ -26,6 +26,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
+import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.R;
@@ -109,6 +110,18 @@ public class NewHabitActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(validationSuccess()){
+                    DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                    Date date = null;
+                    try{
+                        date = sdf.parse(hDate.getText().toString());
+                    } catch (ParseException e){
+                        e.printStackTrace();
+                    }
+                    String title = hTitle.getText().toString();
+                    String reason = hReason.getText().toString();
+                    Habit habitToAdd = new Habit(title, reason, date);
+                    habitToAdd.setHabitUserID(UserSingleton.getCurrentUser().getUserID());
+                    HabitListController.addHabit(habitToAdd);
                     Intent intent = new Intent(NewHabitActivity.this, HabitListActivity.class);
                     startActivity(intent);
                     finish();

@@ -42,6 +42,8 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
     @Override
     protected void onStart() {
         super.onStart();
+        habitList.clear();
+        habitList.addAll(HabitListController.getHabitList().getHabits());
         habitArrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, habitList);
         lv.setAdapter(habitArrayAdapter);
     }
@@ -49,11 +51,14 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        HabitListController.saveHabitList();
     }
 
     @Override
     public void update(Observable observable, Object o) {
-
+        habitList.clear();
+        habitList.addAll((ArrayList<Habit>) o);
+        habitArrayAdapter.notifyDataSetChanged();
     }
 
     public void initListeners(){
@@ -72,13 +77,11 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
                 Intent intent = new Intent(HabitListActivity.this, HabitDetailsActivity.class);
                 Habit selectedHabit = (Habit) adapterView.getItemAtPosition(pos);
 
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/mm/dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                 intent.putExtra("title", selectedHabit.getHabitTitle());
                 intent.putExtra("reason", selectedHabit.getHabitReason());
                 intent.putExtra("startDate", sdf.format(selectedHabit.getStartDate()));
-
-//                String data =(String)adapterView.getItemAtPosition(pos);
-//                intent.putExtra("data", data);
+                intent.putExtra("position", pos);
                 startActivity(intent);
             }
         });
