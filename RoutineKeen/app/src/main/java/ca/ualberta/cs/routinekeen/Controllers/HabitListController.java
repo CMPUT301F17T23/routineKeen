@@ -12,7 +12,6 @@ import java.util.Observer;
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 
-
 /**
  * Controller used to access and modify Habits in the current user's HabitList
  * @author  RoutineKeen
@@ -58,8 +57,9 @@ public class HabitListController{
             default:                today = null;   break;
         }
         /*
-         Taken from: https://stackoverflow.com/questions/5574673/what-is-the-easiest-way-to-get-the-current-day-of-the-week-in-android
-         Nov 13, 2017
+         Taken from: https://stackoverflow.com/questions/5574673/what-is-the-easiest-way-to-get-
+         the-current-day-of-the-week-in-android
+         Date: Nov 13, 2017
         */
 
         HabitList returnList = new HabitList();
@@ -80,6 +80,21 @@ public class HabitListController{
      */
     public static void addHabit(Habit habit){
         getHabitList().addHabit(habit);
+        saveHabitList();
+    }
+
+    /**
+     * Updates the habit edited and saves it to the network
+     * and local storage
+     * @param title The title of the updated/unchanged habit
+     * @param reason The reason for the updated/unchanged habit
+     * @param schedDays The scheduled days for the updated/unchanged habit
+     * @param position The position of the habit within the habit list
+     */
+    public static void updateHabit(String title, String reason,
+                                   ArrayList<String> schedDays, int position){
+        // TODO write code to update habit on network
+        getHabitList().updateHabit(title, reason, schedDays, position);
         saveHabitList();
     }
 

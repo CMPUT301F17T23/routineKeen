@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
+import ca.ualberta.cs.routinekeen.Models.Habit;
+import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.R;
 
 /**
@@ -24,17 +27,19 @@ import ca.ualberta.cs.routinekeen.R;
  */
 
 public class HabitEditActivity extends AppCompatActivity {
-    Button cancelBtn;
-    Button saveBtn;
-    EditText titleEditText;
-    EditText reasonEditText;
-    Switch monSwitch;
-    Switch tueSwitch;
-    Switch wedSwitch;
-    Switch thuSwitch;
-    Switch friSwitch;
-    Switch satSwitch;
-    Switch sunSwitch;
+    private Button cancelBtn;
+    private Button saveBtn;
+    private EditText titleEditText;
+    private EditText reasonEditText;
+    private EditText dateEditText;
+    private Switch monSwitch;
+    private Switch tueSwitch;
+    private Switch wedSwitch;
+    private Switch thuSwitch;
+    private Switch friSwitch;
+    private Switch satSwitch;
+    private Switch sunSwitch;
+    private Bundle data = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,7 @@ public class HabitEditActivity extends AppCompatActivity {
         setContentView(R.layout.edit_habit);
         titleEditText = (EditText) findViewById(R.id.editHabit_habitTitleField);
         reasonEditText = (EditText) findViewById(R.id.editHabit_habitReasonField);
+        dateEditText = (EditText) findViewById(R.id.editHabit_habitStartDateField);
         saveBtn = (Button) findViewById(R.id.saveButton);
         monSwitch = (Switch) findViewById(R.id.monSwitch);
         tueSwitch = (Switch) findViewById(R.id.tueSwitch);;
@@ -56,26 +62,18 @@ public class HabitEditActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        final Bundle data = getIntent().getExtras();
+        data = getIntent().getExtras();
         titleEditText.setText(data.getString("title"));
         reasonEditText.setText(data.getString("reason"));
+        dateEditText.setText(data.getString("startDate"));
+        setDaySwitches();
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
-    }
 
-    private void saveHabitEdit(View v) {
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("title", titleEditText.getText().toString());
-        returnIntent.putExtra("reason", reasonEditText.getText().toString());
-
-        setResult(RESULT_OK, returnIntent);
-
-        Toast.makeText(HabitEditActivity.this, "Edit saved", Toast.LENGTH_SHORT).show();
-
-        finish();
+        HabitListController.saveHabitList();
     }
 
     private void initListeners(){
@@ -93,13 +91,60 @@ public class HabitEditActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveHabitEdit(view);
+                String title = titleEditText.getText().toString();
+                String reason = reasonEditText.getText().toString();
+                HabitListController.updateHabit(title, reason, getDaysChecked(),
+                        data.getInt("position"));
+                Intent intent = new Intent(HabitEditActivity.this,
+                        HabitListActivity.class);
+                startActivity(intent);
+                finish();
+
             }
         });
     }
 
     private void setDaySwitches(){
-
+        ArrayList<String> habitSchedDays = data.getStringArrayList("scheduledDays");
+        if(habitSchedDays.contains("Mon"))
+            monSwitch.setChecked(true);
+        if(habitSchedDays.contains("Tue"))
+            tueSwitch.setChecked(true);
+        if(habitSchedDays.contains("Wed"))
+            wedSwitch.setChecked(true);
+        if(habitSchedDays.contains("Thu"))
+            thuSwitch.setChecked(true);
+        if(habitSchedDays.contains("Fri"))
+            friSwitch.setChecked(true);
+        if(habitSchedDays.contains("Sat"))
+            satSwitch.setChecked(true);
+        if(habitSchedDays.contains("Sun"))
+            sunSwitch.setChecked(true);
     }
 
+    private ArrayList<String> getDaysChecked(){
+        ArrayList<String> daysSet = new ArrayList<String>();
+        if(monSwitch.isChecked()){
+            daysSet.add("Mon");
+        }
+        if(tueSwitch.isChecked()){
+            daysSet.add("Tue");
+        }
+        if(wedSwitch.isChecked()){
+            daysSet.add("Wed");
+        }
+        if(thuSwitch.isChecked()){
+            daysSet.add("Thu");
+        }
+        if(friSwitch.isChecked()){
+            daysSet.add("Fri");
+        }
+        if(satSwitch.isChecked()){
+            daysSet.add("Sat");
+        }
+        if(sunSwitch.isChecked()){
+            daysSet.add("Sun");
+        }
+        return daysSet;
+    }
 }

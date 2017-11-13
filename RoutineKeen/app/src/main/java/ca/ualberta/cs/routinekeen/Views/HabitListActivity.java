@@ -70,7 +70,7 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
         habitList.clear();
         habitList.addAll((ArrayList<Habit>) o);
         habitArrayAdapter.notifyDataSetChanged();
-        Toast.makeText(this, "Habit added to your list.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Habit list has been updated.", Toast.LENGTH_SHORT).show();
     }
 
     private void initListeners(){
