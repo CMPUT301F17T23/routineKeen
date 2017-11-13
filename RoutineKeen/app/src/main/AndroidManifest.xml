@@ -22,6 +22,7 @@
         <activity android:name=".Views.NewHabitActivity"></activity>
         <activity android:name=".Views.HabitHistoryActivity"></activity>
         <activity android:name=".Views.HabitEditActivity"></activity>
+        <activity android:name=".Views.HabitScheduleActivity"></activity>
     </application>
 
 </manifest>
