@@ -11,7 +11,7 @@ import ca.ualberta.cs.routinekeen.Models.Photo;
  * Created by Mikee V on 2017-11-08.
  */
 
-public class HabitHistoryController implements Observer{
+public class HabitHistoryController{// implements Observer{
     private HabitHistoryController(){}
     private static HabitHistory habitHistory = null;
 
@@ -22,32 +22,43 @@ public class HabitHistoryController implements Observer{
         return habitHistory;
     }
 
-    public void addObvToHistory(){
-        getHabitHistory().addObserver(this);
-    }
+//    public void addObvToHistory(){
+//        getHabitHistory().addObserver(this);
+//    }
 
     public static void saveHabitHistory(){
         IOManager.getManager().saveHabitHistory(getHabitHistory());
     }
 
-    @Override
-    public void update(Observable observable, Object data) {
-        if(observable == habitHistory){
-            //// TODO: 11/11/2017 do remove I/O as well 
-            saveHabitHistory();
-        }
-
+    public static void addHabitEvent(HabitEvent event){
+        getHabitHistory().addHabitEvent(event);
+        saveHabitHistory();
     }
 
+    public static void removeHabitEvent(HabitEvent event){
+        getHabitHistory().removeHabitEvent(event);
+        saveHabitHistory();
+    }
 
-    public HabitEvent getHabitEvent(int position)
+    //// TODO: 11/12/2017  add any static method that would act on the habitHistory singleton in anyway below
+//    @Override
+//    public void update(Observable observable, Object data) {
+////        if(observable == habitHistory){
+//            //// TODO: 11/11/2017 do remove I/O as well
+//            saveHabitHistory();
+////        }
+
+//    }
+
+
+    public static HabitEvent getHabitEvent(int position)
     {
-        return habitHistory.get(position);
+        return habitHistory.getHabitEvent(position);
     }
 
     public void setHabitEvent(HabitEvent habitEvent)
     {
-        habitHistory.add(habitEvent);
+        habitHistory.addHabitEvent(habitEvent);
     }
 
 

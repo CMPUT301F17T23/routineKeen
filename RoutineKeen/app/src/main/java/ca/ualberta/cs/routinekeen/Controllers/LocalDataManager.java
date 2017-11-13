@@ -97,16 +97,16 @@ public class LocalDataManager {
     }
 
     public void saveHabitHistory(HabitHistory habitHistory) {
-        SharedPreferences settings = context.getSharedPreferences(habitHistoryPreFile, context.MODE_PRIVATE);
+        SharedPreferences settings = context.getSharedPreferences(habitHistoryPreFile, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
-        jsonString = gson.toJson(habitHistory);
+        jsonString = gson.toJson(habitHistory.getEvents());
         editor.putString(habitHistoryKey,jsonString);
         editor.apply();
     }
 
     public HabitHistory loadHabitHistory() {
         //TODO: 11/11/2017  implement
-        SharedPreferences settings = context.getSharedPreferences(habitHistoryPreFile,context.MODE_PRIVATE);
+        SharedPreferences settings = context.getSharedPreferences(habitHistoryPreFile,Context.MODE_PRIVATE);
         String habitHistoryData = settings.getString(habitHistoryKey,"");
         if(habitHistoryData == ""){
             return new HabitHistory();

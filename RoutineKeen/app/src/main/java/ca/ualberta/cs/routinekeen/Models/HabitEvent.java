@@ -25,11 +25,18 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
     private Photo photo;
     private String habitType; //todo in habitEvent activity, check if habitType exist before calling class constructor
 
-    public HabitEvent(String title, String habitType) {
+    public HabitEvent(String title, String comment){
         this.title = title;
-        this.habitType = habitType;
+        this.comment = comment;
         this.date = new Date();
-   }
+        this.habitType = "default habit type"; //// TODO: 11/13/2017  habit type checking for habitEvents 
+    }
+//    public HabitEvent(String title, String habitType) {
+//        this.title = title;
+//        this.habitType = habitType;
+//        this.comment = "";
+//        this.date = new Date();
+//   }
 
     public HabitEvent(String title,String habitType, String comment) {
         this.title = title;
@@ -103,5 +110,11 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         int currentDate = (int)(date.getTime()/1000);
         int compareDate = (int)(compareEvent.getDate().getTime()/1000);
         return compareDate - currentDate;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.title + "       " + this.comment + "\n" + this.date.toString();
     }
 }

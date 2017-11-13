@@ -38,13 +38,13 @@ public class ViewHabitEvent extends AppCompatActivity {
         String newEventTitle = eventTitle.getText().toString();
         String newEventComment = eventComment.getText().toString();
 
-        if(newEventTitle.isEmpty() || newEventTitle == "\n")
+        if(newEventTitle.isEmpty() || newEventTitle=="\n")
         {
             newEventTitle = "No Title";
         }
-        if(newEventComment.isEmpty() || newEventComment == "\n")
+        if(newEventComment.isEmpty() || newEventComment=="\n")
         {
-            newEventComment = "No Comments";
+            newEventComment = "No Comments debug debug";
         }
 
         habitEvent.setTitle(newEventTitle);
