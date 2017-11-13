@@ -28,12 +28,8 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
 
     private ListView CL;
     Collection<HabitEvent> events = HabitHistoryController.getHabitHistory().getEvents();
-    private ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>(events);
+    private final ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>(events);
     private ArrayAdapter<HabitEvent> adapter;
-    //private HabitHistory habitHistory = new HabitHistory(habitEvents);// For controller purposes later
-    //private HabitHistoryController habitHistoryController = new HabitHistoryController();
-//    private HabitHistoryController hhc = new HabitHistoryController();
-
     private HabitEvent viewEvent;
     private int viewPosition;
 
@@ -46,6 +42,9 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         CL = (ListView) findViewById(R.id.habitHistoryList);
         adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
         CL.setAdapter(adapter);
+        habitEvents.clear();
+        habitEvents.addAll(HabitHistoryController.getHabitHistory().getEvents());
+        adapter.notifyDataSetChanged();
 
 
 //        hhc.addObvToHistory();
@@ -84,10 +83,11 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
     public void addHabitEvent(View view)
     {
         Intent intent = new Intent(this, AddHabitEvent.class);
-        //// TODO: 11/12/2017 habitEvent needs to have title and habit type as arguments for constructor 
-        habitEvents.add(new HabitEvent("title", "random type"));//test
-        adapter.notifyDataSetChanged();
-        CL = (ListView) findViewById(R.id.habitHistoryList);
+        //// TODO: 11/12/2017 habitEvent needs to have title and habit type as arguments for constructor
+        HabitEvent toAddEvent = new HabitEvent("title", "random type");
+        HabitHistoryController.addHabitEvent(toAddEvent);
+//        habitEvents.add(new HabitEvent("title", "random type"));//test
+//        CL = (ListView) findViewById(R.id.habitHistoryList);
 
         HabitEvent habitevent = habitEvents.get(habitEvents.size() - 1);
         viewPosition = (habitEvents.size() - 1);
@@ -158,6 +158,8 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
 
     @Override
     public void update(Observable observable, Object o) {
-
+        habitEvents.clear();
+        habitEvents.addAll(HabitHistoryController.getHabitHistory().getEvents());
+        adapter.notifyDataSetChanged();
     }
 }
