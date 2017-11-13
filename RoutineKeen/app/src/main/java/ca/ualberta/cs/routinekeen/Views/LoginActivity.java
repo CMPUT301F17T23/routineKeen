@@ -30,6 +30,14 @@ import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.R;
 
+/**
+ * Gives the user a list of existing profiles to choose from and the option to create a new profile
+ *
+ * @author  RoutineKeen
+ * @see     UserMenu
+ * @version 1.0.0
+ */
+
 public class LoginActivity extends AppCompatActivity implements Observer{
     private ListView userSelectListView;
     private Button addProfBtn;

@@ -17,6 +17,13 @@ import ca.ualberta.cs.routinekeen.R;
 
  -Add filter later
  */
+
+/**
+ * Shows the user a list of habit events (instances when the user has completed a habit)
+ *
+ * @author  RoutineKeen
+ * @version 1.0.0
+ */
 public class HabitHistoryActivity extends AppCompatActivity {
 
     private ListView CL;

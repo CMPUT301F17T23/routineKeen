@@ -21,7 +21,12 @@ import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.R;
 
 /**
- * Created by tiakindele on 2017-11-07.
+ * Presents the user with a list of all their habits, with the option to add a new habit, or select
+ * an existing one to view more details
+ *
+ * @author  RoutineKeen
+ * @see     HabitDetailsActivity
+ * @version 1.0.0
  */
 
 public class HabitListActivity extends AppCompatActivity implements Observer{
