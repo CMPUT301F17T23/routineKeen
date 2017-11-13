@@ -7,6 +7,7 @@ import ca.ualberta.cs.routinekeen.Models.User;
  */
 
 public class UserSingleton {
+    private UserSingleton(){}
     private static User currentUser = null;
     public static void setCurrentUser(User user){currentUser = user;}
     public static User getCurrentUser(){

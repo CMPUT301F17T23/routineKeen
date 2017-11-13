@@ -21,6 +21,7 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
     public HabitEvent(String title, String habitType) {
         this.title = title;
         this.habitType = habitType;
+        this.comment = "";
         this.date = new Date();
    }
 
@@ -95,5 +96,11 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
     public int compareTo(@NonNull HabitEvent compareEvent) {
         int currentDate = (int)(date.getTime()/1000),compareDate = (int)(compareEvent.getDate().getTime()/1000);
         return compareDate - currentDate;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.title + "       " + this.habitType + "\n" + this.date.toString();
     }
 }

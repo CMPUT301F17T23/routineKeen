@@ -17,39 +17,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-        <activity android:name=".Views.UserMenu">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Views.HabitListActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Views.NewHabitActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Views.HabitHistoryActivity"/>
-        <activity android:name=".Views.AddHabitEvent" />
-        <activity android:name=".Views.ViewHabitEvent">
-
-        </activity>
-=======
+        <activity android:name=".Views.AddHabitEvent"></activity>
         <activity android:name=".Views.UserMenu"></activity>
         <activity android:name=".Views.HabitListActivity"></activity>
         <activity android:name=".Views.NewHabitActivity"></activity>
         <activity android:name=".Views.HabitHistoryActivity"></activity>
->>>>>>> master
     </application>
 
 </manifest>

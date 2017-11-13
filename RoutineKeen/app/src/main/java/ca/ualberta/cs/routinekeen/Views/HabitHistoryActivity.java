@@ -29,6 +29,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
     private ArrayAdapter<HabitEvent> adapter;
     //private HabitHistory habitHistory = new HabitHistory(habitEvents);// For controller purposes later
     //private HabitHistoryController habitHistoryController = new HabitHistoryController();
+    private HabitHistoryController hhc = new HabitHistoryController();
 
     private HabitEvent viewEvent;
     private int viewPosition;
@@ -44,9 +45,9 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
         CL.setAdapter(adapter);
 
-        HabitHistoryController hhc = new HabitHistoryController();
+
         hhc.getHabitHistory().addObserver(this);
-        hhc.addObvToHistory();
+//        hhc.addObvToHistory();
 
         /*
         //"Grabs" data on click and transfer it to second activity to be modified or updated.
@@ -67,7 +68,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         });
     }
 
-
+    /*
     //Load Up User Habit history here
     @Override
     protected void onStart() {
@@ -77,13 +78,13 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
         CL.setAdapter(adapter);
     }
-
+    */
 
     public void addHabitEvent(View view)
     {
         Intent intent = new Intent(this, AddHabitEvent.class);
         //// TODO: 11/12/2017 habitEvent needs to have title and habit type as arguments for constructor 
-//        habitEvents.add(new HabitEvent());
+        habitEvents.add(new HabitEvent("title", "random type"));//test
         adapter.notifyDataSetChanged();
         CL = (ListView) findViewById(R.id.habitHistoryList);
 
@@ -109,6 +110,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
             CL.setAdapter(adapter);
 
             //SAVE FUNCTION HERE
+
         }
         else if(eData.equals("Delete"))
         {
