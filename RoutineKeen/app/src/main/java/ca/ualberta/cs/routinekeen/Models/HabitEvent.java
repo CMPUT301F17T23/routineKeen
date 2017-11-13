@@ -6,7 +6,14 @@ import java.util.Comparator;
 import java.util.Date;
 
 /**
- * Created by hughc on 2017-10-23.
+ * Creates HabitEvents (instances of a user completing a habit) with an associated Date, location,
+ * comment, photo, and habit
+ *
+ * @author  RoutineKeen
+ * @see     HabitHistory
+ * @see     HabitLocation
+ * @see     ca.ualberta.cs.routinekeen.Views.HabitHistoryActivity
+ * @version 1.0.0
  */
 
 public class HabitEvent implements Comparable<HabitEvent> {
@@ -93,7 +100,8 @@ public class HabitEvent implements Comparable<HabitEvent> {
 
     @Override
     public int compareTo(@NonNull HabitEvent compareEvent) {
-        int currentDate = (int)(date.getTime()/1000),compareDate = (int)(compareEvent.getDate().getTime()/1000);
+        int currentDate = (int)(date.getTime()/1000);
+        int compareDate = (int)(compareEvent.getDate().getTime()/1000);
         return compareDate - currentDate;
     }
 }

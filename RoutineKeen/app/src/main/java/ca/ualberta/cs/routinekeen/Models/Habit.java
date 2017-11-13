@@ -4,7 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by hughc on 2017-10-23.
+ * Creates Habit objects associated with a specific userID that have Title, Reason, Date, and
+ * an array of scheduled days
+ *
+ * @author  RoutineKeen
+ * @see     HabitList
+ * @see     ca.ualberta.cs.routinekeen.Views.HabitDetailsActivity
+ * @see     ca.ualberta.cs.routinekeen.Views.HabitEditActivity
+ * @version 1.0.0
  */
 
 public class Habit {
