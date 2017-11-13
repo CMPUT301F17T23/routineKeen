@@ -26,12 +26,14 @@ public class Habit implements Serializable {
     public Habit() {
         this.habitTitle = "";
         this.habitReason = "";
+        this.scheduledHabitDays = new ArrayList<String>();
     }
 
     public Habit(String habitTitle, String habitReason, Date startDate) {
         this.habitTitle = habitTitle;
         this.habitReason = habitReason;
         this.startDate = startDate;
+        this.scheduledHabitDays = new ArrayList<String>();
     }
 
     public String getHabitUserID() {
