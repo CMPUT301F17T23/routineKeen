@@ -66,6 +66,10 @@ public class HabitHistory extends Observable{
         return habitHistory.get(position);
     }
 
+    public Collection<HabitEvent> getEvents() {
+        return habitHistory;
+    }
+
 //    public Collection<HabitEvent> getFilteredList() {
 //        return null;
 //    }

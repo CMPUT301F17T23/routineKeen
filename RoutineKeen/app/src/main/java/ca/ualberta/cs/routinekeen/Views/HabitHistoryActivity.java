@@ -9,9 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
+import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
 import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.Models.HabitHistory;
@@ -25,11 +27,12 @@ import ca.ualberta.cs.routinekeen.R;
 public class HabitHistoryActivity extends AppCompatActivity implements Observer{
 
     private ListView CL;
-    private ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>();
+    Collection<HabitEvent> events = HabitHistoryController.getHabitHistory().getEvents();
+    private ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>(events);
     private ArrayAdapter<HabitEvent> adapter;
     //private HabitHistory habitHistory = new HabitHistory(habitEvents);// For controller purposes later
     //private HabitHistoryController habitHistoryController = new HabitHistoryController();
-    private HabitHistoryController hhc = new HabitHistoryController();
+//    private HabitHistoryController hhc = new HabitHistoryController();
 
     private HabitEvent viewEvent;
     private int viewPosition;
@@ -38,15 +41,13 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_history);
-
         IOManager.initManager(getApplicationContext());
-
+        HabitHistoryController.getHabitHistory().addObserver(this);
         CL = (ListView) findViewById(R.id.habitHistoryList);
         adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
         CL.setAdapter(adapter);
 
 
-        hhc.getHabitHistory().addObserver(this);
 //        hhc.addObvToHistory();
 
         /*

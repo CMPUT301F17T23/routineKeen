@@ -12,7 +12,7 @@ import ca.ualberta.cs.routinekeen.Models.Photo;
  */
 
 public class HabitHistoryController{// implements Observer{
-
+    private HabitHistoryController(){}
     private static HabitHistory habitHistory = null;
 
     public static HabitHistory getHabitHistory(){
@@ -32,7 +32,8 @@ public class HabitHistoryController{// implements Observer{
 
     public static void addHabitEvent(HabitEvent event){
         getHabitHistory().addHabitEvent(event);
-        saveHabitHistory();
+        IOManager.getManager().saveHabitHistory(getHabitHistory());
+//        saveHabitHistory();
     }
 
 //    @Override
