@@ -1,64 +1,121 @@
 package ca.ualberta.cs.routinekeen.Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+import ca.ualberta.cs.routinekeen.Helpers.DateHelpers;
+
 /**
- * Created by hughc on 2017-10-23.
+ * Creates Habit objects associated with a specific userID that have Title, Reason, Date, and
+ * an array of scheduled days
+ *
+ * @author  RoutineKeen
+ * @see     HabitList
+ * @see     ca.ualberta.cs.routinekeen.Views.HabitEditActivity
+ * @version 1.0.0
  */
 
-public class Habit {
-
+public class Habit implements Serializable {
     private String habitUserID;
     private String habitTitle;
     private String habitReason;
     private Date startDate;
-    private ArrayList<Date> scheduledHabitDates;
+    private ArrayList<String> scheduledHabitDays;
+
+    public Habit() {
+        this.habitTitle = "";
+        this.habitReason = "";
+        this.scheduledHabitDays = new ArrayList<String>();
+    }
 
     public Habit(String habitTitle, String habitReason, Date startDate) {
         this.habitTitle = habitTitle;
         this.habitReason = habitReason;
         this.startDate = startDate;
+        this.scheduledHabitDays = new ArrayList<String>();
     }
 
+    /**
+     * Returns the id of the user to whom the habit belongs
+     * @return  The user's ID
+     * @see     User
+     */
     public String getHabitUserID() {
         return habitUserID;
     }
 
+    /**
+     * Sets the ID of the user who owns this habit
+     * @param habitUserID   The user's ID
+     * @see     User
+     */
     public void setHabitUserID(String habitUserID) {
         this.habitUserID = habitUserID;
     }
 
+    /**
+     * Returns the title of this habit
+     * @return  This habit's title (String)
+     */
     public String getHabitTitle() {
         return habitTitle;
     }
 
+    /**
+     * Sets the title of this habit to a provided string
+     * @param habitTitle The new habit title
+     */
     public void setHabitTitle(String habitTitle) {
         this.habitTitle = habitTitle;
     }
 
+    /**
+     * Returns this habit's reason
+     * @return The reason (String)
+     */
     public String getHabitReason() {
         return habitReason;
     }
 
+    /**
+     * Used to change this habit's reason
+     * @param habitReason The new reason (String)
+     */
     public void setHabitReason(String habitReason) {
         this.habitReason = habitReason;
     }
 
+    /**
+     * Returns the habit's start date
+     * @return Start date
+     */
     public Date getStartDate() {
         return startDate;
     }
 
+    /**
+     * Sets the habits's start date
+     * @param startDate The new start date
+     */
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public ArrayList<Date> getScheduledHabitDates() {
-        return scheduledHabitDates;
+    /**
+     * Returns a list of the days this habit is scheduled for
+     * @return A String ArrayList of days of the week (format "Wed")
+     */
+    public ArrayList<String> getScheduledHabitDays() {
+        return scheduledHabitDays;
     }
 
-    public void setScheduledHabitDates(ArrayList<Date> scheduledHabitDates) {
-        this.scheduledHabitDates = scheduledHabitDates;
+    /**
+     * Used to update the habit's scheduled days
+     * @param scheduledHabitDays The new schedule
+     */
+    public void setScheduledHabitDays(ArrayList<String> scheduledHabitDays) {
+        this.scheduledHabitDays = scheduledHabitDays;
     }
 
     /**
@@ -67,18 +124,19 @@ public class Habit {
      * @return habitTitle (habitReason)
      */
     public String toString() {
+        String habitDate = DateHelpers.formatDateToString(getStartDate(), "MMMM dd, yyyy");
         if (getHabitReason() != null && !getHabitReason().isEmpty()) {
             if (getStartDate() != null) {
                 return String.format(getHabitTitle() + " (" + getHabitReason()
-                        + ")\n" + getStartDate());
+                        + ")\n" + "Habit Start Date: " + habitDate);
             }
             else {
                 return String.format(getHabitTitle() + " (" + getHabitReason()
-                        + ")\n" + getStartDate());
+                        + ")\n" + "Habit Start Date: " + habitDate);
             }
         }
         else if (getStartDate() != null) {
-            return String.format(getHabitTitle() + "\n" + getStartDate());
+            return String.format(getHabitTitle() + "\n" + "Habit Start Date: " + habitDate);
         }
         else {
             return getHabitTitle();

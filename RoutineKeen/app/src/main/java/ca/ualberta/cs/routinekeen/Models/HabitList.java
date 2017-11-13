@@ -18,7 +18,7 @@ public class HabitList extends Observable {
         this.habitList = habitList;
     }
 
-    public ArrayList<Habit> getHabitList() {
+    public ArrayList<Habit> getHabits() {
         return habitList;
     }
 
@@ -29,7 +29,7 @@ public class HabitList extends Observable {
     public void addHabit(Habit habit){
         habitList.add(habit);
         setChanged();
-        notifyObservers();
+        notifyObservers(habitList);
     }
 
     //todo, make sure the habit title is unique, or find another way to
@@ -53,6 +53,15 @@ public class HabitList extends Observable {
                 notifyObservers();
             }
         }
+    }
+
+    public void updateHabit(String title, String reason,
+                            ArrayList<String> schedDays, int position){
+        habitList.get(position).setHabitTitle(title);
+        habitList.get(position).setHabitReason(reason);
+        habitList.get(position).setScheduledHabitDays(schedDays);
+        setChanged();
+        notifyObservers(habitList);
     }
 
     public int habitListSize(){

@@ -69,7 +69,7 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/addHabit_20max"
-        android:inputType="textPersonName"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addHabit_text_habit_name" />
@@ -83,7 +83,7 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/addHabit_30max"
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addHabit_text_reason" />

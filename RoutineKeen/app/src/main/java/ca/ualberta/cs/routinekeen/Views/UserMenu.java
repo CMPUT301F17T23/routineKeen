@@ -3,6 +3,7 @@ package ca.ualberta.cs.routinekeen.Views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -66,9 +67,7 @@ public class UserMenu extends AppCompatActivity{
         viewHabitSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // change from LoginActivity.class to appropriate class
-                // LoginActivity.class was used for testing
-                Intent intent = new Intent(UserMenu.this, LoginActivity.class);
+                Intent intent = new Intent(UserMenu.this, HabitScheduleActivity.class);
                 startActivity(intent);
             }
         });

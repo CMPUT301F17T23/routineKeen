@@ -59,7 +59,7 @@ public class LocalDataManager {
     public void saveHabitList(HabitList habitList){
         SharedPreferences settings = context.getSharedPreferences(habitListPrefFile,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
-        jsonString = gson.toJson(habitList);
+        jsonString = gson.toJson(habitList.getHabits());
         editor.putString(habitListKey,jsonString);
         editor.apply();
     }
@@ -71,8 +71,8 @@ public class LocalDataManager {
             return new HabitList();
         }else{
             Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
-            ArrayList<Habit> list = gson.fromJson(habitListData, listType);
-            return new HabitList(list);
+            ArrayList<Habit> listOfHabits = gson.fromJson(habitListData, listType);
+            return new HabitList(listOfHabits);
         }
     }
 

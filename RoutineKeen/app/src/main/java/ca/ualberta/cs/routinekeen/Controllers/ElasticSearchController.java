@@ -149,6 +149,13 @@ public class ElasticSearchController {
         }
     }
 
+    public static class UpdateHabitByIDTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... strings) {
+            return null;
+        }
+    }
+
     public static void verifySettings() {
         if (client == null){
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder(ELASTICSEARCH_URL);
