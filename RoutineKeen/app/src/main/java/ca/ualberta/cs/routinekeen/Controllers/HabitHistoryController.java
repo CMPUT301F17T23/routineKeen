@@ -50,8 +50,8 @@ public class HabitHistoryController{// implements Observer{
 
 //    }
 
-/*
-    public HabitEvent getHabitEvent(int position)
+
+    public static HabitEvent getHabitEvent(int position)
     {
         return habitHistory.getHabitEvent(position);
     }
@@ -60,6 +60,6 @@ public class HabitHistoryController{// implements Observer{
     {
         habitHistory.addHabitEvent(habitEvent);
     }
-*/
+
 
 }

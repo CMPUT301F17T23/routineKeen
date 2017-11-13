@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Views.AddHabitEvent"></activity>
+        <activity android:name=".Views.ViewHabitEvent"></activity>
         <activity android:name=".Views.UserMenu"></activity>
         <activity android:name=".Views.HabitListActivity"></activity>
         <activity android:name=".Views.NewHabitActivity"></activity>

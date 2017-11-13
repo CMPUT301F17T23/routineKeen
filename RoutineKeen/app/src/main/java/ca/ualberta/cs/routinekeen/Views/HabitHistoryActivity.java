@@ -57,7 +57,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Intent intent = new Intent(HabitHistoryActivity.this, ViewHabitEvent.class);
-                HabitEvent habitevent = habitEvents.get(position);//Controller ???
+                HabitEvent habitevent = HabitHistoryController.getHabitEvent(position);
                 //save object and position
                 viewEvent = habitevent;
                 viewPosition = position;
@@ -68,31 +68,20 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         });
     }
 
-    /*
-    //Load Up User Habit history here
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //Load Function
-
-        adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
-        CL.setAdapter(adapter);
-    }
-    */
 
     public void addHabitEvent(View view)
     {
         Intent intent = new Intent(this, AddHabitEvent.class);
         //// TODO: 11/12/2017 habitEvent needs to have title and habit type as arguments for constructor
-//        HabitEvent toAddEvent = new HabitEvent("title", "random type");
-//        HabitHistoryController.addHabitEvent(toAddEvent);
+        HabitEvent toAddEvent = new HabitEvent("title", "random type");
+        HabitHistoryController.addHabitEvent(toAddEvent);
 //        habitEvents.add(new HabitEvent("title", "random type"));//test
-//        CL = (ListView) findViewById(R.id.habitHistoryList);
+        CL = (ListView) findViewById(R.id.habitHistoryList);
 
         HabitEvent habitevent = habitEvents.get(habitEvents.size() - 1);
         viewPosition = (habitEvents.size() - 1);
         viewEvent = habitevent;
-        intent.putExtra("Add Event", habitevent);
+        intent.putExtra("Add Event", toAddEvent);
         startActivityForResult(intent, 2);
     }
 
@@ -115,7 +104,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         }
         else if(eData.equals("Delete"))
         {
-            habitEvents.remove(viewPosition);
+            HabitHistoryController.removeHabitEvent(viewEvent);
             CL = (ListView) findViewById(R.id.habitHistoryList);
 
             adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
