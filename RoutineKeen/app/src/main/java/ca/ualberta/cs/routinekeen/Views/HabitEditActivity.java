@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import ca.ualberta.cs.routinekeen.R;
 
 /**
- * Allows the user to edit and update the details of the selected activity
+ * Allows the user to view, edit, and save the details of the selected habit, and create a
+ * schedule for what days the habit will be performed
  *
  * @author  RoutineKeen
  * @see     HabitListActivity
+ * @see     ca.ualberta.cs.routinekeen.Models.Habit
  * @version 1.0.0
  */
 
@@ -64,7 +66,7 @@ public class HabitEditActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public void saveHabitEdit(View v) {
+    private void saveHabitEdit(View v) {
         Intent returnIntent = new Intent();
         returnIntent.putExtra("title", titleEditText.getText().toString());
         returnIntent.putExtra("reason", reasonEditText.getText().toString());

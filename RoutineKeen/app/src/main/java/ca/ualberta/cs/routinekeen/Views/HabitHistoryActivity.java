@@ -22,6 +22,8 @@ import ca.ualberta.cs.routinekeen.R;
  * Shows the user a list of habit events (instances when the user has completed a habit)
  *
  * @author  RoutineKeen
+ * @see     HabitEvent
+ * @see     ca.ualberta.cs.routinekeen.Models.HabitHistory
  * @version 1.0.0
  */
 public class HabitHistoryActivity extends AppCompatActivity {

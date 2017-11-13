@@ -22,7 +22,7 @@ import ca.ualberta.cs.routinekeen.R;
 
 /**
  * Presents the user with a list of all their habits, with the option to add a new habit, or select
- * an existing one to view more details
+ * an existing one to edit and view more details
  *
  * @author  RoutineKeen
  * @see     HabitEditActivity
@@ -60,6 +60,11 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
         HabitListController.saveHabitList();
     }
 
+    /**
+     * Updates adds new habit to habitList and updates ListView
+     * @param observable
+     * @param o             Habit to be added
+     */
     @Override
     public void update(Observable observable, Object o) {
         habitList.clear();
@@ -68,7 +73,7 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
         Toast.makeText(this, "Habit added to your list.", Toast.LENGTH_SHORT).show();
     }
 
-    public void initListeners(){
+    private void initListeners(){
         addHabitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
