@@ -19,7 +19,6 @@ import ca.ualberta.cs.routinekeen.R;
  */
 
 public class HabitEditActivity extends AppCompatActivity {
-
     Button cancelBtn;
     Button saveBtn;
     EditText titleEditText;
@@ -29,14 +28,38 @@ public class HabitEditActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_habit);
-
-        final Bundle data = getIntent().getExtras();
-
         titleEditText = (EditText) findViewById(R.id.editHabit_habitTitleField);
         reasonEditText = (EditText) findViewById(R.id.editHabit_habitReasonField);
+        saveBtn = (Button) findViewById(R.id.saveButton);
+        initListeners();
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        final Bundle data = getIntent().getExtras();
         titleEditText.setText(data.getString("title"));
         reasonEditText.setText(data.getString("reason"));
+    }
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+    }
+
+    public void saveHabitEdit(View v) {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("title", titleEditText.getText().toString());
+        returnIntent.putExtra("reason", reasonEditText.getText().toString());
+
+        setResult(RESULT_OK, returnIntent);
+
+        Toast.makeText(HabitEditActivity.this, "Edit saved", Toast.LENGTH_SHORT).show();
+
+        finish();
+    }
+
+    private void initListeners(){
         cancelBtn = (Button) findViewById(R.id.cancelButton);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,21 +77,6 @@ public class HabitEditActivity extends AppCompatActivity {
                 saveHabitEdit(view);
             }
         });
-    }
-
-
-    public void saveHabitEdit(View v) {
-//        Button saveBtn;
-//        saveBtn = (Button) findViewById(R.id.saveButton);
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("title", titleEditText.getText().toString());
-        returnIntent.putExtra("reason", reasonEditText.getText().toString());
-
-        setResult(RESULT_OK, returnIntent);
-
-        Toast.makeText(HabitEditActivity.this, "Edit saved", Toast.LENGTH_SHORT).show();
-
-        finish();
     }
 
 }

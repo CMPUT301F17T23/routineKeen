@@ -34,4 +34,9 @@ public class DateHelpers {
         }
         return date;
     }
+
+    public static String formatDateToString(Date dateObj, String format){
+        DateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(dateObj);
+    }
 }

@@ -3,6 +3,8 @@ package ca.ualberta.cs.routinekeen.Models;
 import java.util.ArrayList;
 import java.util.Date;
 
+import ca.ualberta.cs.routinekeen.Helpers.DateHelpers;
+
 /**
  * Creates Habit objects associated with a specific userID that have Title, Reason, Date, and
  * an array of scheduled days
@@ -20,7 +22,7 @@ public class Habit {
     private String habitTitle;
     private String habitReason;
     private Date startDate;
-    private ArrayList<Date> scheduledHabitDates;
+    private ArrayList<String> scheduledHabitDays;
 
     public Habit() {
         this.habitTitle = "";
@@ -65,12 +67,12 @@ public class Habit {
         this.startDate = startDate;
     }
 
-    public ArrayList<Date> getScheduledHabitDates() {
-        return scheduledHabitDates;
+    public ArrayList<String> getScheduledHabitDays() {
+        return scheduledHabitDays;
     }
 
-    public void setScheduledHabitDates(ArrayList<Date> scheduledHabitDates) {
-        this.scheduledHabitDates = scheduledHabitDates;
+    public void setScheduledHabitDays(ArrayList<String> scheduledHabitDays) {
+        this.scheduledHabitDays = scheduledHabitDays;
     }
 
     /**
@@ -79,18 +81,19 @@ public class Habit {
      * @return habitTitle (habitReason)
      */
     public String toString() {
+        String habitDate = DateHelpers.formatDateToString(getStartDate(), "MMMM dd, yyyy");
         if (getHabitReason() != null && !getHabitReason().isEmpty()) {
             if (getStartDate() != null) {
                 return String.format(getHabitTitle() + " (" + getHabitReason()
-                        + ")\n" + getStartDate());
+                        + ")\n" + "Habit Start Date: " + habitDate);
             }
             else {
                 return String.format(getHabitTitle() + " (" + getHabitReason()
-                        + ")\n" + getStartDate());
+                        + ")\n" + "Habit Start Date: " + habitDate);
             }
         }
         else if (getStartDate() != null) {
-            return String.format(getHabitTitle() + "\n" + getStartDate());
+            return String.format(getHabitTitle() + "\n" + "Habit Start Date: " + habitDate);
         }
         else {
             return getHabitTitle();
