@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -125,6 +126,9 @@ public class NewHabitActivity extends AppCompatActivity {
                     String reason = hReason.getText().toString();
                     Habit habitToAdd = new Habit(title, reason, date);
                     habitToAdd.setHabitUserID(UserSingleton.getCurrentUser().getUserID());
+                    String [] days = new String [] {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+                    ArrayList<String> practiceDays = new ArrayList<>(Arrays.asList(days));
+                    habitToAdd.setScheduledHabitDays(practiceDays);
                     HabitListController.addHabit(habitToAdd);
                     Intent intent = new Intent(NewHabitActivity.this, HabitListActivity.class);
                     startActivity(intent);
