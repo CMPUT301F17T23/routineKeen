@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
-import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
 import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.Models.HabitHistory;
@@ -27,7 +26,7 @@ import ca.ualberta.cs.routinekeen.R;
 public class HabitHistoryActivity extends AppCompatActivity implements Observer{
 
     private ListView CL;
-    Collection<HabitEvent> events = HabitHistoryController.getHabitHistory().getEvents();
+    private Collection<HabitEvent> events = HabitHistoryController.getHabitHistory().getEvents();
     private final ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>(events);
     private ArrayAdapter<HabitEvent> adapter;
     private HabitEvent viewEvent;
@@ -36,18 +35,10 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_habit_history);
         IOManager.initManager(getApplicationContext());
-        HabitHistoryController.getHabitHistory().addObserver(this);
+        setContentView(R.layout.activity_habit_history);
         CL = (ListView) findViewById(R.id.habitHistoryList);
-        adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
-        CL.setAdapter(adapter);
-        habitEvents.clear();
-        habitEvents.addAll(HabitHistoryController.getHabitHistory().getEvents());
-        adapter.notifyDataSetChanged();
-
-
-//        hhc.addObvToHistory();
+        HabitHistoryController.getHabitHistory().addObserver(this);
 
         /*
         //"Grabs" data on click and transfer it to second activity to be modified or updated.
@@ -61,90 +52,108 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
                 //save object and position
                 viewEvent = habitevent;
                 viewPosition = position;
-
                 intent.putExtra("View Event", habitevent);
                 startActivityForResult(intent, 1);
             }
         });
     }
+    protected void onStart(){
+        super.onStart();
+        habitEvents.clear();
+        habitEvents.addAll(HabitHistoryController.getHabitHistory().getEvents());
+        adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
+        adapter.notifyDataSetChanged();
+        CL.setAdapter(adapter);
+    }
 
+    protected void onDestroy(){
+        super.onDestroy();
+        HabitHistoryController.saveHabitHistory();
+    }
+
+
+
+
+    //Mikee's code, don't have time to debug
 
     public void addHabitEvent(View view)
     {
         Intent intent = new Intent(this, AddHabitEvent.class);
+        startActivity(intent);
         //// TODO: 11/12/2017 habitEvent needs to have title and habit type as arguments for constructor
-        HabitEvent toAddEvent = new HabitEvent("title", "random type");
-        HabitHistoryController.addHabitEvent(toAddEvent);
-//        habitEvents.add(new HabitEvent("title", "random type"));//test
-        CL = (ListView) findViewById(R.id.habitHistoryList);
-
-        HabitEvent habitevent = habitEvents.get(habitEvents.size() - 1);
-        viewPosition = (habitEvents.size() - 1);
-        viewEvent = habitevent;
-        intent.putExtra("Add Event", toAddEvent);
-        startActivityForResult(intent, 2);
+//        HabitEvent toAddEvent = new HabitEvent("title", "random type");
+//        HabitHistoryController.addHabitEvent(toAddEvent);
+//        CL = (ListView) findViewById(R.id.habitHistoryList);
+//
+//        HabitEvent habitevent = habitEvents.get(habitEvents.size() - 1);
+//        viewPosition = (habitEvents.size() - 1);
+//        viewEvent = habitevent;
+//        startActivityForResult(intent, 2);
     }
 
-    public void changeHabitEvent(String eData)
-    {
-        if(!eData.isEmpty() && !eData.equals("Delete"))
+
+
+        public void changeHabitEvent(String eData)
         {
-            String values[] = eData.split("\\r?\\n");
-            viewEvent.setTitle(values[0]);
-            viewEvent.setComment(values[1]);
-
-            habitEvents.set(viewPosition, viewEvent);
-            CL = (ListView) findViewById(R.id.habitHistoryList);
-
-            adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
-            CL.setAdapter(adapter);
-
-            //SAVE FUNCTION HERE
-
-        }
-        else if(eData.equals("Delete"))
-        {
-            HabitHistoryController.removeHabitEvent(viewEvent);
-            CL = (ListView) findViewById(R.id.habitHistoryList);
-
-            adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
-            CL.setAdapter(adapter);
-
-            //SAVE FUNCTION HERE
-        }
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        //TODO Auto-generated method stub
-        super.onActivityResult(requestCode, resultCode, data);
-        //viewHabit event
-        if(requestCode == 1)
-        {
-            if(resultCode == RESULT_OK)
+            if(!eData.isEmpty() && !eData.equals("Delete"))
             {
-                String eData = data.getStringExtra("Viewed Event");
-                changeHabitEvent(eData);
+                String values[] = eData.split("\\r?\\n");
+                viewEvent.setTitle(values[0]);
+                viewEvent.setComment(values[1]);
+
+                habitEvents.set(viewPosition, viewEvent);
+                CL = (ListView) findViewById(R.id.habitHistoryList);
+
+                adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
+                CL.setAdapter(adapter);
+
+                //SAVE FUNCTION HERE
+
             }
-        }
-        //Add new event
-        if(requestCode == 2)
-        {
-            if(resultCode == RESULT_OK)
+            else if(eData.equals("Delete"))
             {
-                String eData = data.getStringExtra("Added Event");
-                changeHabitEvent(eData);
+                HabitHistoryController.removeHabitEvent(viewEvent);
+                CL = (ListView) findViewById(R.id.habitHistoryList);
+
+                adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
+                CL.setAdapter(adapter);
+
+                //SAVE FUNCTION HERE
             }
+
         }
-    }
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data)
+        {
+            //TODO Auto-generated method stub
+            super.onActivityResult(requestCode, resultCode, data);
+            //viewHabit event
+            if(requestCode == 1)
+            {
+                if(resultCode == RESULT_OK)
+                {
+                    String eData = data.getStringExtra("Viewed Event");
+                    changeHabitEvent(eData);
+                }
+            }
+            //Add new event
+//            if(requestCode == 2)
+//            {
+//                if(resultCode == RESULT_OK)
+//                {
+//                    String eData = data.getStringExtra("Added Event");
+//                    changeHabitEvent(eData);
+//                }
+//            }
+        }
 
-    public void filterList(View view)
-    {
 
-    }
+    /*
+        public void filterList(View view)
+        {
 
+        }
+    */
     @Override
     public void update(Observable observable, Object o) {
         habitEvents.clear();
