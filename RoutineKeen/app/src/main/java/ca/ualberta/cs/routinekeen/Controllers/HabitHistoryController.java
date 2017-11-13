@@ -32,10 +32,15 @@ public class HabitHistoryController{// implements Observer{
 
     public static void addHabitEvent(HabitEvent event){
         getHabitHistory().addHabitEvent(event);
-        IOManager.getManager().saveHabitHistory(getHabitHistory());
-//        saveHabitHistory();
+        saveHabitHistory();
     }
 
+    public static void removeHabitEvent(HabitEvent event){
+        getHabitHistory().removeHabitEvent(event);
+        saveHabitHistory();
+    }
+
+    //// TODO: 11/12/2017  add any static method that would act on the habitHistory singleton in anyway below
 //    @Override
 //    public void update(Observable observable, Object data) {
 ////        if(observable == habitHistory){

@@ -84,8 +84,8 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
     {
         Intent intent = new Intent(this, AddHabitEvent.class);
         //// TODO: 11/12/2017 habitEvent needs to have title and habit type as arguments for constructor
-        HabitEvent toAddEvent = new HabitEvent("title", "random type");
-        HabitHistoryController.addHabitEvent(toAddEvent);
+//        HabitEvent toAddEvent = new HabitEvent("title", "random type");
+//        HabitHistoryController.addHabitEvent(toAddEvent);
 //        habitEvents.add(new HabitEvent("title", "random type"));//test
 //        CL = (ListView) findViewById(R.id.habitHistoryList);
 
