@@ -12,6 +12,7 @@ import ca.ualberta.cs.routinekeen.Models.User;
  *
  * @author Hugh Craig
  * @see ElasticSearchController
+ * @see IOManager
  * @version 1.0.0
  */
 

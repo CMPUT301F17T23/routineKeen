@@ -12,15 +12,26 @@ import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.Models.UserList;
 
 /**
- * Created by hughc on 2017-11-10.
+ * A proxy class used by all the other controllers for each activity to do IO
+ * operations with the local or network storage. Provides a central class for doing
+ * all data CRUD operations within the application.
+ *
+ * @author Hugh Craig
+ * @see LocalDataManager
+ * @see NetworkDataManager
+ * @version 1.0.0
  */
-
 public class IOManager {
+    private static IOManager ioManager = null;
     private LocalDataManager localDM;
     private NetworkDataManager networkDm;
     private Context context;
 
-    static private IOManager ioManager = null;
+    public IOManager(Context context) {
+        this.context = context;
+        LocalDataManager.InitManager(context);
+        localDM = LocalDataManager.getManager();
+    }
 
     public static void initManager(Context context) {
         if (context == null) {
@@ -34,12 +45,6 @@ public class IOManager {
             throw new RuntimeException("Did not initialize IOManager");
         }
         return ioManager;
-    }
-
-    public IOManager(Context context) {
-        this.context = context;
-        LocalDataManager.InitManager(context);
-        localDM = LocalDataManager.getManager();
     }
 
     public UserList loadUserList() {
@@ -88,6 +93,14 @@ public class IOManager {
         localDM.saveHabitHistory(habitHistory);
     }
 
+    public void loadSharedPrefs(String... prefs){
+        localDM.loadSharedPrefs(prefs);
+    }
+
+    public void clearUserSharedPrefs() {
+        localDM.clearUserSharedPrefs();
+    }
+
     private boolean isNetworkAvailable() {
         // Taken from: https://stackoverflow.com/questions/4238921/
         // detect-whether-there-is-an-internet-connection-available-on-android
@@ -97,13 +110,4 @@ public class IOManager {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
-    public void loadSharedPrefs(String... prefs){
-        localDM.loadSharedPrefs(prefs);
-    }
-
-    public void clearUserSharedPrefs() {
-        localDM.clearUserSharedPrefs();
-    }
-
 }

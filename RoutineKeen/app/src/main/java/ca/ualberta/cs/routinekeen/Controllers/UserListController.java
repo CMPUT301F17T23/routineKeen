@@ -17,7 +17,7 @@ public class UserListController {
     private static IOManager ioManager = IOManager.getManager();
 
     private UserListController(){
-        // Make UserListController Uninstantiable
+        // make UserListController un-instantiable
     }
 
     public static UserList getUserList(){
