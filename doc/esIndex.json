@@ -1,0 +1,18 @@
+{
+    "mappings" : {
+        "user" : {
+            "properties" : {
+                "username" : { "type" : "string" }
+            }
+        },
+        "habit" : {
+        	"properties" : {
+        		"habitTitle" : { "type" : "string" },
+        		"habitReason" : { "type" : "string" },
+        		"habitUserID" : { "type" : "string" },
+        		"startDate" : { "type" : "date", "format" : "dateOptionalTime" },
+        		"scheduledDays" : { "type" : "string" }
+        	}
+        }
+    }
+}
