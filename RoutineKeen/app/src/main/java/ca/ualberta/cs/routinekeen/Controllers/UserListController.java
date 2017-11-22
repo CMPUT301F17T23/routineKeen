@@ -3,6 +3,7 @@ package ca.ualberta.cs.routinekeen.Controllers;
 import android.content.Context;
 import android.util.Log;
 
+import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.Models.UserList;
 
@@ -16,7 +17,7 @@ public class UserListController {
     private static IOManager ioManager = IOManager.getManager();
 
     private UserListController(){
-        // SIMULATE STATIC CLASS / HIDE CONSTRUCTOR
+        // Make UserListController Uninstantiable
     }
 
     public static UserList getUserList(){
@@ -27,16 +28,24 @@ public class UserListController {
         return userList;
     }
 
-    public static void addUserToList(String username){
-        User retrievedUser = NetworkDataManager.GetUser(username);
-        if(retrievedUser == null) {
-            retrievedUser = NetworkDataManager.AddNewUser(new User(username));
+    public static boolean addUserToList(String username){
+        User retrievedUser;
+        try{
+            retrievedUser = ioManager.getUser(username);
+            if(retrievedUser == null){
+                retrievedUser = NetworkDataManager.AddNewUser(new User(username));
+            }
+        } catch (NetworkUnavailableException e) {
+            Log.d("Retrieving/Adding User", e.getMessage());
+            return false;
         }
         getUserList().addUser(retrievedUser);
         ioManager.saveUserList(getUserList());
+        return true;
     }
 
-    public static void saveUserList(){
+    public static boolean saveUserList(){
         ioManager.saveUserList(getUserList());
+        return true;
     }
 }

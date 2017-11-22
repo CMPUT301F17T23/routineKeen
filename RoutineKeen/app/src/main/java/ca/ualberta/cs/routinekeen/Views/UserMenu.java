@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
+import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.Models.User;
@@ -47,12 +48,13 @@ public class UserMenu extends AppCompatActivity{
     @Override
     protected void onStart() {
         super.onStart();
+        IOManager ioManager = IOManager.getManager();
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserMenu.this, LoginActivity.class);
-                startActivity(intent);
+                //ioManager.clearUserSharedPrefs();
+                finish();
             }
         });
 

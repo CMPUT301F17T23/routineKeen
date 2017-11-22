@@ -82,9 +82,10 @@ public class HabitEditActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HabitEditActivity.this,
-                        HabitListActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(HabitEditActivity.this,
+//                        HabitListActivity.class);
+//                startActivity(intent);
+                finish();
             }
         });
 
@@ -96,9 +97,9 @@ public class HabitEditActivity extends AppCompatActivity {
                 String reason = reasonEditText.getText().toString();
                 HabitListController.updateHabit(title, reason, getDaysChecked(),
                         data.getInt("position"));
-                Intent intent = new Intent(HabitEditActivity.this,
-                        HabitListActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(HabitEditActivity.this,
+//                        HabitListActivity.class);
+//                startActivity(intent);
                 finish();
 
             }

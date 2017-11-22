@@ -35,7 +35,6 @@ public class LocalDataManager {
 
     static private LocalDataManager localDataManager = null;
 
-    //constructor
     public LocalDataManager(Context context){
         this.context = context;
     }
@@ -117,7 +116,6 @@ public class LocalDataManager {
         }
     }
 
-
     public void loadSharedPrefs(String ... prefs) {
         // Helper function to view local data within shared preferences
         // Taken from https://stackoverflow.com/questions/23635644/
@@ -138,6 +136,20 @@ public class LocalDataManager {
             Log.i("----------------", "---------------------------------------");
         }
         Log.i("Finished Shared Prefs", "----------------------------------");
+    }
+
+    public void clearUserSharedPrefs(){
+        // Clear the user habits that are stored locally
+        SharedPreferences habitPref = context.getSharedPreferences(habitListPrefFile, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = habitPref.edit();
+        editor.clear();
+        editor.commit();
+
+        // Clear the users habit events that are stored locally
+        SharedPreferences habitEventPref = context.getSharedPreferences(habitHistoryPreFile, Context.MODE_PRIVATE);
+        editor = habitEventPref.edit();
+        editor.clear();
+        editor.commit();
     }
 
 }

@@ -1,7 +1,11 @@
 package ca.ualberta.cs.routinekeen.Controllers;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 
+import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
 import ca.ualberta.cs.routinekeen.Models.HabitHistory;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.Models.User;
@@ -42,8 +46,26 @@ public class IOManager {
         return localDM.loadUserList();
     }
 
-    public void loadSharedPrefs(String... prefs){
-        localDM.loadSharedPrefs(prefs);
+    public User addUser(User user) throws NetworkUnavailableException{
+        User retrievedUser;
+        if (isNetworkAvailable()) {
+            retrievedUser = NetworkDataManager.AddNewUser(user);
+        } else{
+            throw new NetworkUnavailableException();
+        }
+
+        return retrievedUser;
+    }
+
+    public User getUser(String username) throws NetworkUnavailableException{
+        User retrievedUser;
+        if(isNetworkAvailable()){
+            retrievedUser = NetworkDataManager.GetUser(username);
+        } else {
+            throw new NetworkUnavailableException();
+        }
+        
+        return retrievedUser;
     }
 
     public void saveUserList(UserList userList) {
@@ -65,4 +87,23 @@ public class IOManager {
     public void saveHabitHistory(HabitHistory habitHistory) {
         localDM.saveHabitHistory(habitHistory);
     }
+
+    private boolean isNetworkAvailable() {
+        // Taken from: https://stackoverflow.com/questions/4238921/
+        // detect-whether-there-is-an-internet-connection-available-on-android
+        // Date Taken: Nov 21, 2017
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public void loadSharedPrefs(String... prefs){
+        localDM.loadSharedPrefs(prefs);
+    }
+
+    public void clearUserSharedPrefs() {
+        localDM.clearUserSharedPrefs();
+    }
+
 }
