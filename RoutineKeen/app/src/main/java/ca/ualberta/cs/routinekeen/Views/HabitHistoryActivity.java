@@ -35,7 +35,6 @@ import ca.ualberta.cs.routinekeen.R;
 public class HabitHistoryActivity extends AppCompatActivity implements Observer{
 
     private ListView CL;
-//    private Collection<HabitEvent> events = HabitHistoryController.getHabitHistory().getEvents();
     private final ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>();
     private ArrayAdapter<HabitEvent> adapter;
     private HabitEvent viewEvent;
@@ -61,7 +60,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
                 //save object and position
                 viewEvent = habitevent;
                 viewPosition = position;
-                intent.putExtra("View Event", habitevent);
+                intent.putExtra("View Event", position);
                 startActivityForResult(intent, 1);
             }
         });
@@ -71,7 +70,6 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         habitEvents.clear();
         habitEvents.addAll(HabitHistoryController.getHabitHistory().getEvents());
         adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
-//        adapter.notifyDataSetChanged();
         CL.setAdapter(adapter);
     }
 
@@ -89,15 +87,6 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
     {
         Intent intent = new Intent(this, AddHabitEvent.class);
         startActivity(intent);
-        //// TODO: 11/12/2017 habitEvent needs to have title and habit type as arguments for constructor
-//        HabitEvent toAddEvent = new HabitEvent("title", "random type");
-//        HabitHistoryController.addHabitEvent(toAddEvent);
-//        CL = (ListView) findViewById(R.id.habitHistoryList);
-//
-//        HabitEvent habitevent = habitEvents.get(habitEvents.size() - 1);
-//        viewPosition = (habitEvents.size() - 1);
-//        viewEvent = habitevent;
-//        startActivityForResult(intent, 2);
     }
 
 
@@ -116,7 +105,6 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
                 adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
                 CL.setAdapter(adapter);
 
-                //SAVE FUNCTION HERE
 
             }
             else if(eData.equals("Delete"))
@@ -127,7 +115,6 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
                 adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
                 CL.setAdapter(adapter);
 
-                //SAVE FUNCTION HERE
             }
 
         }
@@ -145,18 +132,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
                     changeHabitEvent(eData);
                 }
             }
-            //Add new event
-//            if(requestCode == 2)
-//            {
-//                if(resultCode == RESULT_OK)
-//                {
-//                    String eData = data.getStringExtra("Added Event");
-//                    changeHabitEvent(eData);
-//                }
-//            }
         }
-
-
     /*
         public void filterList(View view)
         {

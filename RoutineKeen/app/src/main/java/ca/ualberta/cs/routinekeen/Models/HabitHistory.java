@@ -69,24 +69,4 @@ public class HabitHistory extends Observable{
     public Collection<HabitEvent> getEvents() {
         return habitHistory;
     }
-
-//    public Collection<HabitEvent> getFilteredList() {
-//        return null;
-//    }
-
-//    public String getCurrentHabitTypeFilter() {
-//        return currentHabitTypeFilter;
-//    }
-//
-//    public void setCurrentHabitTypeFilter(String currentHabitTypeFilter) {
-//        this.currentHabitTypeFilter = currentHabitTypeFilter;
-//    }
-//
-//    public String getCurrentHabitCommentFilter() {
-//        return currentHabitCommentFilter;
-//    }
-//
-//    public void setCurrentHabitCommentFilter(String currentHabitCommentFilter) {
-//        this.currentHabitCommentFilter = currentHabitCommentFilter;
-//    }
 }
