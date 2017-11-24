@@ -18,18 +18,19 @@ import java.util.Date;
  */
 
 public class HabitEvent implements Comparable<HabitEvent>, Serializable {
-    private String title;
-    private Date date;
-    private HabitLocation location;
-    private String comment;
-    private Photo photo;
-    private String habitType; //todo in habitEvent activity, check if habitType exist before calling class constructor
+    private String eventTitle;
+    private Date eventDate;
+    private HabitLocation eventLocation;
+    private String habitEventUserID;
+    private String eventComment;
+    private Photo eventPhoto;
+    private String eventHabitType; //todo in habitEvent activity, check if habitType exist before calling class constructor
 
     public HabitEvent(String title, String comment){
-        this.title = title;
-        this.comment = comment;
-        this.date = new Date();
-        this.habitType = "default habit type"; //// TODO: 11/13/2017  habit type checking for habitEvents 
+        this.eventTitle = title;
+        this.eventComment = comment;
+        this.eventDate = new Date();
+        this.eventHabitType = "default habit type"; //// TODO: 11/13/2017  habit type checking for habitEvents
     }
 //    public HabitEvent(String title, String habitType) {
 //        this.title = title;
@@ -39,75 +40,75 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
 //   }
 
     public HabitEvent(String title,String habitType, String comment) {
-        this.title = title;
-        this.habitType = habitType;
-        this.comment = comment;
-        this.date = new Date();
+        this.eventTitle = title;
+        this.eventHabitType = habitType;
+        this.eventComment = comment;
+        this.eventDate = new Date();
     }
 
     public HabitEvent(String title, String habitType, String comment, HabitLocation location) {
-        this.title = title;
-        this.habitType = habitType;
-        this.location = location;
-        this.comment = comment;
-        this.date = new Date();
+        this.eventTitle = title;
+        this.eventHabitType = habitType;
+        this.eventLocation = location;
+        this.eventComment = comment;
+        this.eventDate = new Date();
     }
 
     public HabitEvent(String title, String habitType, String comment, HabitLocation location, Photo photo) {
-        this.title = title;
-        this.habitType = habitType;
-        this.location = location;
-        this.comment = comment;
-        this.photo = photo;
-        this.date = new Date();
+        this.eventTitle = title;
+        this.eventHabitType = habitType;
+        this.eventLocation = location;
+        this.eventComment = comment;
+        this.eventPhoto = photo;
+        this.eventDate = new Date();
     }
 
     public Date getDate() {
-        return date;
+        return eventDate;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.eventDate = date;
     }
 
     public String getTitle() {
-        return title;
+        return eventTitle;
     }
 
     public HabitLocation getLocation() {
-        return location;
+        return eventLocation;
     }
 
     public String getComment() {
-        return comment;
+        return eventComment;
     }
 
     public Photo getPhoto() {
-        return photo;
+        return eventPhoto;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.eventTitle = title;
     }
 
     public void setLocation(HabitLocation location) {
-        this.location = location;
+        this.eventLocation = location;
     }
 
     public void setComment(String comment) {
-        this.comment = comment;
+        this.eventComment = comment;
     }
 
     public void setPhoto(Photo photo) {
-        this.photo = photo;
+        this.eventPhoto = photo;
     }
 
     public void deleteImage() {
-        this.photo = null;
+        this.eventPhoto = null;
     }
 
     public int compareTo(@NonNull HabitEvent compareEvent) {
-        int currentDate = (int)(date.getTime()/1000);
+        int currentDate = (int)(eventDate.getTime()/1000);
         int compareDate = (int)(compareEvent.getDate().getTime()/1000);
         return compareDate - currentDate;
     }
@@ -115,6 +116,6 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
     @Override
     public String toString()
     {
-        return this.title + "       " + this.comment + "\n" + this.date.toString();
+        return this.eventTitle + "       " + this.eventComment + "\n" + this.eventDate.toString();
     }
 }

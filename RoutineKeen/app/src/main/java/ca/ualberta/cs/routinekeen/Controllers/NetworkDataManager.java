@@ -2,6 +2,7 @@ package ca.ualberta.cs.routinekeen.Controllers;
 
 import android.util.Log;
 
+import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.User;
 
 /**
@@ -39,5 +40,29 @@ public class NetworkDataManager {
         }
 
         return retrievedUser;
+    }
+
+    public static Habit AddHabit(Habit habit){
+        ElasticSearchController.AddHabitTask addHabitTask = new ElasticSearchController.AddHabitTask();
+        Habit addedHabit = null;
+        try{
+            addedHabit = addHabitTask.execute(habit).get();
+        } catch (Exception e) {
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return addedHabit;
+    }
+
+    public static Habit GetHabit(String habitType){
+        ElasticSearchController.GetHabitByTitleTask getHabitTask = new ElasticSearchController.GetHabitByTitleTask();
+        Habit retrievedHabit = null;
+        try{
+            retrievedHabit = getHabitTask.execute(habitType).get();
+        } catch (Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return retrievedHabit;
     }
 }

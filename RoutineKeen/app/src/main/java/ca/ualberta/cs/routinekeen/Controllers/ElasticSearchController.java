@@ -93,9 +93,9 @@ public class ElasticSearchController {
         }
     }
 
-    public static class AddHabitTask extends AsyncTask<Habit, Void, Void> {
+    public static class AddHabitTask extends AsyncTask<Habit, Void, Habit> {
         @Override
-        protected Void doInBackground(Habit... habits){
+        protected Habit doInBackground(Habit... habits){
             verifySettings();
 
             // Enforce adding only one user with this async task
@@ -113,7 +113,7 @@ public class ElasticSearchController {
                 Log.i("Error", "The application failed to build and send the users.");
             }
 
-            return null;
+            return habit;
         }
     }
 
