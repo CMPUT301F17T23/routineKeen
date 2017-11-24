@@ -3,16 +3,12 @@ package ca.ualberta.cs.routinekeen.Views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
 import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
-import ca.ualberta.cs.routinekeen.Models.HabitList;
-import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.R;
 
 /**
@@ -100,7 +96,7 @@ public class UserMenu extends AppCompatActivity{
             public void onClick(View view) {
                 // change from LoginActivity.class to appropriate class
                 // LoginActivity.class was used for testing
-                Intent intent = new Intent(UserMenu.this, LoginActivity.class);
+                Intent intent = new Intent(UserMenu.this, MapsActivity.class);
                 startActivity(intent);
             }
         });
