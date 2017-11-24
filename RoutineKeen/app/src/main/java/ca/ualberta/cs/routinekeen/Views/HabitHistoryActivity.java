@@ -35,8 +35,8 @@ import ca.ualberta.cs.routinekeen.R;
 public class HabitHistoryActivity extends AppCompatActivity implements Observer{
 
     private ListView CL;
-    private Collection<HabitEvent> events = HabitHistoryController.getHabitHistory().getEvents();
-    private final ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>(events);
+//    private Collection<HabitEvent> events = HabitHistoryController.getHabitHistory().getEvents();
+    private final ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>();
     private ArrayAdapter<HabitEvent> adapter;
     private HabitEvent viewEvent;
     private int viewPosition;
@@ -71,7 +71,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         habitEvents.clear();
         habitEvents.addAll(HabitHistoryController.getHabitHistory().getEvents());
         adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
         CL.setAdapter(adapter);
     }
 
