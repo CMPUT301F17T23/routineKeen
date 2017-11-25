@@ -33,6 +33,7 @@
         <activity android:name=".Views.HabitHistoryActivity" />
         <activity android:name=".Views.HabitEditActivity" />
         <activity android:name=".Views.HabitScheduleActivity" />
+        <activity android:name=".Views.MapFilter" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

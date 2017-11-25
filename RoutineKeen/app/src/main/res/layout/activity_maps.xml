@@ -5,4 +5,17 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ca.ualberta.cs.routinekeen.Views.MapsActivity" />
+    tools:context="ca.ualberta.cs.routinekeen.Views.MapsActivity">
+
+    <Button
+        android:id="@+id/map_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:text="Options"
+        android:textStyle="bold"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:paddingRight="10dp"/>
+</fragment>
