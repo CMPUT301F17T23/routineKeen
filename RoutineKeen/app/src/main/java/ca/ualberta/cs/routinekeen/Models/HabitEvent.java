@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.concurrent.LinkedTransferQueue;
+
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Creates HabitEvents (instances of a user completing a habit) with an associated Date, location,
@@ -12,7 +15,6 @@ import java.util.Date;
  *
  * @author  RoutineKeen
  * @see     HabitHistory
- * @see     HabitLocation
  * @see     ca.ualberta.cs.routinekeen.Views.HabitHistoryActivity
  * @version 1.0.0
  */
@@ -20,7 +22,7 @@ import java.util.Date;
 public class HabitEvent implements Comparable<HabitEvent>, Serializable {
     private String eventTitle;
     private Date eventDate;
-    private HabitLocation eventLocation;
+    private LatLng eventLocation;
     private String habitEventUserID;
     private String eventComment;
     private Photo eventPhoto;
@@ -32,12 +34,6 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         this.eventDate = new Date();
         this.eventHabitType = "default habit type"; //// TODO: 11/13/2017  habit type checking for habitEvents
     }
-//    public HabitEvent(String title, String habitType) {
-//        this.title = title;
-//        this.habitType = habitType;
-//        this.comment = "";
-//        this.date = new Date();
-//   }
 
     public HabitEvent(String title,String habitType, String comment) {
         this.eventTitle = title;
@@ -46,7 +42,7 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         this.eventDate = new Date();
     }
 
-    public HabitEvent(String title, String habitType, String comment, HabitLocation location) {
+    public HabitEvent(String title, String habitType, String comment, LatLng location) {
         this.eventTitle = title;
         this.eventHabitType = habitType;
         this.eventLocation = location;
@@ -54,7 +50,7 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         this.eventDate = new Date();
     }
 
-    public HabitEvent(String title, String habitType, String comment, HabitLocation location, Photo photo) {
+    public HabitEvent(String title, String habitType, String comment, LatLng location, Photo photo) {
         this.eventTitle = title;
         this.eventHabitType = habitType;
         this.eventLocation = location;
@@ -75,7 +71,9 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         return eventTitle;
     }
 
-    public HabitLocation getLocation() {
+    public String getHabitEventUserID() { return habitEventUserID; }
+
+    public LatLng getLocation() {
         return eventLocation;
     }
 
@@ -91,7 +89,11 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         this.eventTitle = title;
     }
 
-    public void setLocation(HabitLocation location) {
+    public void setHabitEventUserID(String userID) {
+        this.habitEventUserID = userID;
+    }
+
+    public void setLocation(LatLng location) {
         this.eventLocation = location;
     }
 
@@ -114,8 +116,7 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return this.eventTitle + "       " + this.eventComment + "\n" + this.eventDate.toString();
     }
 }
