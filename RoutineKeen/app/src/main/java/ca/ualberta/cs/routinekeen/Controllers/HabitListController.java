@@ -18,7 +18,7 @@ import ca.ualberta.cs.routinekeen.Models.HabitList;
  * @version 1.0.0
  */
 public class HabitListController{
-    private static ArrayList<String> typeList = null;
+//    private static ArrayList<String> typeList = null;
     private static HabitList habitList = null;
     private static IOManager ioManager = IOManager.getManager();
     private HabitListController(){}
@@ -35,17 +35,17 @@ public class HabitListController{
         return habitList;
     }
 
-    public static ArrayList getTypeList(){
-        if( habitList != null ){
-            if(typeList == null){
-                for (Habit habit : habitList.getHabits()){
-                    typeList = new ArrayList<String>();
-                    typeList.add(habit.getHabitTitle());
-                }
-            }
-        }
-        return typeList;
-    }
+//    public static ArrayList getTypeList(){
+//        if( habitList != null ){
+//            if(typeList == null){
+//                for (Habit habit : habitList.getHabits()){
+//                    typeList = new ArrayList<String>();
+//                    typeList.add(habit.getHabitTitle());
+//                }
+//            }
+//        }
+//        return typeList;
+//    }
 
     /**
      * Returns a list of all habits belonging to the current user that are scheduled for the current
