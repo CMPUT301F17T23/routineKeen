@@ -113,6 +113,7 @@ public class NewHabitActivity extends AppCompatActivity {
 //                        NewHabitActivity.this, HabitListActivity.class);
 //                startActivity(intent);
                 finish();
+                finish();
             }
         });
 
@@ -139,6 +140,16 @@ public class NewHabitActivity extends AppCompatActivity {
     }
 
     private boolean validationSuccess() {
+        ArrayList<Habit> habits = HabitListController.getHabitList().getHabits();
+        ArrayList typeList = new ArrayList<String>();
+        for (Habit habit : habits) {
+            if (typeList.indexOf(habit.getHabitTitle()) != -1) {
+                Toast.makeText(this, "Habit type already exist.",
+                        Toast.LENGTH_SHORT).show();
+                return false;
+            }else{typeList.add(hTitle.getText().toString());}
+        }
+
         if (hTitle.getText().toString().isEmpty()) {
             Toast.makeText(this, "Please enter a habit name.",
                     Toast.LENGTH_SHORT).show();

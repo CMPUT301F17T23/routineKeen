@@ -1,8 +1,11 @@
 package ca.ualberta.cs.routinekeen.Models;
 
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 /**
  * Created by hughc on 2017-10-23.
@@ -27,14 +30,13 @@ public class HabitList extends Observable {
     }
 
     public void addHabit(Habit habit){
-        habitList.add(habit);
-        setChanged();
-        notifyObservers(habitList);
+            habitList.add(habit);
+            setChanged();
+            notifyObservers(habitList);
     }
 
     //todo, make sure the habit title is unique, or find another way to
     public Habit getHabit(String type) { //return Habit from list by habit type/name
-
         for(Habit habit : habitList){
             if( habit.getHabitTitle().equals(type) ){
                 setChanged();
