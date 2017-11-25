@@ -6,8 +6,6 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Observable;
-import java.util.Observer;
 
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
@@ -20,6 +18,7 @@ import ca.ualberta.cs.routinekeen.Models.HabitList;
  * @version 1.0.0
  */
 public class HabitListController{
+    private static ArrayList<String> typeList = null;
     private static HabitList habitList = null;
     private static IOManager ioManager = IOManager.getManager();
     private HabitListController(){}
@@ -34,6 +33,18 @@ public class HabitListController{
             habitList = ioManager.loadHabitList();
         }
         return habitList;
+    }
+
+    public static ArrayList getTypeList(){
+        if( habitList != null ){
+            if(typeList == null){
+                for (Habit habit : habitList.getHabits()){
+                    typeList = new ArrayList<String>();
+                    typeList.add(habit.getHabitTitle());
+                }
+            }
+        }
+        return typeList;
     }
 
     /**
