@@ -1,21 +1,62 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ca.ualberta.cs.routinekeen.Views.MapsActivity">
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="344dp"
+        android:layout_height="wrap_content"
+        android:text="Geolocation and Maps"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        tools:layout_editor_absoluteY="16dp"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <fragment
+        android:id="@+id/map"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        tools:layout_editor_absoluteX="144dp"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintBottom_toTopOf="@+id/map_options"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        android:name="com.google.android.gms.maps.MapFragment"
+        tools:context="ca.ualberta.cs.routinekeen.Views.MapsActivity" />
+    <Button
+        android:id="@+id/mapBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="back"
+        android:textStyle="bold"
+        android:padding="10dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
         android:id="@+id/map_options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right|top"
         android:text="Options"
         android:textStyle="bold"
         android:padding="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:paddingRight="10dp"/>
-</fragment>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
