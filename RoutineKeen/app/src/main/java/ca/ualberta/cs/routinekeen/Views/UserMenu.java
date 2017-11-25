@@ -74,8 +74,6 @@ public class UserMenu extends AppCompatActivity{
         viewHabitHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // change from LoginActivity.class to appropriate class
-                // LoginActivity.class was used for testing
                 Intent intent = new Intent(UserMenu.this, HabitHistoryActivity.class);
                 startActivity(intent);
             }
@@ -94,9 +92,7 @@ public class UserMenu extends AppCompatActivity{
         geoAndMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // change from LoginActivity.class to appropriate class
-                // LoginActivity.class was used for testing
-                Intent intent = new Intent(UserMenu.this, MapsActivity.class);
+                Intent intent = new Intent(UserMenu.this, MapFilter.class);
                 startActivity(intent);
             }
         });
