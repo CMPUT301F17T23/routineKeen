@@ -30,7 +30,13 @@ public class MapFilter extends AppCompatActivity{
         });
     }
 
-    public void saveFilter(View view) {
-        Toast.makeText(this, "Save Clicked!", Toast.LENGTH_SHORT).show();
+    /**
+     * Apply filter to the map view
+     * @param view
+     */
+    public void applyFilter(View view) {
+        Intent i = new Intent(MapFilter.this, MapsActivity.class);
+        Toast.makeText(this, "Filter Applied!", Toast.LENGTH_SHORT).show();
+        startActivity(i);
     }
 }

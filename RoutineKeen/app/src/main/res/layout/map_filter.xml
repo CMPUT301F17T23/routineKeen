@@ -63,97 +63,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Personal"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/textView"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/textView1"
-        android:layout_marginStart="20dp" />
+        android:layout_marginLeft="16dp" />
 
     <CheckBox
         android:id="@+id/followingCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Following"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/personalCheckBox"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/personalCheckBox"
-        android:layout_marginStart="20dp" />
-
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintHorizontal_bias="0.643"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/personalCheckBox"
-        android:layout_marginTop="2dp" />
-
-    <Switch
-        android:id="@+id/switch2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintHorizontal_bias="0.641"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/followingCheckBox"
-        android:layout_marginTop="2dp" />
-
-    <TextView
-        android:id="@+id/all_personal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:text="All"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="15dp"
-        app:layout_constraintRight_toLeftOf="@+id/switch1"
-        app:layout_constraintTop_toTopOf="@+id/switch1"
-        android:layout_marginEnd="5dp" />
-
-    <TextView
-        android:id="@+id/recent_personal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="5dp"
-        android:text="Recent"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="15dp"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toRightOf="@+id/switch1"
-        app:layout_constraintTop_toTopOf="@+id/switch1"
-        android:layout_marginStart="6dp" />
-
-    <TextView
-        android:id="@+id/all_following"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="6dp"
-        android:layout_marginTop="5dp"
-        android:text="All"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="15dp"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintRight_toLeftOf="@+id/switch2"
-        app:layout_constraintTop_toTopOf="@+id/switch2"
-        android:layout_marginEnd="6dp" />
-
-    <TextView
-        android:id="@+id/recent_following"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:text="Recent"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="15dp"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toRightOf="@+id/switch2"
-        app:layout_constraintTop_toTopOf="@+id/switch2"
-        android:layout_marginStart="5dp" />
+        app:layout_constraintTop_toBottomOf="@+id/personalCheckBox" />
 
     <EditText
         android:id="@+id/range"
@@ -161,24 +83,25 @@
         android:layout_height="wrap_content"
         android:ems="3"
         android:inputType="number"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/followingCheckBox"
-        app:layout_constraintHorizontal_bias="0.503" />
+        app:layout_constraintLeft_toRightOf="@+id/rangeTextView"
+        android:layout_marginLeft="0dp" />
 
     <TextView
         android:id="@+id/rangeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Range:"
-        android:textSize="17dp"
         android:hint="00"
-        app:layout_constraintBottom_toBottomOf="@+id/range"
-        android:layout_marginBottom="5dp"
+        android:textSize="17dp"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        app:layout_constraintRight_toLeftOf="@+id/range"
-        android:layout_marginRight="5dp" />
+        app:layout_constraintTop_toTopOf="@+id/range"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="4dp"
+        app:layout_constraintVertical_bias="0.47"
+        app:layout_constraintBottom_toBottomOf="@+id/range"
+        app:layout_constraintLeft_toLeftOf="@+id/followingCheckBox" />
 
     <TextView
         android:id="@+id/kmTextView"
@@ -200,18 +123,44 @@
         android:text="cancel"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="32dp" />
 
     <Button
-        android:id="@+id/filterSaveBtn"
+        android:id="@+id/filterApplyBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:layout_marginRight="32dp"
-        android:onClick="saveFilter"
-        android:text="save"
+        android:onClick="applyFilter"
+        android:text="apply"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="32dp" />
+
+    <TextView
+        android:id="@+id/recentsOnly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recents Only"
+        android:textSize="17dp"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/toggleButton"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toTopOf="@+id/toggleButton"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/rangeTextView" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ToggleButton"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/range"
+        app:layout_constraintLeft_toRightOf="@id/recentsOnly"/>
 
 </android.support.constraint.ConstraintLayout>
