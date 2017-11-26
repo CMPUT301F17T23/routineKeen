@@ -29,11 +29,17 @@
         <activity android:name=".Views.AddHabitEvent" />
         <activity android:name=".Views.ViewHabitEvent" />
         <activity android:name=".Views.UserMenu" />
-        <activity android:name=".Views.HabitListActivity" />
+        <activity
+            android:name=".Views.HabitListActivity"
+            android:parentActivityName=".Views.UserMenu"/>
         <activity android:name=".Views.NewHabitActivity" />
-        <activity android:name=".Views.HabitHistoryActivity" />
+        <activity
+            android:name=".Views.HabitHistoryActivity"
+            android:parentActivityName=".Views.UserMenu"/>
         <activity android:name=".Views.HabitEditActivity" />
-        <activity android:name=".Views.HabitScheduleActivity" />
+        <activity
+            android:name=".Views.HabitScheduleActivity"
+            android:parentActivityName=".Views.UserMenu"/>
         <activity android:name=".Views.MapFilter" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

@@ -7,6 +7,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 
@@ -88,9 +89,15 @@ public class HabitListController{
      * @see     Habit
      * @see     HabitList
      */
-    public static void addHabit(Habit habit){
+    public static boolean addHabit(Habit habit){
+        try{
+            ioManager.addHabit(habit);
+        } catch (NetworkUnavailableException e){
+            return false;
+        }
         getHabitList().addHabit(habit);
         saveHabitList();
+        return true;
     }
 
     /**
@@ -103,9 +110,25 @@ public class HabitListController{
      */
     public static void updateHabit(String title, String reason,
                                    ArrayList<String> schedDays, int position){
-        // TODO write code to update habit on network
         getHabitList().updateHabit(title, reason, schedDays, position);
         saveHabitList();
+    }
+
+    /**
+     * Deletes the habit from the local and network storage.
+     * @param position The position of the habit within the habit list
+     * @return void
+     */
+    public static boolean deleteHabit(int position){
+        try{
+            ioManager.deleteHabitByType(getHabitList()
+                     .getHabitByPosition(position).getHabitTitle());
+        } catch (NetworkUnavailableException e){
+            return false;
+        }
+        getHabitList().removeHabitByPosition(position);
+        saveHabitList();
+        return true;
     }
 
     /**

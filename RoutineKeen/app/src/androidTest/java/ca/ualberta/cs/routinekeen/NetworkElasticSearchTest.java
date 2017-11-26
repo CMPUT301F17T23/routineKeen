@@ -74,6 +74,12 @@ public class NetworkElasticSearchTest {
     }
 
     @Test
+    public void testDeleteHabitByTitleTask(){
+        final String habitType = "test";
+        assertTrue(NetworkDataManager.DeleteHabitByType(habitType));
+    }
+
+    @Test
     public void testGetHabitByTitleTask() {
         assertTrue(false); // implement later
     }

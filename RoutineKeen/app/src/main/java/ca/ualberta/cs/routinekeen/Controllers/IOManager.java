@@ -96,6 +96,14 @@ public class IOManager {
         }
     }
 
+    public void deleteHabitByType(String habitType) throws NetworkUnavailableException{
+        if(isNetworkAvailable()){
+            NetworkDataManager.DeleteHabitByType(habitType);
+        } else{
+            throw new NetworkUnavailableException();
+        }
+    }
+
     public HabitHistory loadHabitHistory() {
         return localDM.loadHabitHistory();
     }

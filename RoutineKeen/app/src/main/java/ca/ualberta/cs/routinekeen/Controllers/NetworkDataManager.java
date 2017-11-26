@@ -57,6 +57,18 @@ public class NetworkDataManager {
         return referenceID;
     }
 
+    public static boolean DeleteHabitByType(String habitType){
+        ElasticSearchController.DeleteHabitByTitleTask deleteHabitByTitleTask = new ElasticSearchController.DeleteHabitByTitleTask();
+        Boolean result = null;
+        try{
+            result = deleteHabitByTitleTask.execute(habitType).get();
+        } catch(Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return result.booleanValue();
+    }
+
     public static Habit GetHabit(String habitType){
         ElasticSearchController.GetHabitByTitleTask getHabitTask = new ElasticSearchController.GetHabitByTitleTask();
         Habit retrievedHabit = null;

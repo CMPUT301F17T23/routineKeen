@@ -109,10 +109,6 @@ public class NewHabitActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(
-//                        NewHabitActivity.this, HabitListActivity.class);
-//                startActivity(intent);
-                finish();
                 finish();
             }
         });
@@ -131,8 +127,6 @@ public class NewHabitActivity extends AppCompatActivity {
                     ArrayList<String> practiceDays = new ArrayList<>(Arrays.asList(days));
                     habitToAdd.setScheduledHabitDays(practiceDays);
                     HabitListController.addHabit(habitToAdd);
-//                    Intent intent = new Intent(NewHabitActivity.this, HabitListActivity.class);
-//                    startActivity(intent);
                     finish();
                 }
             }

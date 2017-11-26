@@ -39,6 +39,7 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.habit_list);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         lv = (ListView) findViewById(R.id.listOfUserHabits);
         addHabitBtn = (ImageButton) findViewById(R.id.addNewHabit);
         HabitListController.getHabitList().addObserver(this);

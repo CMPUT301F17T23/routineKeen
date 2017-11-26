@@ -43,6 +43,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         IOManager.initManager(getApplicationContext());
         setContentView(R.layout.activity_habit_history);
         CL = (ListView) findViewById(R.id.habitHistoryList);

@@ -15,6 +15,8 @@ import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.Models.User;
 import io.searchbox.client.JestResult;
 import io.searchbox.client.JestResultHandler;
+import io.searchbox.core.Delete;
+import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -114,6 +116,34 @@ public class ElasticSearchController {
             }
 
             return assignedHabitID;
+        }
+    }
+
+    public static class DeleteHabitByTitleTask extends AsyncTask<String, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... habitTypes) {
+            verifySettings();
+
+            String habitType = habitTypes[0];
+            String query = "{\n" +
+                    "   \"query\": {\n" +
+                    "       \"term\": {\n" +
+                    "           \"habitTitle\": \"" + habitType + "\"\n" +
+                    "           }\n" +
+                    "       }\n" +
+                    "   }";
+            JestResult result = null;
+            DeleteByQuery delete = new DeleteByQuery.Builder(query)
+                                        .addIndex(INDEX_NAME)
+                                        .addType("habit")
+                                        .build();
+            try{
+                result = client.execute(delete);
+            } catch (Exception e){
+                Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
+            }
+
+            return  result.isSucceeded() ? Boolean.TRUE : Boolean.FALSE;
         }
     }
 

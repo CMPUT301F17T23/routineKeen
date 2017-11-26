@@ -21,6 +21,7 @@ public class HabitScheduleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Log.d("Schedule-onC", "flag1");
         setContentView(R.layout.activity_habit_schedule);
 
