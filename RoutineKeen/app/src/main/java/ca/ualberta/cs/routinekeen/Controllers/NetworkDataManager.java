@@ -2,6 +2,10 @@ package ca.ualberta.cs.routinekeen.Controllers;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+
+import ca.ualberta.cs.routinekeen.Models.Habit;
+import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.Models.User;
 
 /**
@@ -17,16 +21,16 @@ import ca.ualberta.cs.routinekeen.Models.User;
  */
 
 public class NetworkDataManager {
-    public static User AddNewUser(User user){
+    public static String AddNewUser(User user){
         ElasticSearchController.AddUserTask addUserTask = new ElasticSearchController.AddUserTask();
-        User addedUser = null;
+        String referenceID = null;
         try{
-            addedUser = addUserTask.execute(user).get();
+            referenceID = addUserTask.execute(user).get();
         } catch(Exception e){
             Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
         }
 
-        return addedUser;
+        return referenceID;
     }
 
     public static User GetUser(String username){
@@ -39,5 +43,53 @@ public class NetworkDataManager {
         }
 
         return retrievedUser;
+    }
+
+    public static String AddNewHabit(Habit habit){
+        ElasticSearchController.AddHabitTask addHabitTask = new ElasticSearchController.AddHabitTask();
+        String referenceID = null;
+        try{
+            referenceID = addHabitTask.execute(habit).get();
+        } catch (Exception e) {
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return referenceID;
+    }
+
+    public static Habit GetHabit(String habitType){
+        ElasticSearchController.GetHabitByTitleTask getHabitTask = new ElasticSearchController.GetHabitByTitleTask();
+        Habit retrievedHabit = null;
+        try{
+            retrievedHabit = getHabitTask.execute(habitType).get();
+        } catch (Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return retrievedHabit;
+    }
+
+    public static String AddNewHabitEvent(HabitEvent event){
+        ElasticSearchController.AddHabitEventTask addHabitEventTask = new ElasticSearchController.AddHabitEventTask();
+        String referenceID = null;
+        try{
+            referenceID = addHabitEventTask.execute(event).get();
+        } catch (Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return referenceID;
+    }
+
+    public static ArrayList<HabitEvent> GetUserHabitEvents(String userID){
+        ElasticSearchController.GetUserHabitEventsTask getUserHabitEventsTask = new ElasticSearchController.GetUserHabitEventsTask();
+        ArrayList<HabitEvent> retrievedHabitEvents = null;
+        try{
+            retrievedHabitEvents = getUserHabitEventsTask.execute(userID).get();
+        } catch (Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return retrievedHabitEvents;
     }
 }

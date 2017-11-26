@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.concurrent.LinkedTransferQueue;
+
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Creates HabitEvents (instances of a user completing a habit) with an associated Date, location,
@@ -12,109 +15,108 @@ import java.util.Date;
  *
  * @author  RoutineKeen
  * @see     HabitHistory
- * @see     HabitLocation
  * @see     ca.ualberta.cs.routinekeen.Views.HabitHistoryActivity
  * @version 1.0.0
  */
 
 public class HabitEvent implements Comparable<HabitEvent>, Serializable {
-    private String title;
-    private Date date;
-    private HabitLocation location;
-    private String comment;
-    private Photo photo;
-    private String habitType; //todo in habitEvent activity, check if habitType exist before calling class constructor
+    private String eventTitle;
+    private Date eventDate;
+    private LatLng eventLocation;
+    private String habitEventUserID;
+    private String eventComment;
+    private Photo eventPhoto;
+    private String eventHabitType; //todo in habitEvent activity, check if habitType exist before calling class constructor
 
     public HabitEvent(String title, String comment){
-        this.title = title;
-        this.comment = comment;
-        this.date = new Date();
-        this.habitType = "default habit type"; //// TODO: 11/13/2017  habit type checking for habitEvents 
+        this.eventTitle = title;
+        this.eventComment = comment;
+        this.eventDate = new Date();
+        this.eventHabitType = "default habit type"; //// TODO: 11/13/2017  habit type checking for habitEvents
     }
-//    public HabitEvent(String title, String habitType) {
-//        this.title = title;
-//        this.habitType = habitType;
-//        this.comment = "";
-//        this.date = new Date();
-//   }
 
     public HabitEvent(String title,String habitType, String comment) {
-        this.title = title;
-        this.habitType = habitType;
-        this.comment = comment;
-        this.date = new Date();
+        this.eventTitle = title;
+        this.eventHabitType = habitType;
+        this.eventComment = comment;
+        this.eventDate = new Date();
     }
 
-    public HabitEvent(String title, String habitType, String comment, HabitLocation location) {
-        this.title = title;
-        this.habitType = habitType;
-        this.location = location;
-        this.comment = comment;
-        this.date = new Date();
+    public HabitEvent(String title, String habitType, String comment, LatLng location) {
+        this.eventTitle = title;
+        this.eventHabitType = habitType;
+        this.eventLocation = location;
+        this.eventComment = comment;
+        this.eventDate = new Date();
     }
 
-    public HabitEvent(String title, String habitType, String comment, HabitLocation location, Photo photo) {
-        this.title = title;
-        this.habitType = habitType;
-        this.location = location;
-        this.comment = comment;
-        this.photo = photo;
-        this.date = new Date();
+    public HabitEvent(String title, String habitType, String comment, LatLng location, Photo photo) {
+        this.eventTitle = title;
+        this.eventHabitType = habitType;
+        this.eventLocation = location;
+        this.eventComment = comment;
+        this.eventPhoto = photo;
+        this.eventDate = new Date();
     }
 
     public Date getDate() {
-        return date;
+        return eventDate;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.eventDate = date;
     }
 
     public String getTitle() {
-        return title;
+        return eventTitle;
     }
 
-    public HabitLocation getLocation() {
-        return location;
+    public String getHabitEventUserID() { return habitEventUserID; }
+
+    public LatLng getLocation() {
+        return eventLocation;
     }
 
     public String getComment() {
-        return comment;
+        return eventComment;
     }
 
     public Photo getPhoto() {
-        return photo;
+        return eventPhoto;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.eventTitle = title;
     }
 
-    public void setLocation(HabitLocation location) {
-        this.location = location;
+    public void setHabitEventUserID(String userID) {
+        this.habitEventUserID = userID;
+    }
+
+    public void setLocation(LatLng location) {
+        this.eventLocation = location;
     }
 
     public void setComment(String comment) {
-        this.comment = comment;
+        this.eventComment = comment;
     }
 
     public void setPhoto(Photo photo) {
-        this.photo = photo;
+        this.eventPhoto = photo;
     }
 
     public void deleteImage() {
-        this.photo = null;
+        this.eventPhoto = null;
     }
 
     public int compareTo(@NonNull HabitEvent compareEvent) {
-        int currentDate = (int)(date.getTime()/1000);
+        int currentDate = (int)(eventDate.getTime()/1000);
         int compareDate = (int)(compareEvent.getDate().getTime()/1000);
         return compareDate - currentDate;
     }
 
     @Override
-    public String toString()
-    {
-        return this.title + "       " + this.comment + "\n" + this.date.toString();
+    public String toString() {
+        return this.eventTitle + "       " + this.eventComment + "\n" + this.eventDate.toString();
     }
 }

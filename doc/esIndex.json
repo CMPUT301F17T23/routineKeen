@@ -1,0 +1,34 @@
+{
+    "mappings" : {
+        "user" : {
+            "properties" : {
+                "username" : { "type" : "string" }
+            }
+        },
+        "habit" : {
+        	"properties" : {
+        		"habitTitle" : { "type" : "string" },
+        		"habitReason" : { "type" : "string" },
+        		"habitUserID" : { "type" : "string" },
+        		"startDate" : { "type" : "date", "format" : "dateOptionalTime" },
+        		"scheduledDays" : { "type" : "string" }
+        	}
+        },
+        "habitEvent" : {
+        	"properties" : {
+        		"eventTitle" : { "type" : "string" },
+        		"eventDate" : { "type" : "date", "format" : "dateOptionalTime" },
+        		"eventComment" : { "type" : "string" },
+        		"habitEventUserID" : { "type" : "string" },
+        		"eventPhoto" : { "type" : "binary" },
+        		"eventLocation" :  {
+        			"properties" : {
+        				"latitude" : { "type" : "double" },
+        				"longitude" : { "type" : "double" }
+        			}
+        		},
+        		"eventHabitType" : { "type" : "string" }
+        	}
+        }
+    }
+}
