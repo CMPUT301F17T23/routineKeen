@@ -42,6 +42,7 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
         super.onCreate(savedInstanceState);
         IOManager.initManager(getApplicationContext());
         setContentView(R.layout.habit_list);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         lv = (ListView) findViewById(R.id.listOfUserHabits);
         addHabitBtn = (ImageButton) findViewById(R.id.addNewHabit);
         HabitListController.getHabitList().addObserver(this);

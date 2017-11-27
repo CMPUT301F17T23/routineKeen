@@ -17,6 +17,7 @@ public class HabitList extends Observable {
     public HabitList(){
         habitList = new ArrayList<Habit>();
     }
+
     public HabitList(ArrayList<Habit> habitList) {
         this.habitList = habitList;
     }
@@ -35,8 +36,12 @@ public class HabitList extends Observable {
             notifyObservers(habitList);
     }
 
-    //todo, make sure the habit title is unique, or find another way to
-    public Habit getHabit(String type) { //return Habit from list by habit type/name
+    public Habit getHabitByPosition(int position){
+        return habitList.get(position);
+    }
+
+    public Habit getHabitByType(String type) {
+        //todo, make sure the habit title is unique, or find another way to
         for(Habit habit : habitList){
             if( habit.getHabitTitle().equals(type) ){
                 setChanged();
@@ -47,7 +52,13 @@ public class HabitList extends Observable {
         return null;
     }
 
-    public void removeHabit(String type){ //remove Habit from list by habit type/name
+    public void removeHabitByPosition(int position){
+        habitList.remove(position);
+        setChanged();
+        notifyObservers(habitList);
+    }
+
+    public void removeHabitByType(String type){ //remove Habit from list by habit type/name
         for(Habit habit : habitList) {
             if( habit.getHabitTitle().equals(type) ) {
                 habitList.remove(habit);

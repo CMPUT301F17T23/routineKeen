@@ -23,9 +23,9 @@ public class HabitListTest{    @Test
         testHabit.setHabitTitle(newTitle);
         HabitList testHabitList= new HabitList();
         testHabitList.addHabit(testHabit);
-        assertTrue(testHabitList.getHabit(newTitle).equals(testHabit));
+        assertTrue(testHabitList.getHabitByType(newTitle).equals(testHabit));
 
-        testHabitList.removeHabit(newTitle);
+        testHabitList.removeHabitByType(newTitle);
         assertTrue(testHabitList.habitListSize() == 0);
     }
 }

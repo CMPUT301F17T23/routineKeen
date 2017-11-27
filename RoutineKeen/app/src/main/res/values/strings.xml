@@ -5,4 +5,5 @@
     <string name="addHabit_20max">Max 20 characters</string>
     <string name="addHabit_30max">Max 30 characters</string>
     <string name="habitSchedule_header">The following habits are scheduled for today:</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

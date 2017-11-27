@@ -30,7 +30,7 @@ import ca.ualberta.cs.routinekeen.R;
 public class HabitEditActivity extends AppCompatActivity {
     private Button cancelBtn;
     private Button saveBtn;
-    private Button delBtn;
+    private Button deleteBtn;
     private EditText titleEditText;
     private EditText reasonEditText;
     private EditText dateEditText;
@@ -74,7 +74,6 @@ public class HabitEditActivity extends AppCompatActivity {
     @Override
     public void onDestroy(){
         super.onDestroy();
-
         HabitListController.saveHabitList();
     }
 
@@ -84,6 +83,20 @@ public class HabitEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        deleteBtn = (Button) findViewById(R.id.deleteButton);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                boolean success = HabitListController.deleteHabit(data.getInt("position"));
+                if (!success){
+                    Toast.makeText(HabitEditActivity.this, "Network Failure. Failed to delete.",
+                            Toast.LENGTH_SHORT).show();
+                } else{
+                    finish();
+                }
             }
         });
 
@@ -97,17 +110,6 @@ public class HabitEditActivity extends AppCompatActivity {
                         data.getInt("position"));
                 finish();
 
-            }
-        });
-
-        delBtn = (Button) findViewById(R.id.deleteButton);
-        delBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String title = titleEditText.getText().toString();
-                HabitList x = HabitListController.getHabitList();
-                HabitListController.removeHabit(title);
-                finish();
             }
         });
     }

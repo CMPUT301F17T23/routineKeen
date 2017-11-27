@@ -7,10 +7,6 @@ import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.Models.UserList;
 
-/**
- * Created by hughc on 2017-11-05.
- */
-
 public class UserListController {
     private static UserList userList = null;
     private static Context context;
@@ -33,7 +29,7 @@ public class UserListController {
         try{
             retrievedUser = ioManager.getUser(username);
             if(retrievedUser == null){
-                retrievedUser = NetworkDataManager.AddNewUser(new User(username));
+                retrievedUser = ioManager.addUser(new User(username));
             }
         } catch (NetworkUnavailableException e) {
             Log.d("Retrieving/Adding User", e.getMessage());
@@ -44,8 +40,7 @@ public class UserListController {
         return true;
     }
 
-    public static boolean saveUserList(){
+    public static void saveUserList(){
         ioManager.saveUserList(getUserList());
-        return true;
     }
 }
