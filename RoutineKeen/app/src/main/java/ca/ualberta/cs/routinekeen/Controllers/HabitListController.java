@@ -35,18 +35,6 @@ public class HabitListController{
         return habitList;
     }
 
-//    public static ArrayList getTypeList(){
-//        if( habitList != null ){
-//            if(typeList == null){
-//                for (Habit habit : habitList.getHabits()){
-//                    typeList = new ArrayList<String>();
-//                    typeList.add(habit.getHabitTitle());
-//                }
-//            }
-//        }
-//        return typeList;
-//    }
-
     /**
      * Returns a list of all habits belonging to the current user that are scheduled for the current
      * day of the week.
@@ -115,6 +103,11 @@ public class HabitListController{
      * @see     HabitList
      */
     public static void saveHabitList(){
+        ioManager.saveHabitList(getHabitList());
+    }
+
+    public static void removeHabit(String type){
+        getHabitList().removeHabit(type);
         ioManager.saveHabitList(getHabitList());
     }
 }

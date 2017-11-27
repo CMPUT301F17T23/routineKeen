@@ -30,6 +30,7 @@ import ca.ualberta.cs.routinekeen.R;
 public class HabitEditActivity extends AppCompatActivity {
     private Button cancelBtn;
     private Button saveBtn;
+    private Button delBtn;
     private EditText titleEditText;
     private EditText reasonEditText;
     private EditText dateEditText;
@@ -82,9 +83,6 @@ public class HabitEditActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(HabitEditActivity.this,
-//                        HabitListActivity.class);
-//                startActivity(intent);
                 finish();
             }
         });
@@ -97,11 +95,19 @@ public class HabitEditActivity extends AppCompatActivity {
                 String reason = reasonEditText.getText().toString();
                 HabitListController.updateHabit(title, reason, getDaysChecked(),
                         data.getInt("position"));
-//                Intent intent = new Intent(HabitEditActivity.this,
-//                        HabitListActivity.class);
-//                startActivity(intent);
                 finish();
 
+            }
+        });
+
+        delBtn = (Button) findViewById(R.id.deleteButton);
+        delBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String title = titleEditText.getText().toString();
+                HabitList x = HabitListController.getHabitList();
+                HabitListController.removeHabit(title);
+                finish();
             }
         });
     }

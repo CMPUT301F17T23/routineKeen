@@ -53,6 +53,7 @@ public class HabitList extends Observable {
                 habitList.remove(habit);
                 setChanged();
                 notifyObservers();
+                return;
             }
         }
     }

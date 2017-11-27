@@ -17,7 +17,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
+import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Models.Habit;
+import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.R;
 
 /**
@@ -38,6 +40,7 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        IOManager.initManager(getApplicationContext());
         setContentView(R.layout.habit_list);
         lv = (ListView) findViewById(R.id.listOfUserHabits);
         addHabitBtn = (ImageButton) findViewById(R.id.addNewHabit);
@@ -68,7 +71,7 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
     @Override
     public void update(Observable observable, Object o) {
         habitList.clear();
-        habitList.addAll((ArrayList<Habit>) o);
+        habitList.addAll( (HabitListController.getHabitList().getHabits()) );
         habitArrayAdapter.notifyDataSetChanged();
         Toast.makeText(this, "Habit list has been updated.", Toast.LENGTH_SHORT).show();
     }
