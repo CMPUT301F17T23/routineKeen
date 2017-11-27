@@ -32,11 +32,15 @@
         <activity
             android:name=".Views.HabitListActivity"
             android:parentActivityName=".Views.UserMenu"/>
-        <activity android:name=".Views.NewHabitActivity" />
+        <activity
+            android:name=".Views.NewHabitActivity"
+            android:parentActivityName=".Views.HabitListActivity"/>
         <activity
             android:name=".Views.HabitHistoryActivity"
             android:parentActivityName=".Views.UserMenu"/>
-        <activity android:name=".Views.HabitEditActivity" />
+        <activity
+            android:name=".Views.HabitEditActivity"
+            android:parentActivityName=".Views.HabitListActivity"/>
         <activity
             android:name=".Views.HabitScheduleActivity"
             android:parentActivityName=".Views.UserMenu"/>

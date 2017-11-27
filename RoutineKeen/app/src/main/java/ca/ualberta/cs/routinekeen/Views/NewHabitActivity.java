@@ -56,6 +56,7 @@ public class NewHabitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_habit);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dateDisplay = (Button) findViewById(R.id.addHabit_date);
         textViewDate = (TextView) findViewById(R.id.show_habit_date);
         cancelBtn = (Button) findViewById(R.id.cancel_newHabit);
