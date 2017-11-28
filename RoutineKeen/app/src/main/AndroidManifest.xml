@@ -31,15 +31,15 @@
         <activity android:name=".Views.UserMenu" />
         <activity
             android:name=".Views.HabitListActivity"
-            android:parentActivityName=".Views.UserMenu"/>
+            android:parentActivityName=".Views.UserMenu" />
         <activity android:name=".Views.NewHabitActivity" />
         <activity
             android:name=".Views.HabitHistoryActivity"
-            android:parentActivityName=".Views.UserMenu"/>
+            android:parentActivityName=".Views.UserMenu" />
         <activity android:name=".Views.HabitEditActivity" />
         <activity
             android:name=".Views.HabitScheduleActivity"
-            android:parentActivityName=".Views.UserMenu"/>
+            android:parentActivityName=".Views.UserMenu" />
         <activity android:name=".Views.MapFilter" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -55,8 +55,12 @@
 
         <activity
             android:name=".Views.MapsActivity"
-            android:label="@string/title_activity_maps">
-        </activity>
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".Views.MainActivity" />
+        <activity android:name=".Views.HabitFollowingSharing" />
+        <activity android:name=".Views.FindFollowersActivity" />
+        <activity android:name=".Views.FollowerFeedActivity" />
+        <activity android:name=".Views.FollowerRequestActivity"></activity>
     </application>
 
 </manifest>
