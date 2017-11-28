@@ -21,19 +21,19 @@ public class Habit implements Serializable {
     private String habitTitle;
     private String habitReason;
     private Date startDate;
-    private ArrayList<String> scheduledHabitDays;
+    private ArrayList<String> scheduledDays;
 
     public Habit() {
         this.habitTitle = "";
         this.habitReason = "";
-        this.scheduledHabitDays = new ArrayList<String>();
+        this.scheduledDays = new ArrayList<String>();
     }
 
     public Habit(String habitTitle, String habitReason, Date startDate) {
         this.habitTitle = habitTitle;
         this.habitReason = habitReason;
         this.startDate = startDate;
-        this.scheduledHabitDays = new ArrayList<String>();
+        this.scheduledDays = new ArrayList<String>();
     }
 
     /**
@@ -107,7 +107,7 @@ public class Habit implements Serializable {
      * @return A String ArrayList of days of the week (format "Wed")
      */
     public ArrayList<String> getScheduledHabitDays() {
-        return scheduledHabitDays;
+        return scheduledDays;
     }
 
     /**
@@ -115,7 +115,7 @@ public class Habit implements Serializable {
      * @param scheduledHabitDays The new schedule
      */
     public void setScheduledHabitDays(ArrayList<String> scheduledHabitDays) {
-        this.scheduledHabitDays = scheduledHabitDays;
+        this.scheduledDays = scheduledHabitDays;
     }
 
     /**

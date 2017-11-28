@@ -18,6 +18,7 @@ import ca.ualberta.cs.routinekeen.Controllers.NetworkDataManager;
 import ca.ualberta.cs.routinekeen.Helpers.DateHelpers;
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
+import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.Models.Photo;
 import ca.ualberta.cs.routinekeen.Models.User;
 
@@ -45,6 +46,9 @@ public class NetworkElasticSearchTest {
 
     // Test data for getting a user
     final static String testGetUsername = "testGetUsername";
+
+    // Test data for getting habits for a specific user ID
+    final static String testGetHabitsUserID = "AV_7n2-eZw0egSlVI5K0";
 
     @BeforeClass
     public static void initializeDataToRetrieveOnES(){
@@ -77,6 +81,12 @@ public class NetworkElasticSearchTest {
     public void testDeleteHabitByTitleTask(){
         final String habitType = "test";
         assertTrue(NetworkDataManager.DeleteHabitByType(habitType));
+    }
+
+    @Test
+    public void testGetUserHabitsTask(){
+        HabitList userHabitsResult = NetworkDataManager.GetUserHabitsById(testGetHabitsUserID);
+        assertTrue(userHabitsResult.habitListSize() == 2);
     }
 
     @Test

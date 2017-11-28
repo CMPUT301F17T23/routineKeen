@@ -32,7 +32,6 @@ public class UserListController {
                 retrievedUser = ioManager.addUser(new User(username));
             }
         } catch (NetworkUnavailableException e) {
-            Log.d("Retrieving/Adding User", e.getMessage());
             return false;
         }
         getUserList().addUser(retrievedUser);

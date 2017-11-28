@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 
+import java.util.ArrayList;
+
 import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
@@ -80,8 +82,15 @@ public class IOManager {
         return retrievedUser;
     }
 
-    public HabitList loadHabitList() {
-        return ( localDM.loadHabitList() );
+    public HabitList loadUserHabitList(String userId) throws NetworkUnavailableException{
+        HabitList retrievedHabits;
+        if(isNetworkAvailable()){
+            retrievedHabits = NetworkDataManager.GetUserHabitsById(userId);
+        } else {
+            throw new NetworkUnavailableException();
+        }
+
+        return retrievedHabits;
     }
 
     public void saveHabitList(HabitList habitList) {

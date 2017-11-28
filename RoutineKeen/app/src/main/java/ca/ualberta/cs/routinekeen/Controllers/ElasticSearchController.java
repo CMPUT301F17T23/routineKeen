@@ -7,6 +7,7 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,6 +145,43 @@ public class ElasticSearchController {
             }
 
             return  result.isSucceeded() ? Boolean.TRUE : Boolean.FALSE;
+        }
+    }
+
+    public static class GetUserHabitsTask extends AsyncTask<String, Void, ArrayList<Habit>> {
+        @Override
+        protected ArrayList<Habit> doInBackground(String... user_ids) {
+            verifySettings();
+
+            if(user_ids.length > 1){
+                throw new RuntimeException("Only one User ID is expected for task.");
+            }
+
+            ArrayList<Habit> habitsResult = new ArrayList<Habit>();
+            String query = "{\n" +
+                    "    \"query\": {\n" +
+                    "        \"query_string\" : {\n" +
+                    "           \"default_field\" : \"habitUserID\",\n" +
+                    "               \"query\" : \"" + user_ids[0] + "\"\n" +
+                    "               }\n" +
+                    "           }\n" +
+                    "       }";
+            Search search = new Search.Builder(query)
+                    .addIndex(INDEX_NAME)
+                    .addType("habit")
+                    .build();
+
+            try{
+                SearchResult result = client.execute(search);
+                if(result.isSucceeded()) {
+                    List<Habit> foundHabitEvents = result.getSourceAsObjectList(Habit.class);
+                    habitsResult.addAll(foundHabitEvents);
+                }
+            } catch (IOException e){
+                Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
+            }
+
+            return habitsResult;
         }
     }
 
