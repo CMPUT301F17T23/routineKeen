@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -30,6 +31,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
+import ca.ualberta.cs.routinekeen.Models.Markers;
 import ca.ualberta.cs.routinekeen.R;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -37,19 +41,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
+    private static final int REQUEST_LOCATION = 1;
     private GoogleMap mMap;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastLocation;
-    public static final int REQUESTION_LOCATION_CODE =  99;
+    LocationManager service;
+    public static final int REQUESTION_LOCATION_CODE = 99;
+    private FusedLocationProviderClient mFusedLocationClient;
     Button options;
+    ArrayList<Markers> toDisplay= new ArrayList<Markers>();
+    private Boolean rangeFilter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        rangeFilter = getIntent().getExtras().getBoolean("radBool");
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
 
@@ -61,18 +75,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MapsActivity.this, MapFilter.class);
+                i.putExtra("radBool", rangeFilter);
                 startActivity(i);
                 finish();
             }
         });
 
         // If GPS (location) is not enabled, User is sent to the settings to turn it on!
-        LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
+        service = (LocationManager) getSystemService(LOCATION_SERVICE);
         boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         if (!enabled) {
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
+        }
+        else {
+            getLocation();
         }
     }
 
@@ -84,19 +102,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch(requestCode)
-        {
+        switch (requestCode) {
             case REQUESTION_LOCATION_CODE:
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission is granted
-                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        if(client==null){
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        if (client == null) {
                             buildGoogleApiClient();
                         }
                         mMap.setMyLocationEnabled(true);
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(this, "Permission Denied!", Toast.LENGTH_LONG).show();
                 }
                 return;
@@ -123,9 +139,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         setUpTestMarkers();
+        placeMarkers();
 
         // Adding a marker in Edmonton and move the Camera
-        LatLng edmonton = new LatLng(54.523219,-113.526319);
+        LatLng edmonton = new LatLng(54.523219, -113.526319);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 10));
     }
 
@@ -144,7 +161,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         lastLocation = location;
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
         MarkerOptions markerOptions = new MarkerOptions();
 
         markerOptions.position(latLng);
@@ -153,10 +169,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-        if(client != null) {
+        if (client != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
         }
 
+    }
+
+    public boolean checkDistance(LatLng latLng, Double range) {
+        lastLocation = getLocation();
+        float results[] = new float[10];
+        Location.distanceBetween(lastLocation.getLatitude(), lastLocation.getLongitude(),
+                latLng.latitude, latLng.longitude, results);
+        if (results[0] <= range) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
@@ -201,8 +230,61 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void setUpTestMarkers() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(53.523219, -113.526319)).title("University of Alberta"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(53.547054, -113.506630)).title("MacEwan University"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(53.525759, -113.416623)).title("The King's University"));
+        storeMarkers("user1", "The King's University", new LatLng(53.525759, -113.416623));
+        storeMarkers("user2", "MacEwan University", new LatLng(53.547054, -113.506630));
+        storeMarkers("user3", "University of Alberta", new LatLng(53.523219, -113.526319));
+    }
+
+    private void storeMarkers(String id, String t, LatLng lL) {
+        Markers m = new Markers(id, t, lL);
+        toDisplay.add(m);
+    }
+
+    private void placeMarkers() {
+        for (Markers m : toDisplay) {
+            if (rangeFilter){
+                if (checkDistance(m.getMarkerLocation(),5000.0)){
+                    mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation()).title(m.getMarkerTitle()));
+                }
+            }
+            else{
+                mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation()).title(m.getMarkerTitle()));
+            }
+        }
+    }
+
+    /**
+     * https://chantisandroid.blogspot.ca/2017/06/get-current-location-example-in-android.html
+     * @return
+     */
+    private Location getLocation() {
+        if (ActivityCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
+                (MapsActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(MapsActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+
+        } else {
+            Location location = service.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            Location location1 = service.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            Location location2 = service.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
+
+            if (location != null) {
+                return location;
+            }
+            else  if (location1 != null) {
+                return location1;
+            }
+            else  if (location2 != null) {
+                return location2;
+
+            }
+            else{
+                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
+            }
+        }
+        return null;
     }
 }
