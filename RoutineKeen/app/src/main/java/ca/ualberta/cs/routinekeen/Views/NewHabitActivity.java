@@ -134,14 +134,11 @@ public class NewHabitActivity extends AppCompatActivity {
     }
 
     private boolean validationSuccess() {
-        ArrayList<Habit> habits = HabitListController.getHabitList().getHabits();
-        ArrayList typeList = new ArrayList<String>();
-        for (Habit habit : habits) {
-            if (typeList.indexOf(habit.getHabitTitle()) != -1) {
-                Toast.makeText(this, "Habit type already exist.",
-                        Toast.LENGTH_SHORT).show();
-                return false;
-            }else{typeList.add(hTitle.getText().toString());}
+        ArrayList typeList = HabitListController.getTypeList();
+        if(typeList.indexOf((hTitle.getText().toString()))!= -1 ){
+            Toast.makeText(this, "This habit type already exist.",
+                    Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         if (hTitle.getText().toString().isEmpty()) {

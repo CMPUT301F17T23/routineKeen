@@ -19,7 +19,7 @@ import ca.ualberta.cs.routinekeen.Models.HabitList;
  * @version 1.0.0
  */
 public class HabitListController{
-//    private static ArrayList<String> typeList = null;
+    private static ArrayList typeList = new ArrayList<String>();
     private static HabitList habitList = null;
     private static IOManager ioManager = IOManager.getManager();
     private HabitListController(){}
@@ -36,17 +36,16 @@ public class HabitListController{
         return habitList;
     }
 
-//    public static ArrayList getTypeList(){
-//        if( habitList != null ){
-//            if(typeList == null){
-//                for (Habit habit : habitList.getHabits()){
-//                    typeList = new ArrayList<String>();
-//                    typeList.add(habit.getHabitTitle());
-//                }
-//            }
-//        }
-//        return typeList;
-//    }
+    public static ArrayList getTypeList(){
+        if(habitList != null){
+            for (Habit habit : habitList.getHabits()){
+                if (typeList.indexOf(habit.getHabitTitle()) == -1){
+                    typeList.add(habit.getHabitTitle());
+                }
+            }
+        }
+        return typeList;
+    }
 
     /**
      * Returns a list of all habits belonging to the current user that are scheduled for the current
@@ -126,6 +125,8 @@ public class HabitListController{
         } catch (NetworkUnavailableException e){
             return false;
         }
+        String title = getHabitList().getHabitByPosition(position).getHabitTitle();
+        typeList.remove(title);
         getHabitList().removeHabitByPosition(position);
         saveHabitList();
         return true;
