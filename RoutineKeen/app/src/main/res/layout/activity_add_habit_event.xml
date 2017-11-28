@@ -131,5 +131,9 @@
         android:layout_height="36dp"
         android:text="Attach Location"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="330dp" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/spinner3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.115" />
 </android.support.constraint.ConstraintLayout>
