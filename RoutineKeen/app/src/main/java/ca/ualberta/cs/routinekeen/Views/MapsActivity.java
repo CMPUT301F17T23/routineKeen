@@ -36,33 +36,43 @@ import java.util.ArrayList;
 import ca.ualberta.cs.routinekeen.Models.Markers;
 import ca.ualberta.cs.routinekeen.R;
 
+/**
+ * Activity for showing map and markers based on user's choices (filtered/unfiltered)
+ * Created by tiakindele on 2017-11-24.
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    private static final int REQUEST_LOCATION = 1;
+    Button options;                                         // clicked if user wants filter options
     private GoogleMap mMap;
-    private GoogleApiClient client;
-    private LocationRequest locationRequest;
-    private Location lastLocation;
     LocationManager service;
+    private Boolean rangeFilter;                            // True if user only wants nearby events
+    private GoogleApiClient client;
+    private Location lastLocation;                          // Last known location of device
+    private LocationRequest locationRequest;
+    private static final int REQUEST_LOCATION = 1;
     public static final int REQUESTION_LOCATION_CODE = 99;
-    private FusedLocationProviderClient mFusedLocationClient;
-    Button options;
     ArrayList<Markers> toDisplay= new ArrayList<Markers>();
-    private Boolean rangeFilter;
+    private FusedLocationProviderClient mFusedLocationClient;
 
-
+    /**
+     * On create, check if the user has location enabled.
+     * Obtain the MapFragment and get notified when the map is ready to be used.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        // check if user wants nearby events only
         rangeFilter = getIntent().getExtras().getBoolean("radBool");
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        //  check if we have permission to get user's location
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
@@ -84,7 +94,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // If GPS (location) is not enabled, User is sent to the settings to turn it on!
         service = (LocationManager) getSystemService(LOCATION_SERVICE);
         boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
         if (!enabled) {
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
@@ -100,6 +109,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // save changes
     }
 
+    /**
+     * Check if application has permission
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -156,6 +171,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         client.connect();
     }
 
+    /**
+     * Notifier for change in device's location
+     * @param location
+     */
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;
@@ -175,6 +194,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    /**
+     * Check distance between current location and this locations
+     * @param latLng location compared to current location
+     * @param range distance to filter events by
+     * @return true if within range; false otherwise
+     */
     public boolean checkDistance(LatLng latLng, Double range) {
         lastLocation = getLocation();
         float results[] = new float[10];
@@ -203,6 +228,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    /**
+     * Check if application has granted GPS location permission
+     * @return true if above line is true; false otherwise.
+     */
     public boolean checkLocationPermission() {
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
@@ -229,17 +258,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    /**
+     * Store locations for marker testing.
+     */
     private void setUpTestMarkers() {
         storeMarkers("user1", "The King's University", new LatLng(53.525759, -113.416623));
         storeMarkers("user2", "MacEwan University", new LatLng(53.547054, -113.506630));
         storeMarkers("user3", "University of Alberta", new LatLng(53.523219, -113.526319));
     }
 
+    /**
+     * Store markers to array of markers to be called when they are ready to be placed on the map.
+     * @param id User ID
+     * @param t Habit Event Title
+     * @param lL Location of habit event in LatLng form
+     */
     private void storeMarkers(String id, String t, LatLng lL) {
         Markers m = new Markers(id, t, lL);
         toDisplay.add(m);
     }
 
+    /**
+     * Place the markers in the marker array on the map.
+     * If there is a range filter selected, then check if the marker is within range of current
+     * location.
+     */
     private void placeMarkers() {
         for (Markers m : toDisplay) {
             if (rangeFilter){
@@ -254,8 +297,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * https://chantisandroid.blogspot.ca/2017/06/get-current-location-example-in-android.html
-     * @return
+     * Get the current location of the device
+     * ref: https://chantisandroid.blogspot.ca/2017/06/get-current-location-example-in-android.html
+     * @return current location
      */
     private Location getLocation() {
         if (ActivityCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -266,11 +310,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         } else {
             Location location = service.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
             Location location1 = service.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
             Location location2 = service.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
-
             if (location != null) {
                 return location;
             }
@@ -279,7 +320,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             else  if (location2 != null) {
                 return location2;
-
             }
             else{
                 Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
