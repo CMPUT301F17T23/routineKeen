@@ -111,9 +111,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     /**
      * Check if application has permission
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
+     * @param requestCode int object
+     * @param permissions String[] object
+     * @param grantResults int[] object
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
