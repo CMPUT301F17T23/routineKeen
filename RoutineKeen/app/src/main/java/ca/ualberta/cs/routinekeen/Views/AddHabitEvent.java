@@ -23,7 +23,6 @@ import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.R;
 
 public class AddHabitEvent extends AppCompatActivity {
-    private Spinner spinner;
     private String eventType;
     private EditText eventTitle;
     private EditText eventComment;
@@ -33,7 +32,7 @@ public class AddHabitEvent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_habit_event);
         IOManager.initManager(this.getApplicationContext());
-        spinner = (Spinner) findViewById(R.id.habitTypeSpinner);
+        Spinner spinner = (Spinner) findViewById(R.id.habitTypeSpinner);
         eventTitle = (EditText) findViewById(R.id.eventTitle);
         eventComment = (EditText) findViewById(R.id.eventComment);
         HabitListController.getHabitList();

@@ -101,6 +101,11 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         this.eventComment = comment;
     }
 
+
+    public void setEventHabitType(String eventHabitType) {
+        this.eventHabitType = eventHabitType;
+    }
+
     public void setPhoto(Photo photo) {
         this.eventPhoto = photo;
     }
@@ -117,6 +122,6 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
 
     @Override
     public String toString() {
-        return this.eventTitle + "       " + this.eventComment + "\n" + this.eventDate.toString();
+        return  eventHabitType + "\n" + this.eventTitle + "\n" + this.eventComment + "\n" + this.eventDate.toString();
     }
 }
