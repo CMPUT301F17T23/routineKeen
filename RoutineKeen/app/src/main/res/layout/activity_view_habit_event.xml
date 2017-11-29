@@ -11,16 +11,17 @@
         android:layout_width="wrap_content"
         android:layout_height="49dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="32dp"
+        android:layout_marginStart="8dp"
         android:onClick="delEvent"
         android:text="Delete"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.279"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/saveButton"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="32dp" />
+        app:layout_constraintRight_toLeftOf="@+id/saveButton" />
 
     <Button
         android:id="@+id/saveButton"
@@ -29,6 +30,7 @@
         android:layout_marginBottom="16dp"
         android:onClick="saveEvent"
         android:text="Save"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.915"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -131,21 +133,24 @@
         android:layout_height="48dp"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="16dp"
-        android:text="Edit Location"
+        android:layout_marginStart="16dp"
+        android:onClick="attachUpdatedLocation"
+        android:text="Set New Location"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/delButton"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="16dp" />
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
         android:id="@+id/photoButton"
         android:layout_width="154dp"
         android:layout_height="50dp"
         android:layout_marginBottom="19dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
         android:text="Edit Photo"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/saveButton"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginEnd="4dp" />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/textView3"
