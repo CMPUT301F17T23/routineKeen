@@ -11,7 +11,6 @@ import io.searchbox.annotations.JestId;
 
 public class User {
     private String username;
-    @JestId
     private String userID;
     private ArrayList<User> followerList;
     private ArrayList<User> followerRequests;

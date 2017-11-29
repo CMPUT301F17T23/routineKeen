@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ca.ualberta.cs.routinekeen.Helpers.DateHelpers;
+import io.searchbox.annotations.JestId;
 
 /**
  * Creates Habit objects associated with a specific userID that have Title, Reason, Date, and
@@ -17,7 +18,8 @@ import ca.ualberta.cs.routinekeen.Helpers.DateHelpers;
  */
 
 public class Habit implements Serializable {
-    private String habitUserID;
+    private String habitID;
+    private String associatedUserID;
     private String habitTitle;
     private String habitReason;
     private Date startDate;
@@ -36,13 +38,21 @@ public class Habit implements Serializable {
         this.scheduledDays = new ArrayList<String>();
     }
 
+    public String getHabitID(){
+        return this.habitID;
+    }
+
+    public void setHabitID(String id){
+        this.habitID = id;
+    }
+
     /**
      * Returns the id of the user to whom the habit belongs
      * @return  The user's ID
      * @see     User
      */
-    public String getHabitUserID() {
-        return habitUserID;
+    public String getAssociatedUserID() {
+        return associatedUserID;
     }
 
     /**
@@ -50,8 +60,8 @@ public class Habit implements Serializable {
      * @param habitUserID   The user's ID
      * @see     User
      */
-    public void setHabitUserID(String habitUserID) {
-        this.habitUserID = habitUserID;
+    public void setAssociatedUserID(String habitUserID) {
+        this.associatedUserID = habitUserID;
     }
 
     /**

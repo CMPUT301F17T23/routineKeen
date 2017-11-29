@@ -4,7 +4,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
@@ -64,6 +63,19 @@ public class NetworkDataManager {
         Boolean result = null;
         try{
             result = deleteHabitByTitleTask.execute(habitType).get();
+        } catch(Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return result.booleanValue();
+    }
+
+    public static boolean UpdateHabit(Habit habit){
+        ElasticSearchController.UpdateHabitTask updateHabitByIDTask =
+                new ElasticSearchController.UpdateHabitTask();
+        Boolean result = null;
+        try{
+            result = updateHabitByIDTask.execute(habit).get();
         } catch(Exception e){
             Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
         }

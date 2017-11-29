@@ -29,7 +29,8 @@ public class UserListController {
         try{
             retrievedUser = ioManager.getUser(username);
             if(retrievedUser == null){
-                retrievedUser = ioManager.addUser(new User(username));
+                String addedUserID = ioManager.addUser(new User(username));
+                retrievedUser = new User(username, addedUserID);
             }
         } catch (NetworkUnavailableException e) {
             return false;

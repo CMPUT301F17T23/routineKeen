@@ -59,29 +59,6 @@ public class IOManager {
         localDM.saveUserList(userList);
     }
 
-    public User addUser(User user) throws NetworkUnavailableException{
-        String userID = null;
-        if (isNetworkAvailable()) {
-            userID = NetworkDataManager.AddNewUser(user);
-        } else{
-            throw new NetworkUnavailableException();
-        }
-
-        user.setUserID(userID);
-        return user;
-    }
-
-    public User getUser(String username) throws NetworkUnavailableException{
-        User retrievedUser;
-        if(isNetworkAvailable()){
-            retrievedUser = NetworkDataManager.GetUser(username);
-        } else {
-            throw new NetworkUnavailableException();
-        }
-        
-        return retrievedUser;
-    }
-
     public HabitList loadUserHabitList(String userId) throws NetworkUnavailableException{
         HabitList retrievedHabits;
         if(isNetworkAvailable()){
@@ -97,22 +74,6 @@ public class IOManager {
         localDM.saveHabitList(habitList);
     }
 
-    public void addHabit(Habit habit) throws NetworkUnavailableException{
-        if(isNetworkAvailable()){
-            NetworkDataManager.AddNewHabit(habit);
-        } else{
-            throw new NetworkUnavailableException();
-        }
-    }
-
-    public void deleteHabitByType(String habitType) throws NetworkUnavailableException{
-        if(isNetworkAvailable()){
-            NetworkDataManager.DeleteHabitByType(habitType);
-        } else{
-            throw new NetworkUnavailableException();
-        }
-    }
-
     public HabitHistory loadHabitHistory() {
         return localDM.loadHabitHistory();
     }
@@ -121,10 +82,48 @@ public class IOManager {
         localDM.saveHabitHistory(habitHistory);
     }
 
-    public void addHabitEvent(HabitEvent event) throws NetworkUnavailableException{
+    public String addUser(User user) throws NetworkUnavailableException{
+        String userID = null;
+        if (isNetworkAvailable()) {
+            userID = NetworkDataManager.AddNewUser(user);
+        } else{
+            throw new NetworkUnavailableException();
+        }
+
+        return userID;
+    }
+
+    public String addHabit(Habit habit) throws NetworkUnavailableException{
         if(isNetworkAvailable()){
-            NetworkDataManager.AddNewHabitEvent(event);
+            return NetworkDataManager.AddNewHabit(habit);
+        } else{
+            throw new NetworkUnavailableException();
+        }
+    }
+
+    public String addHabitEvent(HabitEvent event) throws NetworkUnavailableException{
+        if(isNetworkAvailable()){
+            return NetworkDataManager.AddNewHabitEvent(event);
         } else {
+            throw new NetworkUnavailableException();
+        }
+    }
+
+    public User getUser(String username) throws NetworkUnavailableException{
+        User retrievedUser;
+        if(isNetworkAvailable()){
+            retrievedUser = NetworkDataManager.GetUser(username);
+        } else {
+            throw new NetworkUnavailableException();
+        }
+        
+        return retrievedUser;
+    }
+
+    public void deleteHabitByType(String habitType) throws NetworkUnavailableException{
+        if(isNetworkAvailable()){
+            NetworkDataManager.DeleteHabitByType(habitType);
+        } else{
             throw new NetworkUnavailableException();
         }
     }
