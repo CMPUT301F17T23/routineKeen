@@ -174,8 +174,11 @@ public class ElasticSearchController {
             try{
                 SearchResult result = client.execute(search);
                 if(result.isSucceeded()) {
-                    List<Habit> foundHabitEvents = result.getSourceAsObjectList(Habit.class);
-                    habitsResult.addAll(foundHabitEvents);
+                    for(SearchResult.Hit x:  result.getHits(Habit.class)){
+                        Habit retrievedHabit = (Habit)x.source;
+                        retrievedHabit.setHabitID(x.id);
+                        habitsResult.add(retrievedHabit);
+                    }
                 }
             } catch (IOException e){
                 Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
