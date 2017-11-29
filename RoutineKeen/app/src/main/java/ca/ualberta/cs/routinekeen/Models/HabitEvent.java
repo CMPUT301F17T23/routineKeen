@@ -9,6 +9,8 @@ import java.util.concurrent.LinkedTransferQueue;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import io.searchbox.annotations.JestId;
+
 /**
  * Creates HabitEvents (instances of a user completing a habit) with an associated Date, location,
  * comment, photo, and habit
@@ -20,10 +22,11 @@ import com.google.android.gms.maps.model.LatLng;
  */
 
 public class HabitEvent implements Comparable<HabitEvent>, Serializable {
+    private String eventID;
     private String eventTitle;
     private Date eventDate;
     private LatLng eventLocation;
-    private String habitEventUserID;
+    private String associatedUserID;
     private String eventComment;
     private Photo eventPhoto;
     private String eventHabitType; //todo in habitEvent activity, check if habitType exist before calling class constructor
@@ -59,6 +62,14 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         this.eventDate = new Date();
     }
 
+    public String getEventID(){
+        return this.eventID;
+    }
+
+    public void setEventID(String id){
+        this.eventID = id;
+    }
+
     public Date getDate() {
         return eventDate;
     }
@@ -71,7 +82,7 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         return eventTitle;
     }
 
-    public String getHabitEventUserID() { return habitEventUserID; }
+    public String getAssociatedUserID() { return associatedUserID; }
 
     public LatLng getLocation() {
         return eventLocation;
@@ -89,8 +100,8 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         this.eventTitle = title;
     }
 
-    public void setHabitEventUserID(String userID) {
-        this.habitEventUserID = userID;
+    public void setAssociatedUserID(String userID) {
+        this.associatedUserID = userID;
     }
 
     public void setLocation(LatLng location) {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ca.ualberta.cs.routinekeen.Helpers.DateHelpers;
+import io.searchbox.annotations.JestId;
 
 /**
  * Creates Habit objects associated with a specific userID that have Title, Reason, Date, and
@@ -17,23 +18,32 @@ import ca.ualberta.cs.routinekeen.Helpers.DateHelpers;
  */
 
 public class Habit implements Serializable {
-    private String habitUserID;
+    private String habitID;
+    private String associatedUserID;
     private String habitTitle;
     private String habitReason;
     private Date startDate;
-    private ArrayList<String> scheduledHabitDays;
+    private ArrayList<String> scheduledDays;
 
     public Habit() {
         this.habitTitle = "";
         this.habitReason = "";
-        this.scheduledHabitDays = new ArrayList<String>();
+        this.scheduledDays = new ArrayList<String>();
     }
 
     public Habit(String habitTitle, String habitReason, Date startDate) {
         this.habitTitle = habitTitle;
         this.habitReason = habitReason;
         this.startDate = startDate;
-        this.scheduledHabitDays = new ArrayList<String>();
+        this.scheduledDays = new ArrayList<String>();
+    }
+
+    public String getHabitID(){
+        return this.habitID;
+    }
+
+    public void setHabitID(String id){
+        this.habitID = id;
     }
 
     /**
@@ -41,8 +51,8 @@ public class Habit implements Serializable {
      * @return  The user's ID
      * @see     User
      */
-    public String getHabitUserID() {
-        return habitUserID;
+    public String getAssociatedUserID() {
+        return associatedUserID;
     }
 
     /**
@@ -50,8 +60,8 @@ public class Habit implements Serializable {
      * @param habitUserID   The user's ID
      * @see     User
      */
-    public void setHabitUserID(String habitUserID) {
-        this.habitUserID = habitUserID;
+    public void setAssociatedUserID(String habitUserID) {
+        this.associatedUserID = habitUserID;
     }
 
     /**
@@ -107,7 +117,7 @@ public class Habit implements Serializable {
      * @return A String ArrayList of days of the week (format "Wed")
      */
     public ArrayList<String> getScheduledHabitDays() {
-        return scheduledHabitDays;
+        return scheduledDays;
     }
 
     /**
@@ -115,7 +125,7 @@ public class Habit implements Serializable {
      * @param scheduledHabitDays The new schedule
      */
     public void setScheduledHabitDays(ArrayList<String> scheduledHabitDays) {
-        this.scheduledHabitDays = scheduledHabitDays;
+        this.scheduledDays = scheduledHabitDays;
     }
 
     /**
