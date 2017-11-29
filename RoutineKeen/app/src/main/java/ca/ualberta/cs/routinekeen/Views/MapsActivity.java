@@ -40,6 +40,7 @@ import ca.ualberta.cs.routinekeen.R;
  * Activity for showing map and markers based on user's choices (filtered/unfiltered)
  * Created by tiakindele on 2017-11-24.
  */
+@SuppressWarnings("MissingPermission")
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -54,7 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest locationRequest;
     private static final int REQUEST_LOCATION = 1;
     public static final int REQUESTION_LOCATION_CODE = 99;
-    ArrayList<Markers> toDisplay= new ArrayList<Markers>();
+    ArrayList<Markers> toDisplay = new ArrayList<Markers>();
     private FusedLocationProviderClient mFusedLocationClient;
 
     /**
@@ -97,9 +98,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (!enabled) {
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
-        }
-        else {
-            getLocation();
+        } else {
+            getDeviceLoc();
         }
     }
 
@@ -201,14 +201,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * @return true if within range; false otherwise
      */
     public boolean checkDistance(LatLng latLng, Double range) {
-        lastLocation = getLocation();
+        lastLocation = getDeviceLoc();
         float results[] = new float[10];
         Location.distanceBetween(lastLocation.getLatitude(), lastLocation.getLongitude(),
                 latLng.latitude, latLng.longitude, results);
         if (results[0] <= range) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -221,7 +220,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(client, locationRequest, this);
         }
@@ -234,17 +233,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     public boolean checkLocationPermission() {
 
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED) {
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUESTION_LOCATION_CODE);
-            }
-            else {
+            } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUESTION_LOCATION_CODE);
             }
             return false;
-        }
-        else
+        } else
             return true;
     }
 
@@ -285,12 +282,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void placeMarkers() {
         for (Markers m : toDisplay) {
-            if (rangeFilter){
-                if (checkDistance(m.getMarkerLocation(),5000.0)){
+            if (rangeFilter) {
+                if (checkDistance(m.getMarkerLocation(), 5000.0)) {
                     mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation()).title(m.getMarkerTitle()));
                 }
-            }
-            else{
+            } else {
                 mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation()).title(m.getMarkerTitle()));
             }
         }
@@ -301,7 +297,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * ref: https://chantisandroid.blogspot.ca/2017/06/get-current-location-example-in-android.html
      * @return current location
      */
-    private Location getLocation() {
+   private Location getDeviceLoc() {
         if (ActivityCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
                 (MapsActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -311,18 +307,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             Location location = service.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             Location location1 = service.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            Location location2 = service.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
+            Location location2 = service.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
             if (location != null) {
                 return location;
-            }
-            else  if (location1 != null) {
+            } else if (location1 != null) {
                 return location1;
-            }
-            else  if (location2 != null) {
+            } else if (location2 != null) {
                 return location2;
-            }
-            else{
-                Toast.makeText(this,"Unable to Trace your location",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Unable to trace your location", Toast.LENGTH_SHORT).show();
             }
         }
         return null;
