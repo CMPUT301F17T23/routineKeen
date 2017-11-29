@@ -31,6 +31,7 @@ import ca.ualberta.cs.routinekeen.R;
 
 public class AddHabitEvent extends AppCompatActivity {
 
+
     Location location;
     HabitEvent toAddEvent;
     LocationManager service;
