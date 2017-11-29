@@ -128,6 +128,14 @@ public class IOManager {
         }
     }
 
+    public void updateHabit(Habit habit) throws NetworkUnavailableException {
+        if(isNetworkAvailable()){
+            NetworkDataManager.UpdateHabit(habit);
+        } else {
+            throw new NetworkUnavailableException();
+        }
+    }
+
     public void loadSharedPrefs(String... prefs){
         localDM.loadSharedPrefs(prefs);
     }

@@ -107,6 +107,15 @@ public class HabitListController{
      */
     public static boolean updateHabit(String title, String reason,
                                    ArrayList<String> schedDays, int position) {
+        Habit habitToUpdate = getHabitList().getHabitByPosition(position);
+        habitToUpdate.setHabitReason(reason);
+        habitToUpdate.setHabitTitle(title);
+        habitToUpdate.setScheduledHabitDays(schedDays);
+        try{
+            ioManager.updateHabit(habitToUpdate);
+        } catch (NetworkUnavailableException e){
+            return false;
+        }
         getHabitList().updateHabit(title, reason, schedDays, position);
         saveHabitList();
         return true;

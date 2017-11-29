@@ -84,7 +84,8 @@ public class ElasticSearchController {
             try{
                 SearchResult result = client.execute(search);
                 if(result.isSucceeded()){
-                    userResult = result.getSourceAsObject(User.class);
+                    userResult = result.getFirstHit(User.class).source;
+                    userResult.setUserID(result.getFirstHit(User.class).id);
                 }
             } catch(Exception e){
                 Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
