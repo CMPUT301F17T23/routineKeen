@@ -13,21 +13,34 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 import ca.ualberta.cs.routinekeen.Controllers.HabitHistoryController;
+import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
 import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.R;
 
 public class AddHabitEvent extends AppCompatActivity {
-    private static final int REQUEST_LOCATION = 1;
-    LocationManager locationManager;
-    LocationManager service;
+
     Location location;
+    HabitEvent toAddEvent;
+    LocationManager service;
+    private Spinner spinner;
+    private String eventType;
+    private EditText eventTitle;
+    private EditText eventComment;
+    LocationManager locationManager;
+    private static final int REQUEST_LOCATION = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,34 +50,58 @@ public class AddHabitEvent extends AppCompatActivity {
         ActivityCompat.requestPermissions(this,
                 new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         service = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        spinner = (Spinner) findViewById(R.id.habitTypeSpinner);
+        eventTitle = (EditText) findViewById(R.id.eventTitle);
+        eventComment = (EditText) findViewById(R.id.eventComment);
+        HabitListController.getHabitList();
+        ArrayList<String> typeList = new ArrayList<String>(HabitListController.getTypeList());
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+                typeList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                eventType =  (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 
     public void addEvent(View view) {
-        //Edit texts, there will be more
-        String newHabitType = "habit type test";
-        HabitEvent toAddEvent;
-        EditText eventTitle = (EditText) findViewById(R.id.eventTitle);
-        EditText eventComment = (EditText) findViewById(R.id.eventComment);
+        if(validationSuccess()) {
+            try {
+                LatLng newEventLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                toAddEvent = new HabitEvent(eventTitle.getText().toString(), eventType,
+                        eventComment.getText().toString(), newEventLocation);
+            } catch (Exception e) {
+                // no location attached OR location error
+                toAddEvent = new HabitEvent(eventTitle.getText().toString(), eventType,
+                        eventComment.getText().toString());
+            }
+            HabitHistoryController.addHabitEvent(toAddEvent);
+            finish();
+        }
+    }
 
-        assert eventTitle != null;
-        String newEventTitle = eventTitle.getText().toString();
-        assert eventComment != null;
-        String newEventComment = eventComment.getText().toString();
-        if(newEventTitle.isEmpty() || newEventTitle.equals("\n"))  {
-            newEventTitle = "No Title";
+    private boolean validationSuccess() {
+        if (eventTitle.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter a title for event.",
+                    Toast.LENGTH_SHORT).show();
+            return false;
         }
-        if(newEventComment.isEmpty() || newEventComment.equals("\n"))  {
-            newEventComment = "No Comments";
+        if (eventComment.getText().toString().length() > 20) {
+            Toast.makeText(this, "Habit event comment much be less than 20 characters.",
+                    Toast.LENGTH_SHORT).show();
+            return false;
         }
-        try {
-            LatLng newEventLocation = new LatLng(location.getLatitude(), location.getLongitude());
-            toAddEvent = new HabitEvent(newEventTitle, newHabitType, newEventComment,newEventLocation);
-        } catch (Exception e) {
-            // no location attached OR location error
-            toAddEvent = new HabitEvent(newEventTitle,newEventComment);
-        }
-        HabitHistoryController.addHabitEvent(toAddEvent);
-        finish();
+        return true;
     }
 
     public void attachLocation(View view) {
@@ -137,5 +174,4 @@ public class AddHabitEvent extends AppCompatActivity {
         final AlertDialog alert = builder.create();
         alert.show();
     }
-
 }
