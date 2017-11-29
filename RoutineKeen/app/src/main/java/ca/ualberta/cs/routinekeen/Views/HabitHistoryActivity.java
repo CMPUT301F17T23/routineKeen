@@ -7,16 +7,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
+import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
 import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.Models.HabitHistory;
 import ca.ualberta.cs.routinekeen.Controllers.HabitHistoryController;
+import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.R;
 
 /*
@@ -33,7 +36,6 @@ import ca.ualberta.cs.routinekeen.R;
  * @version 1.0.0
  */
 public class HabitHistoryActivity extends AppCompatActivity implements Observer{
-
     private ListView CL;
     private final ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>();
     private ArrayAdapter<HabitEvent> adapter;
@@ -66,6 +68,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
             }
         });
     }
+
     protected void onStart(){
         super.onStart();
         habitEvents.clear();
@@ -78,8 +81,6 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         super.onDestroy();
         HabitHistoryController.saveHabitHistory();
     }
-
-
 
 
     //Mikee's code, don't have time to debug
@@ -134,12 +135,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
                 }
             }
         }
-    /*
-        public void filterList(View view)
-        {
 
-        }
-    */
     @Override
     public void update(Observable observable, Object o) {
         habitEvents.clear();
