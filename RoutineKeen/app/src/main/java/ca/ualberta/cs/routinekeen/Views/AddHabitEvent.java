@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -36,7 +37,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -61,6 +61,7 @@ public class AddHabitEvent extends AppCompatActivity {
     private String eventType;
     private EditText eventTitle;
     private EditText eventComment;
+    private ImageButton photoImageButton;
     LocationManager locationManager;
     private static final int REQUEST_LOCATION = 1;
 
@@ -69,8 +70,6 @@ public class AddHabitEvent extends AppCompatActivity {
 
     protected static final int IMAGE_MAX_BYTES = 65536;
     protected static final int LENGTH = (int) Math.floor(Math.sqrt(IMAGE_MAX_BYTES));
-    private ImageView eventImageView;
-    private Button selectImageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +83,7 @@ public class AddHabitEvent extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.habitTypeSpinner);
         eventTitle = (EditText) findViewById(R.id.eventTitle);
         eventComment = (EditText) findViewById(R.id.eventComment);
-        eventImageView = (ImageView) findViewById(R.id.addEventImageView);
-        selectImageButton = (Button)findViewById(R.id.buttonSelectImage);
+        photoImageButton = (ImageButton) findViewById(R.id.imageButtonPhoto);
 
         HabitListController.getHabitList();
         ArrayList<String> typeList = new ArrayList<String>(HabitListController.getTypeList());
@@ -99,14 +97,13 @@ public class AddHabitEvent extends AppCompatActivity {
                                        int position, long id) {
                 eventType =  (String) parent.getItemAtPosition(position);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
             }
         });
 
-        selectImageButton.setOnClickListener( new View.OnClickListener() {
+        photoImageButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectImage();
@@ -236,6 +233,7 @@ public class AddHabitEvent extends AppCompatActivity {
                     startActivityForResult(intent, REQUEST_SELECT_IMAGE);
                 } else {
                     // permission denied, don't open gallery
+                    Log.d("AHELog", "permission denied");
                 }
         }
     }
@@ -258,8 +256,8 @@ public class AddHabitEvent extends AppCompatActivity {
                         // Taken from: http://www.rogerethomas.com/blog/generating-square-cropped-thumbnails-in-android-java
                         // on Nov 25, 2017
 
-                        // display new image in imageview
-                        eventImageView.setImageBitmap(thumbImage);
+                        // display new image in imageButton
+                        photoImageButton.setImageBitmap(thumbImage);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                         Log.d("AHELog", "FNF except");

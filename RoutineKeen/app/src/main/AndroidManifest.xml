@@ -40,6 +40,9 @@
             android:name=".Views.HabitHistoryActivity"
             android:parentActivityName=".Views.UserMenu"/>
         <activity
+            android:name=".Views.HabitHistoryFilterActivity"
+            android:parentActivityName=".Views.HabitHistoryActivity"/>
+        <activity
             android:name=".Views.HabitEditActivity"
             android:parentActivityName=".Views.HabitListActivity"/>
         <activity
