@@ -28,6 +28,11 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
     private LatLng eventLocation;
     private String associatedUserID;
     private String eventComment;
+
+    public String getEventHabitType() {
+        return eventHabitType;
+    }
+
     private Photo eventPhoto;
     private String eventHabitType; //todo in habitEvent activity, check if habitType exist before calling class constructor
 
