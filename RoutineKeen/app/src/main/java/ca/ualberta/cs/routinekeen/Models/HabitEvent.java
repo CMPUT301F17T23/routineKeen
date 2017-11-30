@@ -112,7 +112,6 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         this.eventComment = comment;
     }
 
-
     public void setEventHabitType(String eventHabitType) {
         this.eventHabitType = eventHabitType;
     }

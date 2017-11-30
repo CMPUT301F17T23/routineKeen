@@ -48,6 +48,7 @@ public class NetworkElasticSearchTest {
         static String testAddEventHabitType = "testAddEventHabitType";
         static LatLng testAddEventLocation = new LatLng(-41.7, 42.5);
         static Photo testAddEventPhoto = null;
+        static Date testAddEventDate = new Date();
     }
 
     /**
@@ -79,8 +80,24 @@ public class NetworkElasticSearchTest {
         final static String[] testGetHabitSched = new String [] {"Mon", "Thu", "Fri"};
     }
 
-    private final static class GetHabitEventTestData {
+    private final static class GetHabitEventTestDataOne{
+        final static String testGetEventTitle = "testGetEventTitle";
+        final static String testGetEventComment = "test get comment";
+        final static String testGetEventHabitType = GetHabitTestDataOne.testGetHabitType;
+        final static LatLng testGetEventLocation = new LatLng(-41.4,40.6);
+        final static Photo testGetEventPhoto = null;
+        final static String testGetEventId = "BsaRmNLrJOIb9Z2G-h69";
+        final static Date testGetEventDate = DateHelpers.removeTime(DateHelpers.formatStringToDate("2017-10-27", "yyyy-MM-dd"));
+    }
 
+    private final static class GetHabitEventTestDataTwo{
+        final static String testGetEventTitle = "testGetEventTitleTwo";
+        final static String testGetEventComment = "test get comment two";
+        final static String testGetEventHabitType = GetHabitTestDataTwo.testGetHabitType;
+        final static LatLng testGetEventLocation = new LatLng(-42.67,50.44);
+        final static Photo testGetEventPhoto = null;
+        final static String testGetEventId = "KzaTmNLsGIIh9Z2G-j19";
+        final static Date testGetEventDate = DateHelpers.removeTime(DateHelpers.formatStringToDate("2016-09-25", "yyyy-MM-dd"));
     }
 
     @Test
@@ -112,15 +129,22 @@ public class NetworkElasticSearchTest {
     }
 
     @Test
-    public void testDeleteHabitByTitleTask(){
+    public void testDeleteHabitTask(){
         final String habitType = "test";
-        assertTrue(NetworkDataManager.DeleteHabitByType(habitType));
+        assertTrue(NetworkDataManager.DeleteHabit(habitType));
     }
 
     @Test
     public void testGetUserHabitsTask(){
         HabitList userHabitsResult = NetworkDataManager.GetUserHabitsById(testGetUserID);
         assertTrue(userHabitsResult.habitListSize() == 2);
+    }
+
+    @Test
+    public void testGetHabitByTitleTask() {
+        Habit retrievedHabit = NetworkDataManager.GetHabit(GetHabitTestDataOne.testGetHabitType);
+        assertNotNull(retrievedHabit.getHabitID());
+        assertTrue(retrievedHabit.getHabitID().equals(GetHabitTestDataOne.testGetHabitId));
     }
 
     @Test
@@ -139,25 +163,17 @@ public class NetworkElasticSearchTest {
     }
 
     public void testUpdateHabitByIdTask(){
-        final String testUpdateHabitTitle = "testAddHabitTitle";
-        final String testUpdateHabitReason = "testAddHabitReason";
-        final Date testUpdateHabitStartDate = DateHelpers.removeTime(new Date());
+        final String testUpdateHabitTitle = "testUpdateHabitTitle";
+        final String testUpdateHabitReason = "testUpdateHabitReason";
         final String[] testUpdateHabitSchedule =  new String[] {"MON", "WED", "FRI", "SUN"};
         final ArrayList<String> testSched = new ArrayList<>(Arrays.asList(testUpdateHabitSchedule));
         final String testUpdateHabitUserID = "AV_2RTVTm9X4YezqHBQM";
         final String testUpdateHabitID = "AWADvALrBOIa5W1F-q6m";
-        Habit updatedHabit = new Habit(testUpdateHabitTitle, testUpdateHabitReason, testUpdateHabitStartDate);
-        updatedHabit.setScheduledHabitDays(testSched);
-        updatedHabit.setAssociatedUserID(testUpdateHabitUserID);
-        updatedHabit.setHabitID(testUpdateHabitID);
-        assertTrue(NetworkDataManager.UpdateHabit(updatedHabit));
-    }
-
-    @Test
-    public void testGetHabitByTitleTask() {
-        Habit retrievedHabit = NetworkDataManager.GetHabit(GetHabitTestDataOne.testGetHabitType);
-        assertNotNull(retrievedHabit.getHabitID());
-        assertTrue(retrievedHabit.getHabitID().equals(GetHabitTestDataOne.testGetHabitId));
+//        Habit updatedHabit = new Habit(testUpdateHabitTitle, testUpdateHabitReason, testUpdateHabitStartDate);
+//        updatedHabit.setScheduledHabitDays(testSched);
+//        updatedHabit.setAssociatedUserID(testUpdateHabitUserID);
+//        updatedHabit.setHabitID(testUpdateHabitID);
+//        assertTrue(NetworkDataManager.UpdateHabit(updatedHabit));
     }
 
 //    @Test

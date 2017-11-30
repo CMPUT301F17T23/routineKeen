@@ -110,8 +110,8 @@ public class NewHabitActivity extends AppCompatActivity {
                 if(validationSuccess()){
                     Date date = DateHelpers.formatStringToDate(
                             hDate.getText().toString(), "MM/dd/yyyy");
-                    String title = hTitle.getText().toString();
-                    String reason = hReason.getText().toString();
+                    String title = hTitle.getText().toString().trim();
+                    String reason = hReason.getText().toString().trim();
                     Habit habitToAdd = new Habit(title, reason, date);
                     habitToAdd.setAssociatedUserID(UserSingleton.getCurrentUser().getUserID());
                     String [] days = new String [] {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};

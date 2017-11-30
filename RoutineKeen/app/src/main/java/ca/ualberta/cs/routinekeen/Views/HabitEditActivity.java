@@ -42,6 +42,7 @@ public class HabitEditActivity extends AppCompatActivity {
     private Switch satSwitch;
     private Switch sunSwitch;
     private Bundle data = null;
+    private String oldHabitType;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class HabitEditActivity extends AppCompatActivity {
         titleEditText.setText(data.getString("title"));
         reasonEditText.setText(data.getString("reason"));
         dateEditText.setText(data.getString("startDate"));
+        oldHabitType = data.getString("title");
         setDaySwitches();
     }
 
@@ -104,14 +106,40 @@ public class HabitEditActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String title = titleEditText.getText().toString();
-                String reason = reasonEditText.getText().toString();
-                HabitListController.updateHabit(title, reason, getDaysChecked(),
-                        data.getInt("position"));
-                finish();
+                if(validationSuccess()){
+                    String title = titleEditText.getText().toString().trim();
+                    String reason = reasonEditText.getText().toString().trim();
+                    HabitListController.updateHabit(title, reason, getDaysChecked(),
+                            data.getInt("position"));
+                    finish();
 
+                }
             }
         });
+    }
+
+    private boolean validationSuccess(){
+        ArrayList typeList = HabitListController.getTypeList();
+        String editedTitle = titleEditText.getText().toString().trim();
+        if(typeList.indexOf((editedTitle))!= -1 && !editedTitle.equals(oldHabitType)){
+            Toast.makeText(this, "This habit type already exist.",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (titleEditText.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter a habit name.",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (reasonEditText.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter a habit reason.",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void setDaySwitches(){

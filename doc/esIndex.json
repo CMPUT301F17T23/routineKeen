@@ -2,14 +2,15 @@
     "mappings" : {
         "user" : {
             "properties" : {
-                "username" : { "type" : "string" }
+                "username" : { "type" : "string" },
+                "followerList" : { "type" : "string" }
             }
         },
         "habit" : {
         	"properties" : {
         		"habitTitle" : { "type" : "string" },
         		"habitReason" : { "type" : "string" },
-        		"habitUserID" : { "type" : "string" },
+        		"associatedUserID" : { "type" : "string" },
         		"startDate" : { "type" : "date", "format" : "dateOptionalTime" },
         		"scheduledDays" : { "type" : "string" }
         	}
@@ -19,7 +20,7 @@
         		"eventTitle" : { "type" : "string" },
         		"eventDate" : { "type" : "date", "format" : "dateOptionalTime" },
         		"eventComment" : { "type" : "string" },
-        		"habitEventUserID" : { "type" : "string" },
+        		"associatedUserID" : { "type" : "string" },
         		"eventPhoto" : { "type" : "binary" },
         		"eventLocation" :  {
         			"properties" : {
