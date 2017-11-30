@@ -67,7 +67,6 @@ public class AddHabitEvent extends AppCompatActivity {
                                        int position, long id) {
                 eventType =  (String) parent.getItemAtPosition(position);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub

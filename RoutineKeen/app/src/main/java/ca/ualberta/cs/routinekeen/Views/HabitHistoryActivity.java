@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -36,10 +37,12 @@ import ca.ualberta.cs.routinekeen.R;
  * @version 1.0.0
  */
 public class HabitHistoryActivity extends AppCompatActivity implements Observer{
+    private static final int FILTER_BY_TYPE = 1;
+    private static final int FILTER_BY_COMMENT = 2;
     private ListView CL;
     private final ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>();
     private ArrayAdapter<HabitEvent> adapter;
-
+    private Integer FILTER_REQUEST = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         IOManager.initManager(getApplicationContext());
         setContentView(R.layout.activity_habit_history);
         CL = (ListView) findViewById(R.id.habitHistoryList);
+        Button filterButton = (Button) findViewById(R.id.filterButton);
         HabitHistoryController.getHabitHistory().addObserver(this);
 
         /*
@@ -59,6 +63,14 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
                 Intent intent = new Intent(HabitHistoryActivity.this, ViewHabitEvent.class);
                 intent.putExtra("View Event", position);
                 startActivity(intent);
+            }
+        });
+
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HabitHistoryActivity.this, HabitHistoryFilterActivity.class);
+                startActivityForResult(intent,FILTER_REQUEST);
             }
         });
     }
@@ -76,15 +88,11 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         HabitHistoryController.saveHabitHistory();
     }
 
-
-    //Mikee's code, don't have time to debug
-
     public void addHabitEvent(View view)
     {
         Intent intent = new Intent(this, AddHabitEvent.class);
         startActivity(intent);
     }
-
 
     @Override
     public void update(Observable observable, Object o) {
@@ -92,4 +100,12 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         habitEvents.addAll(HabitHistoryController.getHabitHistory().getEvents());
         adapter.notifyDataSetChanged();
     }
+
+    protected void onActivityResult(int request_code, int result_code, Intent filterData){
+        if(request_code == FILTER_REQUEST){
+            if(result_code == FILTER_BY_TYPE){}
+            if(result_code == FILTER_BY_COMMENT){}
+        }
+    }
+
 }
