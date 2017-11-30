@@ -139,6 +139,16 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
             }
             if(result_code == FILTER_BY_COMMENT){
                 filter = filterData.getStringExtra("FILTER TYPE");
+                ArrayList<HabitEvent> filteredList = new ArrayList<>();
+                for (HabitEvent event : habitEvents){
+                    if (event.getComment().contains(filter)){
+                        filteredList.add(event);
+                    }
+                }
+                adapter = new ArrayAdapter<>(
+                        this, android.R.layout.simple_list_item_1, filteredList);
+                CL.setAdapter(adapter);
+                filterFlag.setText("Filter On");
                 Toast.makeText(this, "Filter by comment passed back: "+ filter,
                         Toast.LENGTH_SHORT).show();
             }
