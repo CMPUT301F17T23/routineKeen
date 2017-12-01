@@ -53,7 +53,6 @@ import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.R;
 
 public class AddHabitEvent extends AppCompatActivity {
-
     Location location;
     HabitEvent toAddEvent;
     LocationManager service;
@@ -67,7 +66,6 @@ public class AddHabitEvent extends AppCompatActivity {
 
     protected static final int REQUEST_SELECT_IMAGE = 3;
     protected static final int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 2;
-
     protected static final int IMAGE_MAX_BYTES = 65536;
     protected static final int LENGTH = (int) Math.floor(Math.sqrt(IMAGE_MAX_BYTES));
 
@@ -75,17 +73,17 @@ public class AddHabitEvent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_habit_event);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         IOManager.initManager(this.getApplicationContext());
         ActivityCompat.requestPermissions(this,
-                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                REQUEST_LOCATION);
         service = (LocationManager) getSystemService(LOCATION_SERVICE);
-
         spinner = (Spinner) findViewById(R.id.habitTypeSpinner);
         eventTitle = (EditText) findViewById(R.id.eventTitle);
         eventComment = (EditText) findViewById(R.id.eventComment);
         photoImageButton = (ImageButton) findViewById(R.id.imageButtonPhoto);
 
-        HabitListController.getHabitList();
         ArrayList<String> typeList = new ArrayList<String>(HabitListController.getTypeList());
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
                 typeList);
@@ -175,18 +173,15 @@ public class AddHabitEvent extends AppCompatActivity {
             ActivityCompat.requestPermissions(AddHabitEvent.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
-        }
-      else {
+        } else {
             Location location = service.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             Location location1 = service.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             Location location2 = service.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
             if (location != null) {
                 return location;
-            }
-            else  if (location1 != null) {
+            } else  if (location1 != null) {
                 return location1;
-            }
-            else  if (location2 != null) {
+            } else  if (location2 != null) {
                 return location2;
             }
         }
