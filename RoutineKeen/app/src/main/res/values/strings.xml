@@ -6,4 +6,10 @@
     <string name="addHabit_30max">Max 30 characters</string>
     <string name="habitSchedule_header">The following habits are scheduled for today:</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_habit_following_sharing">HabitFollowingSharing</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
