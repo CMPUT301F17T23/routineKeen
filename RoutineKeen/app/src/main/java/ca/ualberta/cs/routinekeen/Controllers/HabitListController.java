@@ -99,11 +99,13 @@ public class HabitListController{
      * @see     HabitList
      */
     public static boolean addHabit(Habit habit){
+        String assignedHabitID;
         try{
-            ioManager.addHabit(habit);
+            assignedHabitID = ioManager.addHabit(habit);
         } catch (NetworkUnavailableException e){
             return false;
         }
+        habit.setHabitID(assignedHabitID);
         getHabitList().addHabit(habit);
         saveHabitList();
         return true;
@@ -140,8 +142,8 @@ public class HabitListController{
      */
     public static boolean deleteHabit(int position){
         try{
-            ioManager.deleteHabitByType(getHabitList()
-                     .getHabitByPosition(position).getHabitTitle());
+            ioManager.deleteHabit(getHabitList()
+                     .getHabitByPosition(position).getHabitID());
         } catch (NetworkUnavailableException e){
             return false;
         }

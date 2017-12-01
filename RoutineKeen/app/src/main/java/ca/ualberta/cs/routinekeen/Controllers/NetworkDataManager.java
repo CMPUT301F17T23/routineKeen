@@ -58,11 +58,11 @@ public class NetworkDataManager {
         return referenceID;
     }
 
-    public static boolean DeleteHabitByType(String habitType){
-        ElasticSearchController.DeleteHabitByTitleTask deleteHabitByTitleTask = new ElasticSearchController.DeleteHabitByTitleTask();
+    public static boolean DeleteHabit(String habitID){
+        ElasticSearchController.DeleteHabitTask deleteHabitByTitleTask = new ElasticSearchController.DeleteHabitTask();
         Boolean result = null;
         try{
-            result = deleteHabitByTitleTask.execute(habitType).get();
+            result = deleteHabitByTitleTask.execute(habitID).get();
         } catch(Exception e){
             Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
         }
@@ -117,6 +117,33 @@ public class NetworkDataManager {
         }
 
         return referenceID;
+    }
+
+    public static boolean UpdateHabitEvent(HabitEvent habitEvent){
+        ElasticSearchController.UpdateHabitEventTask updateHabitEventTask =
+                new ElasticSearchController.UpdateHabitEventTask();
+
+        Boolean result = null;
+        try{
+            result = updateHabitEventTask.execute(habitEvent).get();
+        } catch (Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return result.booleanValue();
+    }
+
+    public static boolean DeleteHabitEvent(String habitEventID){
+        ElasticSearchController.DeleteHabitEventTask deleteHabitEventTask =
+                new ElasticSearchController.DeleteHabitEventTask();
+        Boolean result = null;
+        try{
+            result = deleteHabitEventTask.execute(habitEventID).get();
+        } catch(Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return result.booleanValue();
     }
 
     public static ArrayList<HabitEvent> GetUserHabitEvents(String userID){

@@ -120,9 +120,9 @@ public class IOManager {
         return retrievedUser;
     }
 
-    public void deleteHabitByType(String habitType) throws NetworkUnavailableException{
+    public void deleteHabit(String habitID) throws NetworkUnavailableException{
         if(isNetworkAvailable()){
-            NetworkDataManager.DeleteHabitByType(habitType);
+            NetworkDataManager.DeleteHabit(habitID);
         } else{
             throw new NetworkUnavailableException();
         }
