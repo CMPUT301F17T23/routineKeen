@@ -10,14 +10,6 @@ import android.view.ViewGroup;
 
 import ca.ualberta.cs.routinekeen.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FindFollowersFrag.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FindFollowersFrag#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FindFollowersFrag extends Fragment {
 
     //private OnFragmentInteractionListener mListener;

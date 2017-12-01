@@ -1,4 +1,4 @@
-package ca.ualberta.cs.routinekeen.Models;
+package ca.ualberta.cs.routinekeen.Helpers;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
