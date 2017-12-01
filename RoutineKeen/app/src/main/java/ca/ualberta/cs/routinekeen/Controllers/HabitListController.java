@@ -75,6 +75,7 @@ public class HabitListController{
             case Calendar.SATURDAY: today = "Sat";  break;
             default:                today = null;   break;
         }
+
         /*
          Taken from: https://stackoverflow.com/questions/5574673/what-is-the-easiest-way-to-get-
          the-current-day-of-the-week-in-android

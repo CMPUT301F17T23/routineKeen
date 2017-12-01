@@ -25,12 +25,6 @@ public class Habit implements Serializable {
     private Date startDate;
     private ArrayList<String> scheduledDays;
 
-    public Habit() {
-        this.habitTitle = "";
-        this.habitReason = "";
-        this.scheduledDays = new ArrayList<String>();
-    }
-
     public Habit(String habitTitle, String habitReason, Date startDate) {
         this.habitTitle = habitTitle;
         this.habitReason = habitReason;
@@ -102,14 +96,6 @@ public class Habit implements Serializable {
      */
     public Date getStartDate() {
         return startDate;
-    }
-
-    /**
-     * Sets the habits's start date
-     * @param startDate The new start date
-     */
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
     }
 
     /**
