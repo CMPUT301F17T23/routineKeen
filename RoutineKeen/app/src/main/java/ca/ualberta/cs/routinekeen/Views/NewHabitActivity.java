@@ -149,16 +149,16 @@ public class NewHabitActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return false;
 
-        } else {
-            Date hDateInput = DateHelpers.formatStringToDate(
-                    hDate.getText().toString(), "MM/dd/yyyy");
-            Date currentDate = DateHelpers.removeTime(new Date());
-            if (hDateInput.before(currentDate)) {
-                Toast.makeText(this, "Date is in the past, try again.",
-                        Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        }
+        }// else {
+//            Date hDateInput = DateHelpers.formatStringToDate(
+//                    hDate.getText().toString(), "MM/dd/yyyy");
+//            Date currentDate = DateHelpers.removeTime(new Date());
+//            if (hDateInput.before(currentDate)) {
+//                Toast.makeText(this, "Date is in the past, try again.",
+//                        Toast.LENGTH_SHORT).show();
+//                return false;
+//            }
+//        }
 
         return true;
     }

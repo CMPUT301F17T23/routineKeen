@@ -31,6 +31,8 @@
             android:name=".Views.AddHabitEvent"
             android:parentActivityName=".Views.HabitHistoryActivity"/>
         <activity android:name=".Views.ViewHabitEvent" />
+        <activity android:name=".Views.HabitProgressActivity"
+            android:parentActivityName=".Views.HabitEditActivity"/>
         <activity android:name=".Views.UserMenu" />
         <activity
             android:name=".Views.HabitListActivity"

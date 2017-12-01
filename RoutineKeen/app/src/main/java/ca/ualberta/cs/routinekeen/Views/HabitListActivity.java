@@ -17,6 +17,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
+import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.R;
@@ -41,6 +42,7 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.habit_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        IOManager.initManager(getApplicationContext());
         lv = (ListView) findViewById(R.id.listOfUserHabits);
         addHabitBtn = (ImageButton) findViewById(R.id.addNewHabit);
         try {
