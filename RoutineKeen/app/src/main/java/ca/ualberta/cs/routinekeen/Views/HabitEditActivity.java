@@ -31,9 +31,9 @@ public class HabitEditActivity extends AppCompatActivity {
     private Button cancelBtn;
     private Button saveBtn;
     private Button deleteBtn;
+    private Button checkHabitProgressButton;
     private EditText titleEditText;
     private EditText reasonEditText;
-    private EditText dateEditText;
     private Switch monSwitch;
     private Switch tueSwitch;
     private Switch wedSwitch;
@@ -50,8 +50,8 @@ public class HabitEditActivity extends AppCompatActivity {
         setContentView(R.layout.edit_habit);
         titleEditText = (EditText) findViewById(R.id.editHabit_habitTitleField);
         reasonEditText = (EditText) findViewById(R.id.editHabit_habitReasonField);
-        dateEditText = (EditText) findViewById(R.id.editHabit_habitStartDateField);
         saveBtn = (Button) findViewById(R.id.saveButton);
+        checkHabitProgressButton = (Button) findViewById(R.id.checkHabitProgressButton);
         monSwitch = (Switch) findViewById(R.id.monSwitch);
         tueSwitch = (Switch) findViewById(R.id.tueSwitch);;
         wedSwitch = (Switch) findViewById(R.id.wedSwitch);;
@@ -68,7 +68,6 @@ public class HabitEditActivity extends AppCompatActivity {
         data = getIntent().getExtras();
         titleEditText.setText(data.getString("title"));
         reasonEditText.setText(data.getString("reason"));
-        dateEditText.setText(data.getString("startDate"));
         oldHabitType = data.getString("title");
         setDaySwitches();
     }
@@ -116,6 +115,17 @@ public class HabitEditActivity extends AppCompatActivity {
                 }
             }
         });
+
+        checkHabitProgressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HabitEditActivity.this, HabitProgressActivity.class);
+                Bundle habitInfo = getIntent().getExtras();
+                intent.putExtra("habit",habitInfo);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private boolean validationSuccess(){
