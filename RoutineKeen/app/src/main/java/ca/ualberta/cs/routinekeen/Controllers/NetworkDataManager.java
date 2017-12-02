@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
+import ca.ualberta.cs.routinekeen.Models.HabitHistory;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.Models.User;
 
@@ -146,7 +147,7 @@ public class NetworkDataManager {
         return result.booleanValue();
     }
 
-    public static ArrayList<HabitEvent> GetUserHabitEvents(String userID){
+    public static HabitHistory GetUserHabitEvents(String userID){
         ElasticSearchController.GetUserHabitEventsTask getUserHabitEventsTask = new ElasticSearchController.GetUserHabitEventsTask();
         ArrayList<HabitEvent> retrievedHabitEvents = null;
         try{
@@ -155,6 +156,6 @@ public class NetworkDataManager {
             Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
         }
 
-        return retrievedHabitEvents;
+        return new HabitHistory(retrievedHabitEvents);
     }
 }

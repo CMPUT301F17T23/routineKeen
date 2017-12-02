@@ -7,8 +7,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.concurrent.LinkedTransferQueue;
 
+import com.fasterxml.jackson.dataformat.yaml.snakeyaml.error.Mark;
 import com.google.android.gms.maps.model.LatLng;
 
+import ca.ualberta.cs.routinekeen.Helpers.MarkedForStatus;
 import io.searchbox.annotations.JestId;
 
 /**
@@ -28,13 +30,21 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
     private LatLng eventLocation;
     private String associatedUserID;
     private String eventComment;
+    private byte[] eventPhoto;
+    private String eventHabitType; //todo in habitEvent activity, check if habitType exist before calling class constructor
+    private MarkedForStatus markedForStatus = MarkedForStatus.NONE;
+
+    public MarkedForStatus getMarkedForStatus(){
+        return markedForStatus;
+    }
+
+    public void setMarkedForStatus(MarkedForStatus status){
+        this.markedForStatus = status;
+    }
 
     public String getEventHabitType() {
         return eventHabitType;
     }
-
-    private Photo eventPhoto;
-    private String eventHabitType; //todo in habitEvent activity, check if habitType exist before calling class constructor
 
     public HabitEvent(String title, String comment){
         this.eventTitle = title;
@@ -58,7 +68,7 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         this.eventDate = new Date();
     }
 
-    public HabitEvent(String title, String habitType, String comment, LatLng location, Photo photo) {
+    public HabitEvent(String title, String habitType, String comment, LatLng location, byte[] photo) {
         this.eventTitle = title;
         this.eventHabitType = habitType;
         this.eventLocation = location;
@@ -97,7 +107,7 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         return eventComment;
     }
 
-    public Photo getPhoto() {
+    public byte[] getPhoto() {
         return eventPhoto;
     }
 
@@ -121,7 +131,7 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         this.eventHabitType = eventHabitType;
     }
 
-    public void setPhoto(Photo photo) {
+    public void setPhoto(byte[] photo) {
         this.eventPhoto = photo;
     }
 

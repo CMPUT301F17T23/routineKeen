@@ -74,8 +74,15 @@ public class IOManager {
         localDM.saveHabitList(habitList);
     }
 
-    public HabitHistory loadHabitHistory() {
-        return localDM.loadHabitHistory();
+    public HabitHistory loadUserHabitHistory(String userID) {
+        HabitHistory retrievedHabitEvents;
+        if (isNetworkAvailable()){
+            retrievedHabitEvents = NetworkDataManager.GetUserHabitEvents(userID);
+        } else{
+            retrievedHabitEvents = localDM.loadHabitHistory();
+        }
+
+        return retrievedHabitEvents;
     }
 
     public void saveHabitHistory(HabitHistory habitHistory) {
@@ -128,9 +135,25 @@ public class IOManager {
         }
     }
 
+    public void deleteHabitEvent(String eventID) throws NetworkUnavailableException {
+        if (isNetworkAvailable()){
+            NetworkDataManager.DeleteHabitEvent(eventID);
+        } else{
+            throw new NetworkUnavailableException();
+        }
+    }
+
     public void updateHabit(Habit habit) throws NetworkUnavailableException {
         if(isNetworkAvailable()){
             NetworkDataManager.UpdateHabit(habit);
+        } else {
+            throw new NetworkUnavailableException();
+        }
+    }
+
+    public void updateHabitEvent(HabitEvent event) throws NetworkUnavailableException{
+        if(isNetworkAvailable()){
+            NetworkDataManager.UpdateHabitEvent(event);
         } else {
             throw new NetworkUnavailableException();
         }

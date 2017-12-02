@@ -1,12 +1,10 @@
 package ca.ualberta.cs.routinekeen.Controllers;
 
-import ca.ualberta.cs.routinekeen.Helpers.UserDataStatus;
+import ca.ualberta.cs.routinekeen.Helpers.MarkedForStatus;
 import ca.ualberta.cs.routinekeen.Models.User;
 
 public class UserSingleton {
     private static User currentUser = null;
-    private static UserDataStatus userHabitData = null;
-    private static UserDataStatus userHabitEventData = null;
 
     private UserSingleton(){}
 
