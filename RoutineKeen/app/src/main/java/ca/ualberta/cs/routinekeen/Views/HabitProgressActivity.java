@@ -3,6 +3,9 @@ package ca.ualberta.cs.routinekeen.Views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -102,6 +105,15 @@ public class HabitProgressActivity extends AppCompatActivity {
                 + Integer.toString(scheduleGoal) + " day(s) scheduled");
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     //get a list of dates between two java dates
     //https://stackoverflow.com/questions/2689379/how-to-get-a-list-of-dates-between-two-dates-in-java

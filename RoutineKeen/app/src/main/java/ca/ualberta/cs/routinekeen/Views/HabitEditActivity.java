@@ -53,12 +53,12 @@ public class HabitEditActivity extends AppCompatActivity {
         saveBtn = (Button) findViewById(R.id.saveButton);
         checkHabitProgressButton = (Button) findViewById(R.id.checkHabitProgressButton);
         monSwitch = (Switch) findViewById(R.id.monSwitch);
-        tueSwitch = (Switch) findViewById(R.id.tueSwitch);;
-        wedSwitch = (Switch) findViewById(R.id.wedSwitch);;
+        tueSwitch = (Switch) findViewById(R.id.tueSwitch);
+        wedSwitch = (Switch) findViewById(R.id.wedSwitch);
         thuSwitch = (Switch) findViewById(R.id.thuSwitch);
-        friSwitch = (Switch) findViewById(R.id.friSwitch);;
-        satSwitch = (Switch) findViewById(R.id.satSwitch);;
-        sunSwitch = (Switch) findViewById(R.id.sunSwitch);;
+        friSwitch = (Switch) findViewById(R.id.friSwitch);
+        satSwitch = (Switch) findViewById(R.id.satSwitch);
+        sunSwitch = (Switch) findViewById(R.id.sunSwitch);
         initListeners();
     }
 
