@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import ca.ualberta.cs.routinekeen.R;
 
@@ -25,4 +26,9 @@ public class FindFollowersFrag extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_find_followers, container, false);
     }
+/*
+    public void searchUser(View view)
+    {
+        EditText userSearch = (EditText) findViewById(R.id.userSearch);
+    }*/
 }

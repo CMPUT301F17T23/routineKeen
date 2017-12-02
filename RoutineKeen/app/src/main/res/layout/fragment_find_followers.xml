@@ -7,20 +7,12 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Search for User to follow:"
-        android:textStyle="bold"
-        android:textSize="20dp" />
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/userSearch"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_marginBottom="32dp"
@@ -45,28 +37,36 @@
             android:layout_height="48dp"
             android:layout_marginBottom="32dp"
             android:layout_marginEnd="28dp"
-            android:layout_marginRight="28dp"
+            android:layout_marginRight="326dp"
             android:layout_marginTop="8dp"
             android:onClick="searchUser"
             android:text="Search"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.056" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <ListView
             android:id="@+id/searchUserList"
             android:layout_width="352dp"
             android:layout_height="419dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText3"
-            app:layout_constraintVertical_bias="0.355" />
+            app:layout_constraintTop_toBottomOf="@+id/userSearch"
+            app:layout_constraintVertical_bias="0.0" />
     </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search for User to follow:"
+        android:textStyle="bold"
+        android:textSize="20dp" />
 
 </FrameLayout>
