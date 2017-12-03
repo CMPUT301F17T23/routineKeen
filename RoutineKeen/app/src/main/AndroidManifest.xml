@@ -67,6 +67,7 @@
 
         <activity
             android:name=".Views.MapsActivity"
+            android:parentActivityName=".Views.MapFilter"
             android:label="@string/title_activity_maps">
         </activity>
     </application>

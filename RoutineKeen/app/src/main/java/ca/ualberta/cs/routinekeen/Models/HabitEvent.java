@@ -2,14 +2,10 @@ package ca.ualberta.cs.routinekeen.Models;
 
 import android.support.annotation.NonNull;
 
-import java.io.Serializable;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.concurrent.LinkedTransferQueue;
-
 import com.google.android.gms.maps.model.LatLng;
 
-import io.searchbox.annotations.JestId;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Creates HabitEvents (instances of a user completing a habit) with an associated Date, location,
