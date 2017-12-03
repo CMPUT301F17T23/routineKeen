@@ -33,13 +33,15 @@ public class HabitHistoryController {
     public static void addHabitEvent(HabitEvent event){
         String userID = UserSingleton.getCurrentUser().getUserID();
         event.setAssociatedUserID(userID);
+        String assignedEventID = null;
         try{
-            ioManager.addHabitEvent(event);
+            assignedEventID = ioManager.addHabitEvent(event);
         } catch (NetworkUnavailableException e){
             // mark the event to be added/updated to elastic search
             // upon reconnection with an available network
             event.setMarkedForStatus(MarkedForStatus.ADD);
         }
+        event.setEventID(assignedEventID);
         getHabitHistory().addHabitEvent(event);
         ioManager.saveHabitHistory(getHabitHistory());
     }
