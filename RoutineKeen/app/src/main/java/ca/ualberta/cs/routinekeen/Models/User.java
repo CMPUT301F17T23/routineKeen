@@ -12,8 +12,8 @@ import io.searchbox.annotations.JestId;
 public class User {
     private String username;
     private String userID;
-    private ArrayList<User> followerList;
-    private ArrayList<User> followerRequests;
+    private ArrayList<String> followerList;
+    private ArrayList<String> followerRequests;
     private ArrayList<Habit> habits;
     private ArrayList<HabitEvent> habitEvents;
 
@@ -44,19 +44,19 @@ public class User {
         this.username = username;
     }
 
-    public ArrayList<User> getFollowerList() {
+    public ArrayList<String> getFollowerList() {
         return followerList;
     }
 
-    public void setFollowerList(ArrayList<User> followerList) {
+    public void setFollowerList(ArrayList<String> followerList) {
         this.followerList = followerList;
     }
 
-    public ArrayList<User> getFollowerRequests() {
+    public ArrayList<String> getFollowerRequests() {
         return followerRequests;
     }
 
-    public void setFollowerRequests(ArrayList<User> followerRequests) {
+    public void setFollowerRequests(ArrayList<String> followerRequests) {
         this.followerRequests = followerRequests;
     }
 
