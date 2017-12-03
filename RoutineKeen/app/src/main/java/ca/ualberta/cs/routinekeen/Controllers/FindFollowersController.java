@@ -26,8 +26,13 @@ public class FindFollowersController {
         return user;
     }
 
-    public void addToRequestList(User user1)
+    public static void addToRequestList(User userRequesting, User requestedUser)
     {
-
+        try{
+            ioManager.sendFollowerRequest(userRequesting, requestedUser);
+        }
+        catch (NetworkUnavailableException e){
+            //hmmm
+        }
     }
 }

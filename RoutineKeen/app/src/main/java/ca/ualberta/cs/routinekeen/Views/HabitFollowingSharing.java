@@ -18,6 +18,7 @@ import ca.ualberta.cs.routinekeen.Controllers.FindFollowersController;
 import ca.ualberta.cs.routinekeen.Helpers.ViewPagerAdapter;
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.R;
+import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
 
 public class HabitFollowingSharing extends AppCompatActivity {
 
@@ -31,16 +32,17 @@ public class HabitFollowingSharing extends AppCompatActivity {
 
     //Find followers
     private ListView findListView;
-    private ArrayList<User> userSearchList = new ArrayList<User>();
-    private ArrayAdapter<User> findAdapter;
+    private ArrayList<String> userSearchList = new ArrayList<String>();
+    private ArrayAdapter<String> findAdapter;
+    private User requestedUser;
 
     //Follower Feed
     private ListView feedListView;
-    private ArrayList<User> userFeedList = new ArrayList<User>();
+    private ArrayList<String> userFeedList = new ArrayList<String>();
     private ArrayAdapter<User> feedAdapter;
 
     //Follow Request
-    private ArrayList<User> userRequestList = new ArrayList<User>();
+    private ArrayList<String> userRequestList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class HabitFollowingSharing extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        currentUser = UserSingleton.getCurrentUser();
         //Set adapters
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -60,6 +63,9 @@ public class HabitFollowingSharing extends AppCompatActivity {
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+
+        //userRequestList = currentUser.getFollowerRequests();
     }
 
     /*Takes string from usersearch edit text
@@ -67,13 +73,12 @@ public class HabitFollowingSharing extends AppCompatActivity {
      * stored in an array list put to listview
      * onclick list view send request
      */
-    public void searchUser(View view)
+    /*public void searchUser(View view)
     {
         EditText userSearch = (EditText) findViewById(R.id.userSearch);
         String userToSearch = userSearch.getText().toString();
 
-        currentUser = FindFollowersController.getUsers(userToSearch);
-
+        requestedUser = FindFollowersController.getUsers(userToSearch);
         if(currentUser == null)
         {
             //Print out user does not exist
@@ -83,9 +88,17 @@ public class HabitFollowingSharing extends AppCompatActivity {
         else
         {
             //User exist, add to their request list
+            if(requestedUser.getFollowerRequests().contains(currentUser))
+            {
+                Toast.makeText(this, "You have already made a request previously.", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                FindFollowersController.addToRequestList(currentUser, requestedUser);
+            }
 
         }
-    }
+    }*/
 
 
 
