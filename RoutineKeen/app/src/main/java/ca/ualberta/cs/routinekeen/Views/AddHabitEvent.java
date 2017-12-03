@@ -219,6 +219,10 @@ public class AddHabitEvent extends AppCompatActivity {
                 InputStream image_stream = getContentResolver().openInputStream(imageUri);
                 Bitmap thumbImage = (new PhotoHelpers(this).convertImageStreamToThumbnail(image_stream, LENGTH, LENGTH));
 
+                if (thumbImage == null) {
+                    Toast.makeText(this,"Image file too large.",Toast.LENGTH_SHORT).show();
+                }
+
                 photoImageButton.setImageBitmap(thumbImage); // reset the stream
 
                 photoByteArray = (new PhotoHelpers(this).compressImage(thumbImage));
