@@ -63,12 +63,27 @@ public class PhotoHelpers extends ContextWrapper {
     }
 
     public static Bitmap convertImageStreamToThumbnail(InputStream imageStream, int width, int height){
-        // Taken from: http://www.rogerethomas.com/blog/generating-square-cropped-thumbnails-in-android-java
-        // on Nov 25, 2017
-        Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+
+        Bitmap selectedImage = null;
+        try {
+            selectedImage = BitmapFactory.decodeStream(imageStream);
+        } catch (OutOfMemoryError e) {
+            System.gc();
+            try {
+                selectedImage = BitmapFactory.decodeStream(imageStream);
+            } catch (OutOfMemoryError e2) {
+                return null;
+            }
+        }
+        // Taken from https://stackoverflow.com/questions/7138645/catching-outofmemoryerror-in-decoding-bitmap
+        // on Dec 2, 2017
+
         // convert selected image to thumbnail smaller than IMAGE_MAX_BYTES
         Bitmap thumbImage = ThumbnailUtils.extractThumbnail(selectedImage,
                 width, height);
+        // Taken from: http://www.rogerethomas.com/blog/generating-square-cropped-thumbnails-in-android-java
+        // on Nov 25, 2017
+
         return thumbImage;
     }
 
