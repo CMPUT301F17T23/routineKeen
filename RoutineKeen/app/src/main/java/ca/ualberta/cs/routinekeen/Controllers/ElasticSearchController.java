@@ -7,6 +7,7 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +84,8 @@ public class ElasticSearchController {
             try{
                 SearchResult result = client.execute(search);
                 if(result.isSucceeded()){
-                    userResult = result.getSourceAsObject(User.class);
+                    userResult = result.getFirstHit(User.class).source;
+                    userResult.setUserID(result.getFirstHit(User.class).id);
                 }
             } catch(Exception e){
                 Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
@@ -119,31 +121,67 @@ public class ElasticSearchController {
         }
     }
 
-    public static class DeleteHabitByTitleTask extends AsyncTask<String, Void, Boolean> {
+    public static class DeleteHabitTask extends AsyncTask<String, Void, Boolean> {
         @Override
-        protected Boolean doInBackground(String... habitTypes) {
+        protected Boolean doInBackground(String... habitID) {
             verifySettings();
 
-            String habitType = habitTypes[0];
-            String query = "{\n" +
-                    "   \"query\": {\n" +
-                    "       \"term\": {\n" +
-                    "           \"habitTitle\": \"" + habitType + "\"\n" +
-                    "           }\n" +
-                    "       }\n" +
-                    "   }";
+            if(habitID.length > 1)
+                throw new RuntimeException("Illegal Task Call. One habit at a time only.");
+
+            Delete delete = new Delete.Builder(habitID[0])
+                    .index(INDEX_NAME)
+                    .type("habit")
+                    .build();
+
             JestResult result = null;
-            DeleteByQuery delete = new DeleteByQuery.Builder(query)
-                                        .addIndex(INDEX_NAME)
-                                        .addType("habit")
-                                        .build();
             try{
                 result = client.execute(delete);
             } catch (Exception e){
-                Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
+                Log.i("Error", "Something went wrong when trying to delete the habit on elastic search!");
             }
 
             return  result.isSucceeded() ? Boolean.TRUE : Boolean.FALSE;
+        }
+    }
+
+    public static class GetUserHabitsTask extends AsyncTask<String, Void, ArrayList<Habit>> {
+        @Override
+        protected ArrayList<Habit> doInBackground(String... user_ids) {
+            verifySettings();
+
+            if(user_ids.length > 1){
+                throw new RuntimeException("Only one User ID is expected for task.");
+            }
+
+            ArrayList<Habit> habitsResult = new ArrayList<Habit>();
+            String query = "{\n" +
+                    "    \"query\": {\n" +
+                    "        \"query_string\" : {\n" +
+                    "           \"default_field\" : \"associatedUserID\",\n" +
+                    "               \"query\" : \"" + user_ids[0] + "\"\n" +
+                    "               }\n" +
+                    "           }\n" +
+                    "       }";
+            Search search = new Search.Builder(query)
+                    .addIndex(INDEX_NAME)
+                    .addType("habit")
+                    .build();
+
+            try{
+                SearchResult result = client.execute(search);
+                if(result.isSucceeded()) {
+                    for(SearchResult.Hit x:  result.getHits(Habit.class)){
+                        Habit retrievedHabit = (Habit)x.source;
+                        retrievedHabit.setHabitID(x.id);
+                        habitsResult.add(retrievedHabit);
+                    }
+                }
+            } catch (IOException e){
+                Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
+            }
+
+            return habitsResult;
         }
     }
 
@@ -169,7 +207,8 @@ public class ElasticSearchController {
             try{
                 SearchResult result = client.execute(search);
                 if(result.isSucceeded()){
-                    habitResult = result.getSourceAsObject(Habit.class);
+                    habitResult = result.getFirstHit(Habit.class).source;
+                    habitResult.setHabitID(result.getFirstHit(Habit.class).id);
                 }
             } catch(Exception e){
                 Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
@@ -179,10 +218,61 @@ public class ElasticSearchController {
         }
     }
 
-    public static class UpdateHabitByIDTask extends AsyncTask<String, Void, String> {
+    public static class UpdateHabitTask extends AsyncTask<Habit, Void, Boolean> {
         @Override
-        protected String doInBackground(String... strings) {
-            return null;
+        protected Boolean doInBackground(Habit... habits) {
+            verifySettings();
+
+            if(habits.length > 1)
+                throw new RuntimeException("Illegal Task Call. One habit at a time.");
+
+            Index index = new Index.Builder(habits[0])
+                                .index(INDEX_NAME)
+                                .type("habit")
+                                .id(habits[0].getHabitID())
+                                .build();
+            JestResult result = null;
+            try{
+                result = client.execute(index);
+            } catch(Exception e){
+                Log.i("Error", "The application failed to update the habit.");
+            }
+
+            return result.isSucceeded() ? Boolean.TRUE : Boolean.FALSE;
+        }
+    }
+
+    public static class GetHabitIdTask extends AsyncTask<String, Void, String>{
+        @Override
+        protected String doInBackground(String... habitType) {
+            verifySettings();
+
+            if(habitType.length > 1){
+                throw new RuntimeException("Illegal task call. One habit type at a time.");
+            }
+
+            String query = "{\n" +
+                    "    \"query\": {\n" +
+                    "        \"query_string\" : {\n" +
+                    "           \"default_field\" : \"habitTitle\",\n" +
+                    "               \"query\" : \"" +  habitType[0] + "\"\n" +
+                    "               }\n" +
+                    "           }\n" +
+                    "       }";
+            Search search = new Search.Builder(query)
+                    .addIndex(INDEX_NAME)
+                    .addType("habit")
+                    .build();
+            String retrievedHabitId = null;
+            try{
+                SearchResult result = client.execute(search);
+                if(result.isSucceeded())
+                    retrievedHabitId = result.getFirstHit(Habit.class).id.toString();
+            } catch (Exception e){
+                Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
+            }
+
+            return retrievedHabitId;
         }
     }
 
@@ -213,19 +303,19 @@ public class ElasticSearchController {
 
     public static class GetUserHabitEventsTask extends AsyncTask<String, Void, ArrayList<HabitEvent>> {
         @Override
-        protected ArrayList<HabitEvent> doInBackground(String... search_parameters) {
+        protected ArrayList<HabitEvent> doInBackground(String... user_ids) {
             verifySettings();
 
-            if (search_parameters.length > 1) {
+            if (user_ids.length > 1) {
                 throw new RuntimeException("Only one User ID is expected for task.");
             }
 
-            ArrayList<HabitEvent> habitEventsResult = null;
-            String userID = search_parameters[0];
+            ArrayList<HabitEvent> habitEventsResult = new ArrayList<HabitEvent>();
+            String userID = user_ids[0];
             String query = "{\n" +
                     "    \"query\": {\n" +
                     "        \"query_string\" : {\n" +
-                    "           \"default_field\" : \"habitEventUserID\",\n" +
+                    "           \"default_field\" : \"associatedUserID\",\n" +
                     "               \"query\" : \"" + userID + "\"\n" +
                     "               }\n" +
                     "           }\n" +
@@ -238,8 +328,11 @@ public class ElasticSearchController {
             try{
                 SearchResult result = client.execute(search);
                 if(result.isSucceeded()) {
-                    List<HabitEvent> foundHabitEvents = result.getSourceAsObjectList(HabitEvent.class);
-                    habitEventsResult.addAll(foundHabitEvents);
+                    for(SearchResult.Hit x:  result.getHits(HabitEvent.class)){
+                        HabitEvent retrievedHabit = (HabitEvent) x.source;
+                        retrievedHabit.setEventID(x.id);
+                        habitEventsResult.add(retrievedHabit);
+                    }
                 }
             } catch (Exception e){
                 Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
@@ -249,7 +342,56 @@ public class ElasticSearchController {
         }
     }
 
-    public static void verifySettings() {
+    public static class UpdateHabitEventTask extends AsyncTask<HabitEvent, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(HabitEvent... habitEvents) {
+            verifySettings();
+
+            if(habitEvents.length > 1)
+                throw new RuntimeException("Illegal Task Call. One habit event at a time.");
+
+            Index index = new Index.Builder(habitEvents[0])
+                    .index(INDEX_NAME)
+                    .type("habit")
+                    .id(habitEvents[0].getEventID())
+                    .build();
+
+            JestResult result = null;
+            try{
+                result = client.execute(index);
+            } catch(Exception e){
+                Log.i("Error", "The application failed to update the habit.");
+            }
+
+            return result.isSucceeded() ? Boolean.TRUE : Boolean.FALSE;
+        }
+    }
+
+    public static class DeleteHabitEventTask extends AsyncTask<String, Void, Boolean>{
+        @Override
+        protected Boolean doInBackground(String... eventID) {
+            verifySettings();
+
+            if(eventID.length > 1)
+                throw new RuntimeException("Illegal task call. One event at a time.");
+
+            Delete delete = new Delete.Builder(eventID[0])
+                                    .index(INDEX_NAME)
+                                    .type("habitEvent")
+                                    .build();
+
+            JestResult result = null;
+            try{
+                result = client.execute(delete);
+            } catch(Exception e){
+                Log.i("Error", "The application failed to update the habit.");
+            }
+
+            return result.isSucceeded() ? Boolean.TRUE : Boolean.FALSE;
+        }
+    }
+
+    private static void verifySettings() {
         if (client == null){
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder(ELASTICSEARCH_URL);
             DroidClientConfig config = builder.build();

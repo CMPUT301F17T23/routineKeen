@@ -7,7 +7,11 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.concurrent.LinkedTransferQueue;
 
+import com.fasterxml.jackson.dataformat.yaml.snakeyaml.error.Mark;
 import com.google.android.gms.maps.model.LatLng;
+
+import ca.ualberta.cs.routinekeen.Helpers.MarkedForStatus;
+import io.searchbox.annotations.JestId;
 
 /**
  * Creates HabitEvents (instances of a user completing a habit) with an associated Date, location,
@@ -20,13 +24,27 @@ import com.google.android.gms.maps.model.LatLng;
  */
 
 public class HabitEvent implements Comparable<HabitEvent>, Serializable {
+    private String eventID;
     private String eventTitle;
     private Date eventDate;
     private LatLng eventLocation;
-    private String habitEventUserID;
+    private String associatedUserID;
     private String eventComment;
-    private Photo eventPhoto;
+    private byte[] eventPhoto;
     private String eventHabitType; //todo in habitEvent activity, check if habitType exist before calling class constructor
+    private MarkedForStatus markedForStatus = MarkedForStatus.NONE;
+
+    public MarkedForStatus getMarkedForStatus(){
+        return markedForStatus;
+    }
+
+    public void setMarkedForStatus(MarkedForStatus status){
+        this.markedForStatus = status;
+    }
+
+    public String getEventHabitType() {
+        return eventHabitType;
+    }
 
     public HabitEvent(String title, String comment){
         this.eventTitle = title;
@@ -50,13 +68,21 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         this.eventDate = new Date();
     }
 
-    public HabitEvent(String title, String habitType, String comment, LatLng location, Photo photo) {
+    public HabitEvent(String title, String habitType, String comment, LatLng location, byte[] photo) {
         this.eventTitle = title;
         this.eventHabitType = habitType;
         this.eventLocation = location;
         this.eventComment = comment;
         this.eventPhoto = photo;
         this.eventDate = new Date();
+    }
+
+    public String getEventID(){
+        return this.eventID;
+    }
+
+    public void setEventID(String id){
+        this.eventID = id;
     }
 
     public Date getDate() {
@@ -71,7 +97,7 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         return eventTitle;
     }
 
-    public String getHabitEventUserID() { return habitEventUserID; }
+    public String getAssociatedUserID() { return associatedUserID; }
 
     public LatLng getLocation() {
         return eventLocation;
@@ -81,7 +107,7 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         return eventComment;
     }
 
-    public Photo getPhoto() {
+    public byte[] getPhoto() {
         return eventPhoto;
     }
 
@@ -89,8 +115,8 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         this.eventTitle = title;
     }
 
-    public void setHabitEventUserID(String userID) {
-        this.habitEventUserID = userID;
+    public void setAssociatedUserID(String userID) {
+        this.associatedUserID = userID;
     }
 
     public void setLocation(LatLng location) {
@@ -101,7 +127,11 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
         this.eventComment = comment;
     }
 
-    public void setPhoto(Photo photo) {
+    public void setEventHabitType(String eventHabitType) {
+        this.eventHabitType = eventHabitType;
+    }
+
+    public void setPhoto(byte[] photo) {
         this.eventPhoto = photo;
     }
 
@@ -117,6 +147,6 @@ public class HabitEvent implements Comparable<HabitEvent>, Serializable {
 
     @Override
     public String toString() {
-        return this.eventTitle + "       " + this.eventComment + "\n" + this.eventDate.toString();
+        return  eventHabitType + "\n" + this.eventTitle + "\n" + this.eventComment + "\n" + this.eventDate.toString();
     }
 }

@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.data.DataBufferObserver;
 
@@ -97,8 +98,12 @@ public class LoginActivity extends AppCompatActivity implements Observer{
                             // Create/Retrieve the user on the network, then add them to the user list,
                             // and save them to the local data storage (shared preferences)
                             String username = mProfile.getText().toString();
-                            UserListController.addUserToList(username);
-                            dialog.dismiss();
+                            if(UserListController.addUserToList(username)) {
+                                dialog.dismiss();
+                            } else{
+                                Toast.makeText(LoginActivity.this, "Failed to retrieve/add user. Please make sure " +
+                                        "you are connected to a network.", Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 });

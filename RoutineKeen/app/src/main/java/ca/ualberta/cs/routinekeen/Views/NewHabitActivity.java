@@ -1,14 +1,10 @@
 package ca.ualberta.cs.routinekeen.Views;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,21 +12,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
 
 import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
 import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
 import ca.ualberta.cs.routinekeen.Helpers.DateHelpers;
 import ca.ualberta.cs.routinekeen.Models.Habit;
-import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.R;
 
 /**
@@ -56,6 +46,7 @@ public class NewHabitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_habit);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dateDisplay = (Button) findViewById(R.id.addHabit_date);
         textViewDate = (TextView) findViewById(R.id.show_habit_date);
         cancelBtn = (Button) findViewById(R.id.cancel_newHabit);
@@ -119,10 +110,10 @@ public class NewHabitActivity extends AppCompatActivity {
                 if(validationSuccess()){
                     Date date = DateHelpers.formatStringToDate(
                             hDate.getText().toString(), "MM/dd/yyyy");
-                    String title = hTitle.getText().toString();
-                    String reason = hReason.getText().toString();
+                    String title = hTitle.getText().toString().trim();
+                    String reason = hReason.getText().toString().trim();
                     Habit habitToAdd = new Habit(title, reason, date);
-                    habitToAdd.setHabitUserID(UserSingleton.getCurrentUser().getUserID());
+                    habitToAdd.setAssociatedUserID(UserSingleton.getCurrentUser().getUserID());
                     String [] days = new String [] {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
                     ArrayList<String> practiceDays = new ArrayList<>(Arrays.asList(days));
                     habitToAdd.setScheduledHabitDays(practiceDays);
@@ -158,16 +149,16 @@ public class NewHabitActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return false;
 
-        } else {
-            Date hDateInput = DateHelpers.formatStringToDate(
-                    hDate.getText().toString(), "MM/dd/yyyy");
-            Date currentDate = DateHelpers.removeTime(new Date());
-            if (hDateInput.before(currentDate)) {
-                Toast.makeText(this, "Date is in the past, try again.",
-                        Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        }
+        }// else {
+//            Date hDateInput = DateHelpers.formatStringToDate(
+//                    hDate.getText().toString(), "MM/dd/yyyy");
+//            Date currentDate = DateHelpers.removeTime(new Date());
+//            if (hDateInput.before(currentDate)) {
+//                Toast.makeText(this, "Date is in the past, try again.",
+//                        Toast.LENGTH_SHORT).show();
+//                return false;
+//            }
+//        }
 
         return true;
     }

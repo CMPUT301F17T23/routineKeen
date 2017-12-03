@@ -63,6 +63,8 @@ public class HabitHistory extends Observable{
 
     public HabitEvent getHabitEvent(int position)
     {
+        setChanged();
+        notifyObservers();
         return habitHistory.get(position);
     }
 

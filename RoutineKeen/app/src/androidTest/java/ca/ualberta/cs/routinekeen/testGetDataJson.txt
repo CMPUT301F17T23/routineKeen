@@ -1,0 +1,24 @@
+// Insert using ID: AV_7n2-eZw0egSlVI5K0
+{
+    "username" : "testGetUsername"
+}
+
+
+// Insert using ID: AWADvALrBOIa5W1F-q6m
+{
+  "habitTitle" : "testGetHabitType",
+  "habitReason" : "test get reason",
+  "associatedUserID" : "AV_7n2-eZw0egSlVI5K0",
+  "startDate" : "2017-11-28T00:00:00-0000",
+  "scheduledDays" : ["Mon","Tue","Wed"]
+}
+
+// Insert using ID: AcaRvALrBOIa5W1F-h69
+{
+  "habitTitle" : "testGetHabitTypeTwo",
+  "habitReason" : "test get reason two",
+  "associatedUserID" : "AV_7n2-eZw0egSlVI5K0",
+  "startDate" : "2018-11-29T00:00:00-0000",
+  "scheduledDays" : ["Mon","Thu","Fri"]
+}
+

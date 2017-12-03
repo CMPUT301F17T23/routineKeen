@@ -71,7 +71,7 @@ public class HabitFollowingSharing extends AppCompatActivity {
         EditText userSearch = (EditText) findViewById(R.id.userSearch);
         String userToSearch = userSearch.getText().toString();
 
-        userSearchList = FindFollowersController.getUsers(userToSearch);
+        currentUser = FindFollowersController.getUsers(userToSearch);
     }
 
 

@@ -1,5 +1,6 @@
 package ca.ualberta.cs.routinekeen.Controllers;
 
+import android.net.Network;
 import android.util.Log;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -10,6 +11,7 @@ import java.util.Calendar;
 import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitList;
+import ca.ualberta.cs.routinekeen.Models.User;
 
 /**
  * Controller used to access and modify Habits in the current user's HabitList
@@ -24,15 +26,22 @@ public class HabitListController{
     private static IOManager ioManager = IOManager.getManager();
     private HabitListController(){}
 
+    public static void initHabitList() throws NetworkUnavailableException{
+        try{
+            String userID = UserSingleton.getCurrentUser().getUserID();
+            habitList = ioManager.loadUserHabitList(userID);
+        } catch (NetworkUnavailableException e){
+            throw new NetworkUnavailableException("Network unavailable. " +
+                    "Please restart the application with a valid connection.");
+        }
+    }
+
     /**
      * Returns a list of all habits belonging to the current user.
      * @return  A HabitList containing all the user's habits
      * @see     HabitList
      */
-    public static HabitList getHabitList() {
-        if (habitList == null) {
-            habitList = ioManager.loadHabitList();
-        }
+    public static HabitList getHabitList(){
         return habitList;
     }
 
@@ -66,6 +75,7 @@ public class HabitListController{
             case Calendar.SATURDAY: today = "Sat";  break;
             default:                today = null;   break;
         }
+
         /*
          Taken from: https://stackoverflow.com/questions/5574673/what-is-the-easiest-way-to-get-
          the-current-day-of-the-week-in-android
@@ -73,7 +83,7 @@ public class HabitListController{
         */
 
         HabitList returnList = new HabitList();
-        for (Habit x:getHabitList().getHabits()) {
+        for (Habit x : getHabitList().getHabits()) {
             if (x.getScheduledHabitDays().contains(today)) {
                 returnList.addHabit(x);
             }
@@ -89,11 +99,13 @@ public class HabitListController{
      * @see     HabitList
      */
     public static boolean addHabit(Habit habit){
+        String assignedHabitID;
         try{
-            ioManager.addHabit(habit);
+            assignedHabitID = ioManager.addHabit(habit);
         } catch (NetworkUnavailableException e){
             return false;
         }
+        habit.setHabitID(assignedHabitID);
         getHabitList().addHabit(habit);
         saveHabitList();
         return true;
@@ -107,10 +119,20 @@ public class HabitListController{
      * @param schedDays The scheduled days for the updated/unchanged habit
      * @param position The position of the habit within the habit list
      */
-    public static void updateHabit(String title, String reason,
-                                   ArrayList<String> schedDays, int position){
+    public static boolean updateHabit(String title, String reason,
+                                   ArrayList<String> schedDays, int position) {
+        Habit habitToUpdate = getHabitList().getHabitByPosition(position);
+        habitToUpdate.setHabitReason(reason);
+        habitToUpdate.setHabitTitle(title);
+        habitToUpdate.setScheduledHabitDays(schedDays);
+        try{
+            ioManager.updateHabit(habitToUpdate);
+        } catch (NetworkUnavailableException e){
+            return false;
+        }
         getHabitList().updateHabit(title, reason, schedDays, position);
         saveHabitList();
+        return true;
     }
 
     /**
@@ -120,8 +142,8 @@ public class HabitListController{
      */
     public static boolean deleteHabit(int position){
         try{
-            ioManager.deleteHabitByType(getHabitList()
-                     .getHabitByPosition(position).getHabitTitle());
+            ioManager.deleteHabit(getHabitList()
+                     .getHabitByPosition(position).getHabitID());
         } catch (NetworkUnavailableException e){
             return false;
         }
@@ -138,7 +160,7 @@ public class HabitListController{
      * @see     IOManager
      * @see     HabitList
      */
-    public static void saveHabitList(){
+    public static void saveHabitList() {
         ioManager.saveHabitList(getHabitList());
     }
 }
