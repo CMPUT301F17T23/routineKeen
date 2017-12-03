@@ -106,6 +106,7 @@ public class MapFilter extends AppCompatActivity{
             buildAlertMessageNoGps();
         } else {
             if (isCheckedFlag > 0) {
+                eventsToDisplay.clear();
                 countMarkers();
                 if (markerCount > 0) {
                     Intent i = new Intent(MapFilter.this, MapsActivity.class);
@@ -163,6 +164,8 @@ public class MapFilter extends AppCompatActivity{
 
     private void countMarkers() throws NetworkUnavailableException {
         Boolean eventsError = Boolean.FALSE;
+
+
 
         if (personalBool) {
             getUserEvents();
@@ -370,7 +373,8 @@ public class MapFilter extends AppCompatActivity{
         for (User s : users) {
             try {
                 String username = s.getUsername();
-                Log.d("tag1", "username: "+username);
+//                Log.d("tag1", "username: "+username);
+                username = "Hugh";
                 IOManager.getManager().getUser(username);
                 tempArray = (ArrayList<HabitEvent>) NetworkDataManager.GetUserHabitEvents(IOManager
                         .getManager().getUser(username).getUserID()).getEvents();
