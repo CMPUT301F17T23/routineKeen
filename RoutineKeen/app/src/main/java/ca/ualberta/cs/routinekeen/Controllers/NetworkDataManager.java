@@ -59,6 +59,19 @@ public class NetworkDataManager {
         return referenceID;
     }
 
+    public static boolean SendFollowerRequest(User userRequesting, User requestedUser){
+        ElasticSearchController.SendFollowRequestTask sendFollowRequestTask =
+                new ElasticSearchController.SendFollowRequestTask(userRequesting.getUsername());
+        Boolean result = null;
+        try{
+            result = sendFollowRequestTask.execute(requestedUser).get();
+        } catch(Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return result.booleanValue();
+    }
+
     public static boolean DeleteHabit(String habitID){
         ElasticSearchController.DeleteHabitTask deleteHabitByTitleTask = new ElasticSearchController.DeleteHabitTask();
         Boolean result = null;

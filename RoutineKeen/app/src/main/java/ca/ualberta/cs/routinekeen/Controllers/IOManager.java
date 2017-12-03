@@ -159,6 +159,14 @@ public class IOManager {
         }
     }
 
+    public void sendFollowerRequest(User userRequesting, User requestedUser) throws NetworkUnavailableException{
+        if(isNetworkAvailable()){
+            NetworkDataManager.SendFollowerRequest(userRequesting, requestedUser);
+        } else{
+            throw new NetworkUnavailableException();
+        }
+    }
+
     public void loadSharedPrefs(String... prefs){
         localDM.loadSharedPrefs(prefs);
     }

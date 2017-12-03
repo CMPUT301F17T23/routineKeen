@@ -26,4 +26,8 @@ public class FindFollowersController {
         return user;
     }
 
+    public void addToRequestList(User user1)
+    {
+
+    }
 }

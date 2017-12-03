@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,7 @@ public class HabitFollowingSharing extends AppCompatActivity {
     private ArrayAdapter<User> feedAdapter;
 
     //Follow Request
-
+    private ArrayList<User> userRequestList = new ArrayList<User>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,18 @@ public class HabitFollowingSharing extends AppCompatActivity {
         String userToSearch = userSearch.getText().toString();
 
         currentUser = FindFollowersController.getUsers(userToSearch);
+
+        if(currentUser == null)
+        {
+            //Print out user does not exist
+            Toast.makeText(this, "User does not exist. Please try again.", Toast.LENGTH_SHORT).show();
+
+        }
+        else
+        {
+            //User exist, add to their request list
+
+        }
     }
 
 

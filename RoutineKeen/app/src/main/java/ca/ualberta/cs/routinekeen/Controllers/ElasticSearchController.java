@@ -95,6 +95,48 @@ public class ElasticSearchController {
         }
     }
 
+    public static class SendFollowRequestTask extends AsyncTask<User, Void, Boolean> {
+        String userRequesting;
+
+        public SendFollowRequestTask(String userRequesting) {
+            this.userRequesting = userRequesting;
+        }
+
+        @Override
+        protected Boolean doInBackground(User... user) {
+            verifySettings();
+
+            if(user.length > 1){
+                throw new RuntimeException("Illegal Task Call. Only one user can be sent a request.");
+            }
+
+            // Add the user issuing the request to the requested users
+            // follower request list.
+            User requestedUser = user[0];
+            ArrayList<String> usersFollowerRequests = user[0].getFollowerRequests();
+            if(usersFollowerRequests == null){
+                usersFollowerRequests = new ArrayList<>();
+            }
+            usersFollowerRequests.add(userRequesting);
+            requestedUser.setFollowerRequests(usersFollowerRequests);
+
+            Index index = new Index.Builder(requestedUser)
+                                .index(INDEX_NAME)
+                                .type("user")
+                                .id(requestedUser.getUserID())
+                                .build();
+
+            JestResult result = null;
+            try{
+                result = client.execute(index);
+            } catch (Exception e){
+                Log.i("Error", "The application failed to update the habit.");
+            }
+
+            return result.isSucceeded() ? Boolean.TRUE : Boolean.FALSE;
+        }
+    }
+
     public static class AddHabitTask extends AsyncTask<Habit, Void, String> {
         @Override
         protected String doInBackground(Habit... habits){
