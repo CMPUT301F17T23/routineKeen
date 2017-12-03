@@ -159,9 +159,42 @@ public class IOManager {
         }
     }
 
-    public void sendFollowerRequest(User userRequesting, User requestedUser) throws NetworkUnavailableException{
+    public void sendFollowerRequest(User follower, User followee) throws NetworkUnavailableException{
+
+        // Add the user issuing the request to the requested users
+        // follower request list.
+        ArrayList<String> usersFollowerRequests = followee.getFollowerRequests();
+        if(usersFollowerRequests == null)
+            usersFollowerRequests = new ArrayList<>();
+        usersFollowerRequests.add(follower.getUsername());
+        followee.setFollowerRequests(usersFollowerRequests);
+
+        // Update the followee's follower request list
         if(isNetworkAvailable()){
-            NetworkDataManager.SendFollowerRequest(userRequesting, requestedUser);
+            NetworkDataManager.UpdateUser(followee);
+        } else{
+            throw new NetworkUnavailableException();
+        }
+    }
+
+    public void acceptFollowerRequest(User follower, User followee) throws NetworkUnavailableException{
+
+        // Take the follower off the followee's request list
+        // since they have now accepted it
+        ArrayList<String> usersFollowerRequests = followee.getFollowerRequests();
+        usersFollowerRequests.remove(follower.getUsername());
+        followee.setFollowerRequests(usersFollowerRequests);
+
+        // Put the followee on the followers follow list
+        ArrayList<String> usersFollowerList = follower.getFollowerList();
+        if(usersFollowerList == null)
+            usersFollowerList = new ArrayList<>();
+        usersFollowerList.add(followee.getUsername());
+        follower.setFollowerList(usersFollowerList);
+
+        if(isNetworkAvailable()) {
+            NetworkDataManager.UpdateUser(followee);
+            NetworkDataManager.UpdateUser(follower);
         } else{
             throw new NetworkUnavailableException();
         }
