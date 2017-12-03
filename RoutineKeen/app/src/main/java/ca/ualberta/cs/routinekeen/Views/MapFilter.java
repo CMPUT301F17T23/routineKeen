@@ -29,8 +29,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import ca.ualberta.cs.routinekeen.Controllers.HabitHistoryController;
+import ca.ualberta.cs.routinekeen.Controllers.IOManager;
+import ca.ualberta.cs.routinekeen.Controllers.NetworkDataManager;
+import ca.ualberta.cs.routinekeen.Controllers.UserListController;
+import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.Models.Markers;
+import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.R;
 
 /**
@@ -59,6 +64,10 @@ public class MapFilter extends AppCompatActivity{
     private static final int REQUEST_LOCATION = 1;
     public static final int REQUESTION_LOCATION_CODE = 99;
     private FusedLocationProviderClient mFusedLocationClient;
+    private ArrayList<User> users = new ArrayList<User>();
+    private ArrayList<HabitEvent> tempArray = new ArrayList<>();
+//    private ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>();
+//    private ArrayList<ArrayList<HabitEvent>> allEvents = new ArrayList<>();
 
     /**
      * On create, initialize page.
@@ -70,7 +79,7 @@ public class MapFilter extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_filter);
         resetMarkers();
-        getUserEvents();
+        eventsToDisplay.clear();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -91,7 +100,7 @@ public class MapFilter extends AppCompatActivity{
      * Send the user's choice to only see nearby events to MapsActivity.class through putExtra
      * @param view
      */
-    public void applyFilter(View view) {
+    public void applyFilter(View view) throws NetworkUnavailableException {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
@@ -120,40 +129,7 @@ public class MapFilter extends AppCompatActivity{
         }
     }
 
-    private void setUpMarkers() {
-        Boolean eventsError = Boolean.FALSE;
-        try {
-            for (HabitEvent e : eventsToDisplay) {
-                //pass
-            }
-        } catch (Exception e) {
-            eventsError = Boolean.TRUE;
-            Log.d("tag1", "e not okay");
-        }
-        if (!eventsError) {
-            for (HabitEvent e : eventsToDisplay) {
-                if (personalBool) {
-                    if (e.getLocation() != null) {
-                        if (radiusBool) {
-                            if (checkDistance(e.getLocation(), 5000.0)) {
-                                String id = e.getAssociatedUserID();
-                                String locName = e.getTitle();
-                                LatLng location = e.getLocation();
-                                storeMarkers(id, locName, location);
-                            }
-                        } else {
-                            String id = e.getAssociatedUserID();
-                            String locName = e.getTitle();
-                            LatLng location = e.getLocation();
-                            storeMarkers(id, locName, location);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private void countMarkers() {
+    private void setUpMarkers() throws NetworkUnavailableException {
         Boolean eventsError = Boolean.FALSE;
         try {
             for (HabitEvent e : eventsToDisplay) {
@@ -166,12 +142,52 @@ public class MapFilter extends AppCompatActivity{
         if (!eventsError) {
             for (HabitEvent e : eventsToDisplay) {
                 if (e.getLocation() != null) {
-                    String id = e.getAssociatedUserID();
-                    String locName = e.getTitle();
-                    LatLng location = e.getLocation();
-                    storeMarkers(id, locName, location);
+                    if (radiusBool) {
+                        if (checkDistance(e.getLocation(), 5000.0)) {
+                            String id = e.getAssociatedUserID();
+                            String locName = e.getTitle();
+                            LatLng location = e.getLocation();
+                            storeMarkers(id, locName, location);
+                        }
+                    } else {
+                        String id = e.getAssociatedUserID();
+                        String locName = e.getTitle();
+                        LatLng location = e.getLocation();
+                        storeMarkers(id, locName, location);
+                    }
                 }
-                markerCount += 1;
+
+            }
+        }
+    }
+
+    private void countMarkers() throws NetworkUnavailableException {
+        Boolean eventsError = Boolean.FALSE;
+
+        if (personalBool) {
+            getUserEvents();
+        }
+        if (followingBool) {
+            getFollowingEvents();
+        }
+
+        try {
+            for (HabitEvent e : eventsToDisplay) {
+                //pass
+            }
+        } catch (Exception e) {
+            eventsError = Boolean.TRUE;
+            Log.d("tag1", "e not okay");
+        }
+        if (!eventsError) {
+            for (HabitEvent e : eventsToDisplay) {
+                if (e.getLocation() != null) {
+//                    String id = e.getAssociatedUserID();
+//                    String locName = e.getTitle();
+//                    LatLng location = e.getLocation();
+//                    storeMarkers(id, locName, location);
+                    markerCount += 1;
+                }
             }
         }
     }
@@ -345,5 +361,27 @@ public class MapFilter extends AppCompatActivity{
             return false;
         } else
             return true;
+    }
+
+    private void getFollowingEvents() throws NetworkUnavailableException {
+        users.clear();
+        users.addAll(UserListController.getUserList().getUsers());
+
+        for (User s : users) {
+            try {
+                String username = s.getUsername();
+                Log.d("tag1", "username: "+username);
+                IOManager.getManager().getUser(username);
+                tempArray = (ArrayList<HabitEvent>) NetworkDataManager.GetUserHabitEvents(IOManager
+                        .getManager().getUser(username).getUserID()).getEvents();
+                for (HabitEvent he : tempArray) {
+                    eventsToDisplay.add(he);
+                }
+            } catch (Exception e) {
+                Log.d("tag1", "Could not complete for User: "+s);
+            }
+
+        }
+//        Log.d("tag1", "string"+String.valueOf(eventsToDisplay));
     }
 }
