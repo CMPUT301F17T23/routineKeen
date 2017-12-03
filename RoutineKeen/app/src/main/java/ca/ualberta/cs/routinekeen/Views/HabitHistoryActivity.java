@@ -63,7 +63,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         habitEvents.addAll(HabitHistoryController.getHabitHistory().getEvents());
         adapter = new ArrayAdapter<HabitEvent>(this, android.R.layout.simple_list_item_1, habitEvents);
         CL.setAdapter(adapter);
-        filterFlag.setText("Filter Off");
+        filterFlag.setText("Filter: Off");
         /*
         //"Grabs" data on click and transfer it to second activity to be modified or updated.
          */
@@ -133,7 +133,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
                 adapter = new ArrayAdapter<>(
                         this, android.R.layout.simple_list_item_1, filteredList);
                 CL.setAdapter(adapter);
-                filterFlag.setText("Filter On");
+                filterFlag.setText("Filter: On");
                 Toast.makeText(this, "Filter by type passed back: "+ filter,
                         Toast.LENGTH_SHORT).show();
             }
@@ -148,7 +148,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
                 adapter = new ArrayAdapter<>(
                         this, android.R.layout.simple_list_item_1, filteredList);
                 CL.setAdapter(adapter);
-                filterFlag.setText("Filter On");
+                filterFlag.setText("Filter: On");
                 Toast.makeText(this, "Filter by comment passed back: "+ filter,
                         Toast.LENGTH_SHORT).show();
             }
