@@ -59,12 +59,12 @@ public class NetworkDataManager {
         return referenceID;
     }
 
-    public static boolean SendFollowerRequest(User userRequesting, User requestedUser){
-        ElasticSearchController.SendFollowRequestTask sendFollowRequestTask =
-                new ElasticSearchController.SendFollowRequestTask(userRequesting.getUsername());
+    public static boolean UpdateUser(User user){
+        ElasticSearchController.UpdateUserTask updateUserTask =
+                new ElasticSearchController.UpdateUserTask();
         Boolean result = null;
         try{
-            result = sendFollowRequestTask.execute(requestedUser).get();
+            result = updateUserTask.execute(user).get();
         } catch(Exception e){
             Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
         }

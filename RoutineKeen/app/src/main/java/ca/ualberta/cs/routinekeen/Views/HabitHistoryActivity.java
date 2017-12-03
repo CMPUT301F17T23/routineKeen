@@ -58,6 +58,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
         filterFlag = (TextView) findViewById(R.id.filterFlagTextView);
         clearFilterButton = (Button) findViewById(R.id.clearFilterButton);
         Button filterButton = (Button) findViewById(R.id.filterButton);
+        HabitHistoryController.initHabitHistory();
         HabitHistoryController.getHabitHistory().addObserver(this);
         habitEvents.clear();
         habitEvents.addAll(HabitHistoryController.getHabitHistory().getEvents());

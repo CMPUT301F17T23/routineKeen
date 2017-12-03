@@ -162,13 +162,6 @@ public class NetworkElasticSearchTest {
         assertTrue(retreivedID.equals(habitID));
     }
 
-    @Test
-    public void testSendFollowRequestTask(){
-        User testUser1 = new User("Hugh", "AWALGFKaNrajPgJ7h79v");
-        User testUser2 = new User("Tolu", "AWAT0sLqXs8iStuRqFiU");
-        assertTrue(NetworkDataManager.SendFollowerRequest(testUser1, testUser2));
-    }
-
     public void testUpdateHabitByIdTask(){
         final String testUpdateHabitTitle = "testUpdateHabitTitle";
         final String testUpdateHabitReason = "testUpdateHabitReason";

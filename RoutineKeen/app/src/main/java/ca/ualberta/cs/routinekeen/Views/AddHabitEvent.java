@@ -3,6 +3,7 @@ package ca.ualberta.cs.routinekeen.Views;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -60,7 +61,7 @@ public class AddHabitEvent extends AppCompatActivity {
     protected static final int REQUEST_SELECT_IMAGE = 3;
     protected static final int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 2;
     protected static final int IMAGE_MAX_BYTES = 65536;
-    protected static final int LENGTH = (int) Math.floor(Math.sqrt(IMAGE_MAX_BYTES));
+    protected static final int LENGTH = (int) Math.floor(Math.sqrt(IMAGE_MAX_BYTES))*2;
 
     private ArrayList<String> typeList;
     private ArrayAdapter<String> typeAdapter;
@@ -216,10 +217,16 @@ public class AddHabitEvent extends AppCompatActivity {
             Uri imageUri = data.getData();
             try {
                 InputStream image_stream = getContentResolver().openInputStream(imageUri);
-                Bitmap thumbImage = PhotoHelpers.convertImageStreamToBitMap(image_stream, LENGTH, LENGTH);
-                image_stream = getContentResolver().openInputStream(imageUri);
+                Bitmap thumbImage = (new PhotoHelpers(this).convertImageStreamToThumbnail(image_stream, LENGTH, LENGTH));
+
+                if (thumbImage == null) {
+                    Toast.makeText(this,"Image file too large.",Toast.LENGTH_SHORT).show();
+                }
+
                 photoImageButton.setImageBitmap(thumbImage); // reset the stream
-                photoByteArray = PhotoHelpers.convertImageStreamToByteArray(image_stream);
+
+                photoByteArray = (new PhotoHelpers(this).compressImage(thumbImage));
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 Log.d("AHELog", "FNF except");

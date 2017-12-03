@@ -95,13 +95,7 @@ public class ElasticSearchController {
         }
     }
 
-    public static class SendFollowRequestTask extends AsyncTask<User, Void, Boolean> {
-        String userRequesting;
-
-        public SendFollowRequestTask(String userRequesting) {
-            this.userRequesting = userRequesting;
-        }
-
+    public static class UpdateUserTask extends AsyncTask<User, Void, Boolean> {
         @Override
         protected Boolean doInBackground(User... user) {
             verifySettings();
@@ -110,20 +104,10 @@ public class ElasticSearchController {
                 throw new RuntimeException("Illegal Task Call. Only one user can be sent a request.");
             }
 
-            // Add the user issuing the request to the requested users
-            // follower request list.
-            User requestedUser = user[0];
-            ArrayList<String> usersFollowerRequests = user[0].getFollowerRequests();
-            if(usersFollowerRequests == null){
-                usersFollowerRequests = new ArrayList<>();
-            }
-            usersFollowerRequests.add(userRequesting);
-            requestedUser.setFollowerRequests(usersFollowerRequests);
-
-            Index index = new Index.Builder(requestedUser)
+            Index index = new Index.Builder(user[0])
                                 .index(INDEX_NAME)
                                 .type("user")
-                                .id(requestedUser.getUserID())
+                                .id(user[0].getUserID())
                                 .build();
 
             JestResult result = null;
