@@ -49,13 +49,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Button options;                                         // clicked if user wants filter options
     private GoogleMap mMap;
     LocationManager service;
-    private Boolean rangeFilter;                            // True if user only wants nearby events
     private GoogleApiClient client;
     private Location lastLocation;                          // Last known location of device
     private LocationRequest locationRequest;
     private static final int REQUEST_LOCATION = 1;
     public static final int REQUESTION_LOCATION_CODE = 99;
-    ArrayList<Markers> toDisplay = new ArrayList<Markers>();
+    ArrayList<Markers> toDisplayAL = new ArrayList<Markers>();
     private FusedLocationProviderClient mFusedLocationClient;
 
     /**
@@ -68,29 +67,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        // check if user wants nearby events only
-        rangeFilter = getIntent().getExtras().getBoolean("radBool");
+        // Obtain the MapFragment and get notified when the map is ready to be used.
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
+        options = (Button) findViewById(R.id.map_options);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        try {
+            toDisplayAL = (ArrayList<Markers>) getIntent().getExtras().getSerializable("toDisplay");
+        } catch (Exception e) {
+            // no events to display
+        }
 
         //  check if we have permission to get user's location
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
-
-        // Obtain the MapFragment and get notified when the map is ready to be used.
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-        options = (Button) findViewById(R.id.map_options);
-        options.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MapsActivity.this, MapFilter.class);
-                i.putExtra("radBool", rangeFilter);
-                startActivity(i);
-                finish();
-            }
-        });
 
         // If GPS (location) is not enabled, User is sent to the settings to turn it on!
         service = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -101,6 +94,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             getDeviceLoc();
         }
+
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent i = new Intent(MapsActivity.this, MapFilter.class);
+//                startActivity(i);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -153,7 +155,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
         }
 
-        setUpTestMarkers();
         placeMarkers();
 
         // Adding a marker in Edmonton and move the Camera
@@ -192,24 +193,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
         }
 
-    }
-
-    /**
-     * Check distance between current location and this locations
-     * @param latLng location compared to current location
-     * @param range distance to filter events by
-     * @return true if within range; false otherwise
-     */
-    public boolean checkDistance(LatLng latLng, Double range) {
-        lastLocation = getDeviceLoc();
-        float results[] = new float[10];
-        Location.distanceBetween(lastLocation.getLatitude(), lastLocation.getLongitude(),
-                latLng.latitude, latLng.longitude, results);
-        if (results[0] <= range) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     @Override
@@ -256,39 +239,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * Store locations for marker testing.
-     */
-    private void setUpTestMarkers() {
-        storeMarkers("user1", "The King's University", new LatLng(53.525759, -113.416623));
-        storeMarkers("user2", "MacEwan University", new LatLng(53.547054, -113.506630));
-        storeMarkers("user3", "University of Alberta", new LatLng(53.523219, -113.526319));
-    }
-
-    /**
-     * Store markers to array of markers to be called when they are ready to be placed on the map.
-     * @param id User ID
-     * @param t Habit Event Title
-     * @param lL Location of habit event in LatLng form
-     */
-    private void storeMarkers(String id, String t, LatLng lL) {
-        Markers m = new Markers(id, t, lL);
-        toDisplay.add(m);
-    }
-
-    /**
      * Place the markers in the marker array on the map.
      * If there is a range filter selected, then check if the marker is within range of current
      * location.
      */
     private void placeMarkers() {
-        for (Markers m : toDisplay) {
-            if (rangeFilter) {
-                if (checkDistance(m.getMarkerLocation(), 5000.0)) {
-                    mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation()).title(m.getMarkerTitle()));
-                }
-            } else {
-                mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation()).title(m.getMarkerTitle()));
-            }
+        for (Markers m : toDisplayAL) {
+            mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation()).title(m.getMarkerTitle()));
         }
     }
 

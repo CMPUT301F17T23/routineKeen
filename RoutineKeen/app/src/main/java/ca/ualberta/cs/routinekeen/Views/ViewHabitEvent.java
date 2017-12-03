@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -96,6 +97,7 @@ public class ViewHabitEvent extends AppCompatActivity {
             try {
                 LatLng newEventLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 HabitHistoryController.getHabitHistory().getHabitEvent(index).setLocation(newEventLocation);
+                Log.d("tag1", "location success!"+String.valueOf(newEventLocation));
             } catch (Exception e) {
                 // no new location attached OR location error
                 // do nothing
