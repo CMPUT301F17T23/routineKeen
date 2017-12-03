@@ -59,6 +59,19 @@ public class NetworkDataManager {
         return referenceID;
     }
 
+    public static boolean UpdateUser(User user){
+        ElasticSearchController.UpdateUserTask updateUserTask =
+                new ElasticSearchController.UpdateUserTask();
+        Boolean result = null;
+        try{
+            result = updateUserTask.execute(user).get();
+        } catch(Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return result.booleanValue();
+    }
+
     public static boolean DeleteHabit(String habitID){
         ElasticSearchController.DeleteHabitTask deleteHabitByTitleTask = new ElasticSearchController.DeleteHabitTask();
         Boolean result = null;

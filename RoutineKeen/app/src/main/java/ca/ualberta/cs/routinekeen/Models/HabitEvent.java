@@ -2,6 +2,10 @@ package ca.ualberta.cs.routinekeen.Models;
 
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.Serializable;
+import java.util.Date;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;

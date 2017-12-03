@@ -95,6 +95,32 @@ public class ElasticSearchController {
         }
     }
 
+    public static class UpdateUserTask extends AsyncTask<User, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(User... user) {
+            verifySettings();
+
+            if(user.length > 1){
+                throw new RuntimeException("Illegal Task Call. Only one user can be sent a request.");
+            }
+
+            Index index = new Index.Builder(user[0])
+                                .index(INDEX_NAME)
+                                .type("user")
+                                .id(user[0].getUserID())
+                                .build();
+
+            JestResult result = null;
+            try{
+                result = client.execute(index);
+            } catch (Exception e){
+                Log.i("Error", "The application failed to update the habit.");
+            }
+
+            return result.isSucceeded() ? Boolean.TRUE : Boolean.FALSE;
+        }
+    }
+
     public static class AddHabitTask extends AsyncTask<Habit, Void, String> {
         @Override
         protected String doInBackground(Habit... habits){
