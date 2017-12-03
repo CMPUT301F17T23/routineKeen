@@ -33,7 +33,7 @@ import ca.ualberta.cs.routinekeen.R;
 
 public class ViewHabitEvent extends AppCompatActivity {
     private String eventType;
-    private Integer index;
+    private int index;
     private EditText eventTitle;
     private EditText eventComment;
 
@@ -46,12 +46,11 @@ public class ViewHabitEvent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_habit_event);
-        IOManager.initManager(getApplicationContext());
+        //IOManager.initManager(getApplicationContext());
         //Grab data from previous activity
         Intent intent = getIntent();
-        index = (Integer) intent.getSerializableExtra("View Event");
+        index = intent.getIntExtra("View Event", -1);
         Spinner spinner = (Spinner) findViewById(R.id.typeSpinner);
-        HabitListController.getHabitList();
 
         ActivityCompat.requestPermissions(this,
                 new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
