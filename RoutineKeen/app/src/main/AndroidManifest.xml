@@ -51,7 +51,8 @@
         <activity
             android:name=".Views.HabitScheduleActivity"
             android:parentActivityName=".Views.UserMenu"/>
-        <activity android:name=".Views.MapFilter" />
+        <activity android:name=".Views.MapFilter"
+            android:parentActivityName=".Views.UserMenu"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
