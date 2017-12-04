@@ -41,4 +41,9 @@ public class FindFollowersController {
     {
         return user.getFollowerRequests();
     }
+
+    public static ArrayList<String> getFeedList(User user)
+    {
+        return user.getFollowerList();
+    }
 }

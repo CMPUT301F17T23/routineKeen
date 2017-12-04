@@ -76,6 +76,10 @@ public class FindFollowersFrag extends Fragment {
                     {
                         Toast.makeText(getActivity(), "You have already made a request previously.", Toast.LENGTH_SHORT).show();
                     }
+                    else if(FindFollowersController.getFeedList(currentUser).contains(requestedUser.getUsername()))
+                    {
+                        Toast.makeText(getActivity(), "You already follow this User", Toast.LENGTH_SHORT).show();
+                    }
                     else
                     {
                         FindFollowersController.addToRequestList(currentUser, requestedUser);

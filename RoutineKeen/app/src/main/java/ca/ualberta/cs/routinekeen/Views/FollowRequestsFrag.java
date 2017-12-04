@@ -28,8 +28,6 @@ public class FollowRequestsFrag extends Fragment {
     private static IOManager ioManager = IOManager.getManager();
     private User currentUser;
 
-
-
     private String clickedUser;
     private int clickedPosition;
     //Find followers
@@ -85,6 +83,14 @@ public class FollowRequestsFrag extends Fragment {
                 */
                 userRequestList.remove(clickedPosition);
                 findAdapter.notifyDataSetChanged();
+                try{
+                    currentUser = ioManager.getUser(UserSingleton.getCurrentUser().getUsername());
+                    requestedUser = ioManager.getUser(clickedUser);
+                    ioManager.respondToFollowerRequest(requestedUser, currentUser, false);
+
+                }catch(NetworkUnavailableException e){
+
+                }
 
             }
         });
@@ -93,7 +99,15 @@ public class FollowRequestsFrag extends Fragment {
             @Override
             public void onClick(View view)
             {
+                userRequestList.remove(clickedPosition);
+                findAdapter.notifyDataSetChanged();
+                try{
+                    currentUser = ioManager.getUser(UserSingleton.getCurrentUser().getUsername());
+                    requestedUser = ioManager.getUser(clickedUser);
+                    ioManager.respondToFollowerRequest(requestedUser, currentUser, true);
+                }catch(NetworkUnavailableException e){
 
+                }
             }
         });
 
