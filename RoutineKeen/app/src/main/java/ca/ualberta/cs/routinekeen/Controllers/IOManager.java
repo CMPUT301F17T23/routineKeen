@@ -89,6 +89,22 @@ public class IOManager {
         localDM.saveHabitHistory(habitHistory);
     }
 
+    public ArrayList<String> loadUserHabitTypes(String userID){
+        ArrayList<String> typeList = null;
+        if(isNetworkAvailable()){
+            typeList = NetworkDataManager.GetUserHabitTypes(userID);
+            localDM.saveHabitTypeList(typeList);
+        } else {
+            typeList = localDM.loadHabitTypeList();
+        }
+
+        return typeList;
+    }
+
+    public void saveUserHabitTypes(ArrayList<String> typeList){
+        localDM.saveHabitTypeList(typeList);
+    }
+
     public String addUser(User user) throws NetworkUnavailableException{
         String userID = null;
         if (isNetworkAvailable()) {

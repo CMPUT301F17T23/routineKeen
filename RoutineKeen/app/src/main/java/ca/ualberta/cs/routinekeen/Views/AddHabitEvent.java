@@ -86,7 +86,7 @@ public class AddHabitEvent extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        typeList = new ArrayList<String>(HabitListController.getTypeList());
+        typeList = HabitListController.getTypeList();
         typeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
                 typeList);
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

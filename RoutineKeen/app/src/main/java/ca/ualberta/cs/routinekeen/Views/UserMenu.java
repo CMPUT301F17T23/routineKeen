@@ -44,12 +44,12 @@ public class UserMenu extends AppCompatActivity{
     @Override
     protected void onStart() {
         super.onStart();
-        IOManager ioManager = IOManager.getManager();
+        final IOManager ioManager = IOManager.getManager();
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //ioManager.clearUserSharedPrefs();
+                ioManager.clearUserSharedPrefs();
                 finish();
             }
         });
