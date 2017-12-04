@@ -9,15 +9,12 @@ import com.searchly.jestdroid.JestDroidClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.Models.User;
 import io.searchbox.client.JestResult;
-import io.searchbox.client.JestResultHandler;
 import io.searchbox.core.Delete;
-import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -69,6 +66,7 @@ public class ElasticSearchController {
             verifySettings();
             User userResult = null;
             String username = search_parameters[0];
+//            Log.d("tag1", "ElasticSearchController: "+username);
             String query = "{\n" +
                     "    \"query\": {\n" +
                     "        \"query_string\" : {\n" +

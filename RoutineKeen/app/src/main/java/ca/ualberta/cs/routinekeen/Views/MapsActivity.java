@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -50,7 +49,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     LocationManager service;
     private GoogleApiClient client;
-    private Location lastLocation;                          // Last known location of device
     private LocationRequest locationRequest;
     private static final int REQUEST_LOCATION = 1;
     public static final int REQUESTION_LOCATION_CODE = 99;
@@ -81,9 +79,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         //  check if we have permission to get user's location
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkLocationPermission();
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            checkLocationPermission();
+//        }
 
         // If GPS (location) is not enabled, User is sent to the settings to turn it on!
         service = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -178,8 +176,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onLocationChanged(Location location) {
-        lastLocation = location;
-
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
 
@@ -210,24 +206,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    /**
-     * Check if application has granted GPS location permission
-     * @return true if above line is true; false otherwise.
-     */
-    public boolean checkLocationPermission() {
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUESTION_LOCATION_CODE);
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUESTION_LOCATION_CODE);
-            }
-            return false;
-        } else
-            return true;
-    }
-
     @Override
     public void onConnectionSuspended(int i) {
 
@@ -245,7 +223,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void placeMarkers() {
         for (Markers m : toDisplayAL) {
-            mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation()).title(m.getMarkerTitle()));
+            mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation()).title(m.getMarkerTitle()).snippet(m.getMarkerId()));
         }
     }
 

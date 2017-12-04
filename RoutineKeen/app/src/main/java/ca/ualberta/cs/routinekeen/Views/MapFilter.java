@@ -1,18 +1,21 @@
 package ca.ualberta.cs.routinekeen.Views;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -26,8 +29,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import ca.ualberta.cs.routinekeen.Controllers.HabitHistoryController;
+import ca.ualberta.cs.routinekeen.Controllers.IOManager;
+import ca.ualberta.cs.routinekeen.Controllers.NetworkDataManager;
+import ca.ualberta.cs.routinekeen.Controllers.UserListController;
+import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.Models.Markers;
+import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.R;
 
 /**
@@ -36,18 +44,19 @@ import ca.ualberta.cs.routinekeen.R;
  */
 
 public class MapFilter extends AppCompatActivity{
-    Button noFilterBtn;     // button user clicks to cancel result filter
     Boolean radiusBool = false;     // true if the user only wants nearby events shown
     Boolean personalBool = false;
     Boolean followingBool = false;
     Boolean recentBool = false;
     LocationManager service;
     CheckBox pCheckbox;
+    CheckBox nCheckbox;
     Collection<HabitEvent> events;
     private GoogleApiClient client;
     ArrayList<Markers> toDisplay = new ArrayList<Markers>();
     Collection<HabitEvent> eventsToDisplay = new ArrayList<HabitEvent>();
     private Location lastLocation;                          // Last known location of device
+    private LocationManager locationManager;
     private LocationRequest locationRequest;
     private int isCheckedFlag = 0;
     int isFiltered = 0;
@@ -55,6 +64,11 @@ public class MapFilter extends AppCompatActivity{
     private static final int REQUEST_LOCATION = 1;
     public static final int REQUESTION_LOCATION_CODE = 99;
     private FusedLocationProviderClient mFusedLocationClient;
+    private ArrayList<User> users = new ArrayList<User>();
+    private ArrayList<HabitEvent> tempArray = new ArrayList<>();
+    private ArrayList<ArrayList<HabitEvent>> recentArray = new ArrayList<>();
+//    private ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>();
+//    private ArrayList<ArrayList<HabitEvent>> allEvents = new ArrayList<>();
 
     /**
      * On create, initialize page.
@@ -66,11 +80,16 @@ public class MapFilter extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_filter);
         resetMarkers();
-        getUserEvents();
+        eventsToDisplay.clear();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActivityCompat.requestPermissions(this,
+                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                REQUEST_LOCATION);
         service = (LocationManager) getSystemService(LOCATION_SERVICE);
 
+        // Turn on personal setting my default
         pCheckbox = (CheckBox)findViewById(R.id.personalCheckBox);
         pCheckbox.setChecked(true);
         personalBool = true;
@@ -82,45 +101,54 @@ public class MapFilter extends AppCompatActivity{
      * Send the user's choice to only see nearby events to MapsActivity.class through putExtra
      * @param view
      */
-    public void applyFilter(View view) {
-        if (isCheckedFlag > 0) {
-            countMarkers();
-            if (markerCount > 0) {
-                Intent i = new Intent(MapFilter.this, MapsActivity.class);
-                if (toDisplay.size() != 0) {
-                    resetMarkers();
-                }
-                setUpMarkers();
-                i.putExtra("toDisplay", toDisplay);
-                if (isFiltered > 0) {
-                    Toast.makeText(this, "Filter Applied!", Toast.LENGTH_SHORT).show();
+    public void applyFilter(View view) throws NetworkUnavailableException {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps();
+        } else {
+            if (isCheckedFlag > 0) {
+                eventsToDisplay.clear();
+                recentArray.clear();
+                countMarkers();
+                Log.d("tag1", "first check");
+                if (markerCount > 0) {
+                    Intent i = new Intent(MapFilter.this, MapsActivity.class);
+                    if (toDisplay.size() != 0) {
+                        resetMarkers();
+                    }
+
+                    setUpMarkers();
+
+                    i.putExtra("toDisplay", toDisplay);
+                    if (isFiltered > 0) {
+                        Toast.makeText(this, "Filter Applied!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Showing Events", Toast.LENGTH_SHORT).show();
+                    }
+                    startActivity(i);
                 } else {
-                    Toast.makeText(this, "Showing Events", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "No habit event(s) to display", Toast.LENGTH_SHORT).show();
                 }
-                startActivity(i);
+            } else {
+                Toast.makeText(this, "Please select: Personal and/or Following", Toast.LENGTH_SHORT).show();
             }
-            else {
-                Toast.makeText(this, "No habit event(s) to display", Toast.LENGTH_SHORT).show();
-            }
-        }
-        else {
-            Toast.makeText(this, "Please select: Personal and/or Following", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void setUpMarkers() {
+    private void setUpMarkers() throws NetworkUnavailableException {
         Boolean eventsError = Boolean.FALSE;
-        try {
-            for (HabitEvent e : eventsToDisplay) {
-                //pass
+        if (recentBool == false) {
+            Log.d("tag1", "here apparently");
+            try {
+                for (HabitEvent e : eventsToDisplay) {
+                    //pass
+                }
+            } catch (Exception e) {
+                eventsError = Boolean.TRUE;
+                Log.d("tag1", "e not okay");
             }
-        } catch (Exception e) {
-            eventsError = Boolean.TRUE;
-            Log.d("tag1", "e not okay");
-        }
-        if (!eventsError) {
-            for (HabitEvent e : eventsToDisplay) {
-                if (personalBool) {
+            if (!eventsError) {
+                for (HabitEvent e : eventsToDisplay) {
                     if (e.getLocation() != null) {
                         if (radiusBool) {
                             if (checkDistance(e.getLocation(), 5000.0)) {
@@ -136,30 +164,107 @@ public class MapFilter extends AppCompatActivity{
                             storeMarkers(id, locName, location);
                         }
                     }
+
+                }
+            }
+        }
+        else {
+            Log.d("tag1", "got here at least");
+            try {
+                for (ArrayList<HabitEvent> e : recentArray) {
+                    //pass
+                }
+            } catch (Exception e) {
+                eventsError = Boolean.TRUE;
+                Log.d("tag1", "e is not okay");
+            }
+            if (!eventsError) {
+                for (ArrayList<HabitEvent> x : recentArray) {
+                    for (HabitEvent e : x) {
+                        Log.d ("tag1", "e is    "+e);
+                        if (e.getLocation() != null) {
+                            if (radiusBool) {
+                                if (checkDistance(e.getLocation(), 5000.0)) {
+                                    String id = e.getAssociatedUserID();
+                                    String locName = e.getTitle();
+                                    LatLng location = e.getLocation();
+                                    storeMarkers(id, locName, location);
+                                }
+                            } else {
+                                String id = e.getAssociatedUserID();
+                                String locName = e.getTitle();
+                                LatLng location = e.getLocation();
+                                storeMarkers(id, locName, location);
+                            }
+                        }
+                    }
+
                 }
             }
         }
     }
 
-    private void countMarkers() {
+    private void countMarkers() throws NetworkUnavailableException {
         Boolean eventsError = Boolean.FALSE;
-        try {
-            for (HabitEvent e : eventsToDisplay) {
-                //pass
+
+
+
+        if (personalBool) {
+            if (recentBool) {
+                getRecentUserEvents();
             }
-        } catch (Exception e) {
-            eventsError = Boolean.TRUE;
-            Log.d("tag1", "e not okay");
+            else {
+                getUserEvents();
+            }
         }
-        if (!eventsError) {
-            for (HabitEvent e : eventsToDisplay) {
-                if (e.getLocation() != null) {
-                    String id = e.getAssociatedUserID();
-                    String locName = e.getTitle();
-                    LatLng location = e.getLocation();
-                    storeMarkers(id, locName, location);
+
+        if (followingBool) {
+            if (recentBool) {
+                Log.d("tag1", "recentBool and followingBool");
+                getRecentFollowingEvents();
+            }
+            else {
+                getFollowingEvents();
+            }
+        }
+
+        if (recentBool) {
+            try {
+                for (ArrayList<HabitEvent> x : recentArray) {
+                    for (HabitEvent e : x) {
+                        //pass
+                    }
+                    //pass
                 }
-                markerCount += 1;
+            } catch (Exception e) {
+                eventsError = Boolean.TRUE;
+                Log.d("tag1", "e not okay");
+            }
+            if (!eventsError) {
+                for (ArrayList<HabitEvent> x : recentArray) {
+                    for (HabitEvent e : x) {
+                        if (e.getLocation() != null) {
+                            markerCount += 1;
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            try {
+                for (HabitEvent e : eventsToDisplay) {
+                    //pass
+                }
+            } catch (Exception e) {
+                eventsError = Boolean.TRUE;
+                Log.d("tag1", "e not okay");
+            }
+            if (!eventsError) {
+                for (HabitEvent e : eventsToDisplay) {
+                    if (e.getLocation() != null) {
+                        markerCount += 1;
+                    }
+                }
             }
         }
     }
@@ -202,6 +307,24 @@ public class MapFilter extends AppCompatActivity{
         for (HabitEvent elem : events) {
             eventsToDisplay.add(elem);
         }
+    }
+
+    private void getRecentUserEvents() {
+        ArrayList<HabitEvent> hbal = new ArrayList<>();
+        tempArray = (ArrayList<HabitEvent>) HabitHistoryController.getHabitHistory().getEvents();
+        for (HabitEvent he : tempArray) {
+            try {
+                hbal.get(0).getDate();
+                if (he.getDate().after(hbal.get(0).getDate())) {
+                    hbal.add(0, he);
+                }
+            } catch (Exception e) {
+                Log.d("tag1", "new entry");
+                hbal.add(0, he);
+                Log.d("tag1", "new entry val: " + hbal.get(0));
+            }
+        }
+        recentArray.add(hbal);
     }
 
     /**
@@ -298,6 +421,25 @@ public class MapFilter extends AppCompatActivity{
         return null;
     }
 
+    protected void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Please enable location")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        // Turn on personal setting my default
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     /**
      * Check if application has granted GPS location permission
      * @return true if above line is true; false otherwise.
@@ -314,5 +456,62 @@ public class MapFilter extends AppCompatActivity{
             return false;
         } else
             return true;
+    }
+
+    private void getFollowingEvents() throws NetworkUnavailableException {
+        users.clear();
+        users.addAll(UserListController.getUserList().getUsers());
+
+        for (User s : users) {
+            try {
+                String username = s.getUsername();
+//                Log.d("tag1", "username: "+username);
+                username = "Hugh";
+                IOManager.getManager().getUser(username);
+                tempArray = (ArrayList<HabitEvent>) NetworkDataManager.GetUserHabitEvents(IOManager
+                        .getManager().getUser(username).getUserID()).getEvents();
+                for (HabitEvent he : tempArray) {
+                    eventsToDisplay.add(he);
+                }
+            } catch (Exception e) {
+                Log.d("tag1", "Could not complete for User: "+s);
+            }
+
+        }
+//        Log.d("tag1", "string"+String.valueOf(eventsToDisplay));
+    }
+
+    private void getRecentFollowingEvents() throws NetworkUnavailableException {
+        users.clear();
+        users.addAll(UserListController.getUserList().getUsers());
+        ArrayList<HabitEvent> hbal = new ArrayList<>();
+
+        for (User s : users) {
+            try {
+                String username = s.getUsername();
+                Log.d("tag1", "username: "+username);
+                username = "Tolu";
+                IOManager.getManager().getUser(username);
+                tempArray = (ArrayList<HabitEvent>) NetworkDataManager.GetUserHabitEvents(IOManager
+                        .getManager().getUser(username).getUserID()).getEvents();
+
+                for (HabitEvent he : tempArray) {
+                    try {
+                        hbal.get(0).getDate();
+                        if (he.getDate().after(hbal.get(0).getDate())) {
+                            hbal.add(0, he);
+                        }
+                    } catch (Exception e) {
+//                        Log.d("tag1", "new entry");
+                        hbal.add(0, he);
+//                        Log.d("tag1", "new entry val: " + hbal.get(0));
+                    }
+                }
+                recentArray.add(hbal);
+            } catch (Exception e) {
+                Log.d("tag1", "Could not complete for User: "+s);
+            }
+        }
+        //Log.d("tag1", "string"+String.valueOf(recentArray.get(0).get(0)));
     }
 }
