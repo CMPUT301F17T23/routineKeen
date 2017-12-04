@@ -119,6 +119,30 @@ public class ElasticSearchController {
         }
     }
 
+    public static class DeleteUserTask extends AsyncTask<String, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... userID) {
+            verifySettings();
+
+            if(userID.length > 1)
+                throw new RuntimeException("Illegal Task Call. Oner user at a time only");
+
+            Delete delete = new Delete.Builder(userID[0])
+                    .index(INDEX_NAME)
+                    .type("user")
+                    .build();
+
+            JestResult result = null;
+            try{
+                result = client.execute(delete);
+            } catch(Exception e ){
+                Log.i("Error", "Something went wrong when trying to delete the user on elastic search!");
+            }
+
+            return  result.isSucceeded() ? Boolean.TRUE : Boolean.FALSE;
+        }
+    }
+
     public static class AddHabitTask extends AsyncTask<Habit, Void, String> {
         @Override
         protected String doInBackground(Habit... habits){
