@@ -122,4 +122,6 @@ public class LoginActivity extends AppCompatActivity implements Observer{
         });
     }
 
+    public ArrayAdapter<User> getAdapter() { return adapter; }
+
 }
