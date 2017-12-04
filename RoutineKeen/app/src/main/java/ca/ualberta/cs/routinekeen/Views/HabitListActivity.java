@@ -47,11 +47,12 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
         addHabitBtn = (ImageButton) findViewById(R.id.addNewHabit);
         try {
             HabitListController.initHabitList();
+            HabitListController.getHabitList().addObserver(this);
         } catch (NetworkUnavailableException e){
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "You must be connected to a network" +
+                    " to view, edit, and add habits.", Toast.LENGTH_LONG).show();
             finish();
         }
-        HabitListController.getHabitList().addObserver(this);
         initListeners();
     }
 
@@ -62,12 +63,6 @@ public class HabitListActivity extends AppCompatActivity implements Observer{
         habitList.addAll(HabitListController.getHabitList().getHabits());
         habitArrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, habitList);
         lv.setAdapter(habitArrayAdapter);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        HabitListController.saveHabitList();
     }
 
     /**
