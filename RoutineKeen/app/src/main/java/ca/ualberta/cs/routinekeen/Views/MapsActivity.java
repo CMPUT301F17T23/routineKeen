@@ -27,11 +27,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
+import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
 import ca.ualberta.cs.routinekeen.Models.Markers;
 import ca.ualberta.cs.routinekeen.R;
 
@@ -148,6 +150,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         placeMarkers();
 
+        Toast.makeText(this, "Red: Personal Events \nBlue: Following Events", Toast.LENGTH_LONG).show();
+
 //        // Adding a marker in Edmonton and move the Camera
 //        LatLng edmonton = new LatLng(54.523219, -113.526319);
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 10));
@@ -212,7 +216,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void placeMarkers() {
         for (Markers m : toDisplayAL) {
-            mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation()).title(m.getMarkerTitle()).snippet(m.getMarkerId()));
+            if ((m.getMarkerId()).equals(UserSingleton.getCurrentUser().getUsername())) {
+                mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                        .title(m.getMarkerTitle()).snippet(m.getMarkerId()));
+            } else {
+                mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                        .title(m.getMarkerTitle()).snippet(m.getMarkerId()));
+            }
         }
     }
 

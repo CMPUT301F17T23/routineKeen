@@ -17,9 +17,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -66,6 +66,7 @@ public class MapFilter extends AppCompatActivity{
     private int isCheckedFlag = 0;
     int isFiltered = 0;
     int markerCount = 0;
+    String searchVal;
     private static final int REQUEST_LOCATION = 1;
     public static final int REQUESTION_LOCATION_CODE = 99;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -81,7 +82,7 @@ public class MapFilter extends AppCompatActivity{
 
 
     final Context context = this;
-    private Button qsBtn;
+    private ImageButton qsBtn;
 
     /**
      * On create, initialize page.
@@ -95,6 +96,7 @@ public class MapFilter extends AppCompatActivity{
         resetMarkers();
 //        eventsToDisplay.clear();
         mapEventsToDisplay.clear();
+        toDisplay.clear();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -103,7 +105,12 @@ public class MapFilter extends AppCompatActivity{
                 REQUEST_LOCATION);
         service = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        qsBtn = (Button)findViewById(R.id.goButton);
+        qsBtn = (ImageButton)findViewById(R.id.goButton);
+        // Turn on personal setting my default
+        pCheckbox = (CheckBox)findViewById(R.id.personalCheckBox);
+        pCheckbox.setChecked(true);
+        personalBool = true;
+        isCheckedFlag += 1;
 
         // https://stackoverflow.com/questions/35861081/custom-popup-dialog-with-input-field
         qsBtn.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +122,7 @@ public class MapFilter extends AppCompatActivity{
                 LayoutInflater li = LayoutInflater.from(context);
                 View promptsView = li.inflate(R.layout.custom, null);
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         context);
 
                 // set prompts.xml to alertdialog builder
@@ -124,40 +131,32 @@ public class MapFilter extends AppCompatActivity{
                 final EditText userInput = (EditText) promptsView
                         .findViewById(R.id.editTextDialogUserInput);
 
-                // set dialog message
                 alertDialogBuilder
                         .setCancelable(false)
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
                                         try {
                                             quickSearch(String.valueOf(userInput.getText()));
                                         } catch (NetworkUnavailableException e) {
                                             e.printStackTrace();
                                         }
+
                                     }
                                 })
                         .setNegativeButton("Cancel",
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                     }
                                 });
-
                 // create alert dialog
                 AlertDialog alertDialog = alertDialogBuilder.create();
 
                 // show it
                 alertDialog.show();
-
             }
         });
-
-        // Turn on personal setting my default
-        pCheckbox = (CheckBox)findViewById(R.id.personalCheckBox);
-        pCheckbox.setChecked(true);
-        personalBool = true;
-        isCheckedFlag += 1;
     }
 
     private void quickSearch(String string) throws NetworkUnavailableException{
@@ -166,8 +165,8 @@ public class MapFilter extends AppCompatActivity{
             buildAlertMessageNoGps();
         } else {
 //            eventsToDisplay.clear();
-            mapEventsToDisplay.clear();
 //            recentArray.clear();
+            mapEventsToDisplay.clear();
             mapRecentEvents.clear();
             markerCount = 0;
             countSpecial(string);
@@ -180,11 +179,9 @@ public class MapFilter extends AppCompatActivity{
                 setUpSpecialMarkers();
 
                 i.putExtra("toDisplay", toDisplay);
-//                if (isFiltered > 0) {
-//                    Toast.makeText(this, "Filter Applied!", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(this, "Showing Events", Toast.LENGTH_SHORT).show();
-//                }
+
+                Toast.makeText(this, "Showing Events", Toast.LENGTH_SHORT).show();
+
                 startActivity(i);
             } else {
                 Toast.makeText(this, "No habit event(s) to display", Toast.LENGTH_SHORT).show();
@@ -245,20 +242,20 @@ public class MapFilter extends AppCompatActivity{
                 Log.d("tag1", "e not okay");
             }
             if (!eventsError) {
-                Log.d("tag1", "SetUpMarkers Check 1: "+String.valueOf(sMapEventsToDisplay));
-                for (Map.Entry<String, HabitEvent> entry : sMapEventsToDisplay.entrySet()) {
+                Log.d("tag1", "SetUpMarkers Check 1: "+String.valueOf(mapEventsToDisplay));
+                for (Map.Entry<String, HabitEvent> entry : mapEventsToDisplay.entrySet()) {
                     if (entry.getValue().getLocation() != null) {
                         if (radiusBool) {
                             if (checkDistance(entry.getValue().getLocation(), 5000.0)) {
                                 String id = entry.getKey();
-                                id = id.substring(id.lastIndexOf("/?") + 1);
+                                id = id.substring(id.lastIndexOf("/?") + 2);
                                 String locName = entry.getValue().getTitle();
                                 LatLng location = entry.getValue().getLocation();
                                 storeMarkers(id, locName, location);
                             }
                         } else {
                             String id = entry.getKey();
-                            id = id.substring(id.lastIndexOf("/?") + 1);
+                            id = id.substring(id.lastIndexOf("/?") + 2);
                             String locName = entry.getValue().getTitle();
                             LatLng location = entry.getValue().getLocation();
                             storeMarkers(id, locName, location);
@@ -288,14 +285,14 @@ public class MapFilter extends AppCompatActivity{
                                 if (radiusBool) {
                                     if (checkDistance(z.getLocation(), 5000.0)) {
                                         String id = entry.getKey();
-                                        id = id.substring(id.lastIndexOf("/?") + 1);
+                                        id = id.substring(id.lastIndexOf("/?") + 2);
                                         String locName = z.getTitle();
                                         LatLng location = z.getLocation();
                                         storeMarkers(id, locName, location);
                                     }
                                 } else {
                                     String id = entry.getKey();
-                                    id = id.substring(id.lastIndexOf("/?") + 1);
+                                    id = id.substring(id.lastIndexOf("/?") + 2);
                                     String locName = z.getTitle();
                                     LatLng location = z.getLocation();
                                     storeMarkers(id, locName, location);
@@ -324,7 +321,7 @@ public class MapFilter extends AppCompatActivity{
             for (Map.Entry<String, HabitEvent> entry : sMapEventsToDisplay.entrySet()) {
                 if (entry.getValue().getLocation() != null) {
                     String id = entry.getKey();
-                    id = id.substring(id.lastIndexOf("/?") + 1);
+                    id = id.substring(id.lastIndexOf("/?") + 2);
                     String locName = entry.getValue().getTitle();
                     LatLng location = entry.getValue().getLocation();
                     storeMarkers(id, locName, location);
@@ -410,7 +407,6 @@ public class MapFilter extends AppCompatActivity{
 
         try {
             for (HabitEvent e : sMapEventsToDisplay.values()) {
-                //pass
             }
         } catch (Exception e) {
             eventsError = Boolean.TRUE;
@@ -418,6 +414,8 @@ public class MapFilter extends AppCompatActivity{
         }
         if (!eventsError) {
             for (HabitEvent e : sMapEventsToDisplay.values()) {
+                Log.d("tag1", String.valueOf(e));
+                Log.d("tag1", "Location: "+String.valueOf(e.getLocation()));
                 if (e.getLocation() != null) {
                     markerCount += 1;
                 }
@@ -509,7 +507,7 @@ public class MapFilter extends AppCompatActivity{
             try {
                 String username = s.getUsername();
 //                Log.d("tag1", "username: "+username);
-                username = "Hugh";
+                username = "Tanis";
                 IOManager.getManager().getUser(username);
                 tempArray = (ArrayList<HabitEvent>) NetworkDataManager.GetUserHabitEvents(IOManager
                         .getManager().getUser(username).getUserID()).getEvents();
@@ -665,7 +663,7 @@ public class MapFilter extends AppCompatActivity{
             try {
                 String username = s.getUsername();
 //                Log.d("tag1", "username: "+username);
-                username = "Hugh";
+                username = "Tanis";
                 IOManager.getManager().getUser(username);
                 tempArray = (ArrayList<HabitEvent>) NetworkDataManager.GetUserHabitEvents(IOManager
                         .getManager().getUser(username).getUserID()).getEvents();
@@ -692,8 +690,8 @@ public class MapFilter extends AppCompatActivity{
         for (User s : users) {
             try {
                 String username = s.getUsername();
-                Log.d("tag1", "username: "+username);
-                username = "Tolu";
+//                Log.d("tag1", "username: "+username);
+                username = "Tanis";
                 IOManager.getManager().getUser(username);
                 tempArray = (ArrayList<HabitEvent>) NetworkDataManager.GetUserHabitEvents(IOManager
                         .getManager().getUser(username).getUserID()).getEvents();
