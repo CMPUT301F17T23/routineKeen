@@ -2,6 +2,7 @@ package ca.ualberta.cs.routinekeen.Controllers;
 
 
 import android.net.Network;
+import android.util.Pair;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -10,13 +11,14 @@ import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
 import ca.ualberta.cs.routinekeen.Helpers.MarkedForStatus;
 import ca.ualberta.cs.routinekeen.Models.HabitHistory;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
-import ca.ualberta.cs.routinekeen.Models.User;
 
 public class HabitHistoryController {
     private HabitHistoryController(){}
     private static HabitHistory habitHistory = null;
     private static IOManager ioManager = IOManager.getManager();
     private static Queue<String> offlineDeletedEventIds = new LinkedList<String>();
+    private static Queue<Pair<HabitEvent,Integer>> offlineUpdatedEvents = new LinkedList<>();
+    private static Queue<Pair<HabitEvent,Integer>> offlineAddedEvents = new LinkedList<>();
 
     public static void initHabitHistory() {
             String userID = UserSingleton.getCurrentUser().getUserID();
@@ -44,6 +46,10 @@ public class HabitHistoryController {
         event.setEventID(assignedEventID);
         getHabitHistory().addHabitEvent(event);
         ioManager.saveHabitHistory(getHabitHistory());
+    }
+
+    public static void updateHabitEvent(){
+
     }
 
     public static void removeHabitEvent(HabitEvent event){

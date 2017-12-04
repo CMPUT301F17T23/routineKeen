@@ -109,6 +109,19 @@ public class NetworkDataManager {
         return new HabitList(userHabits);
     }
 
+    public static ArrayList<String> GetUserHabitTypes(String userId){
+        ElasticSearchController.GetUserHabitTypesTask getUserHabitTypesTask =
+                new ElasticSearchController.GetUserHabitTypesTask();
+        ArrayList<String> typeList = null;
+        try{
+            typeList = getUserHabitTypesTask.execute(userId).get();
+        } catch (Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return typeList;
+    }
+
     public static Habit GetHabit(String habitType){
         ElasticSearchController.GetHabitByTitleTask getHabitTask = new ElasticSearchController.GetHabitByTitleTask();
         Habit retrievedHabit = null;

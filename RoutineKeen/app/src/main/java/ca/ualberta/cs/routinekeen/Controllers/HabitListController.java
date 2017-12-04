@@ -21,7 +21,7 @@ import ca.ualberta.cs.routinekeen.Models.User;
  * @version 1.0.0
  */
 public class HabitListController{
-    private static ArrayList typeList = new ArrayList<String>();
+    private static ArrayList typeList = null;
     private static HabitList habitList = null;
     private static IOManager ioManager = IOManager.getManager();
     private HabitListController(){}
@@ -46,13 +46,10 @@ public class HabitListController{
     }
 
     public static ArrayList getTypeList(){
-        if(habitList != null){
-            for (Habit habit : habitList.getHabits()){
-                if (typeList.indexOf(habit.getHabitTitle()) == -1){
-                    typeList.add(habit.getHabitTitle());
-                }
-            }
+        if(typeList == null) {
+            typeList = ioManager.loadUserHabitTypes(UserSingleton.getCurrentUser().getUserID());
         }
+
         return typeList;
     }
 
@@ -63,6 +60,11 @@ public class HabitListController{
      * @see     HabitList
      */
     public static HabitList getTodaysHabits() {
+        /*
+         Taken from: https://stackoverflow.com/questions/5574673/what-is-the-easiest-way-to-get-
+         the-current-day-of-the-week-in-android
+         Date: Nov 13, 2017
+        */
         String today = "";
         int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         switch (day) {
@@ -75,12 +77,6 @@ public class HabitListController{
             case Calendar.SATURDAY: today = "Sat";  break;
             default:                today = null;   break;
         }
-
-        /*
-         Taken from: https://stackoverflow.com/questions/5574673/what-is-the-easiest-way-to-get-
-         the-current-day-of-the-week-in-android
-         Date: Nov 13, 2017
-        */
 
         HabitList returnList = new HabitList();
         for (Habit x : getHabitList().getHabits()) {
@@ -105,6 +101,12 @@ public class HabitListController{
         } catch (NetworkUnavailableException e){
             return false;
         }
+
+        // Update the available habit type list locally
+        getTypeList().add(habit.getHabitTitle());
+        saveTypeList();
+
+        // Add the habit to the habit list and save locally
         habit.setHabitID(assignedHabitID);
         getHabitList().addHabit(habit);
         saveHabitList();
@@ -130,6 +132,15 @@ public class HabitListController{
         } catch (NetworkUnavailableException e){
             return false;
         }
+
+        // Update the available habit type list locally
+        if(habitToUpdate.getHabitTitle() != title) {
+            getTypeList().remove(habitToUpdate.getHabitTitle());
+            getTypeList().add(title);
+            saveTypeList();
+        }
+
+        // Update the habit within the habit list and save locally
         getHabitList().updateHabit(title, reason, schedDays, position);
         saveHabitList();
         return true;
@@ -147,8 +158,12 @@ public class HabitListController{
         } catch (NetworkUnavailableException e){
             return false;
         }
+
+        // Remove the habit type from the type list locally, then remove habit from list
         String title = getHabitList().getHabitByPosition(position).getHabitTitle();
-        typeList.remove(title);
+        getTypeList().remove(title);
+        saveTypeList();
+
         getHabitList().removeHabitByPosition(position);
         saveHabitList();
         return true;
@@ -162,5 +177,9 @@ public class HabitListController{
      */
     public static void saveHabitList() {
         ioManager.saveHabitList(getHabitList());
+    }
+
+    public static void saveTypeList() {
+        ioManager.saveUserHabitTypes(typeList);
     }
 }

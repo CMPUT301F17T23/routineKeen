@@ -46,7 +46,7 @@ public class ViewHabitEvent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_habit_event);
-        //IOManager.initManager(getApplicationContext());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Grab data from previous activity
         Intent intent = getIntent();
         index = intent.getIntExtra("View Event", -1);

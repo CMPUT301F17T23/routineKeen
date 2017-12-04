@@ -162,6 +162,21 @@ public class NetworkElasticSearchTest {
         assertTrue(retreivedID.equals(habitID));
     }
 
+    @Test
+    public void testGetUserHabitTypeTask(){
+        ElasticSearchController.GetUserHabitTypesTask getUserHabitTypesTask =
+                new ElasticSearchController.GetUserHabitTypesTask();
+        ArrayList<String> typesResult = null;
+        try {
+            typesResult = getUserHabitTypesTask.execute("AWAbqjnGIi9sC8Eeai8b").get();
+        } catch (Exception e){
+            assertTrue(false);
+        }
+
+        assertTrue(typesResult.get(0).equals("gkgk"));
+        assertTrue(typesResult.get(1).equals("test habit"));
+    }
+
     public void testUpdateHabitByIdTask(){
         final String testUpdateHabitTitle = "testUpdateHabitTitle";
         final String testUpdateHabitReason = "testUpdateHabitReason";

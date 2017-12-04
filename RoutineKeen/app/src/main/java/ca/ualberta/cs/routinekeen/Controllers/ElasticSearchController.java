@@ -209,6 +209,47 @@ public class ElasticSearchController {
         }
     }
 
+    public static class GetUserHabitTypesTask extends AsyncTask<String, Void, ArrayList<String>> {
+        @Override
+        protected ArrayList<String> doInBackground(String... user_ids) {
+            verifySettings();
+
+            if(user_ids.length > 1){
+                throw new RuntimeException("Only one User ID is expected for task.");
+            }
+
+            ArrayList<String> typesResult = new ArrayList<String>();
+            String query = "{\n" +
+                    "    \"query\": {\n" +
+                    "        \"query_string\" : {\n" +
+                    "           \"default_field\" : \"associatedUserID\",\n" +
+                    "               \"query\" : \"" + user_ids[0] + "\"\n" +
+                    "               }\n" +
+                    "           }\n" +
+                    "       }";
+
+            Search search = new Search.Builder(query)
+                    .addIndex(INDEX_NAME)
+                    .addType("habit")
+                    .build();
+
+            SearchResult result = null;
+            try{
+                result = client.execute(search);
+                if(result.isSucceeded()){
+                    for(SearchResult.Hit x: result.getHits(Habit.class)){
+                        Habit retrievedType = (Habit)x.source;
+                        typesResult.add(retrievedType.getHabitTitle());
+                    }
+                }
+            } catch (Exception e){
+                Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
+            }
+
+            return typesResult;
+        }
+    }
+
     public static class GetHabitByTitleTask extends AsyncTask<String, Void, Habit> {
         @Override
         protected Habit doInBackground(String... search_parameters) {
