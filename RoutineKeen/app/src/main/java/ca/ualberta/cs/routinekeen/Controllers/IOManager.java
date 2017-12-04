@@ -2,7 +2,6 @@ package ca.ualberta.cs.routinekeen.Controllers;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
 
 import java.util.ArrayList;
@@ -87,6 +86,22 @@ public class IOManager {
 
     public void saveHabitHistory(HabitHistory habitHistory) {
         localDM.saveHabitHistory(habitHistory);
+    }
+
+    public ArrayList<String> loadUserHabitTypes(String userID){
+        ArrayList<String> typeList = null;
+        if(isNetworkAvailable()){
+            typeList = NetworkDataManager.GetUserHabitTypes(userID);
+            localDM.saveHabitTypeList(typeList);
+        } else {
+            typeList = localDM.loadHabitTypeList();
+        }
+
+        return typeList;
+    }
+
+    public void saveUserHabitTypes(ArrayList<String> typeList){
+        localDM.saveHabitTypeList(typeList);
     }
 
     public String addUser(User user) throws NetworkUnavailableException{

@@ -23,18 +23,18 @@ import ca.ualberta.cs.routinekeen.Models.UserList;
  */
 
 public class LocalDataManager {
+    private static LocalDataManager localDataManager = null;
     private final String habitListPrefFile = "HabitListFile";
     private final String userListPrefFile = "UserListFile";
     private final String habitHistoryPreFile = "HabitHistoryFile";
+    private final String habitTypePrefFile = "TypeFile";
     private final String userListKey = "userList";
     private final String habitListKey = "habitList";
     private final String habitHistoryKey = "habitHistoryList";
+    private final String typeListKey = "typeList";
     private Gson gson = new Gson();
     private String jsonString;
     private Context context;
-
-    static private LocalDataManager localDataManager = null;
-
     public LocalDataManager(Context context){
         this.context = context;
     }
@@ -116,6 +116,25 @@ public class LocalDataManager {
         }
     }
 
+    public void saveHabitTypeList(ArrayList<String> typeList){
+        SharedPreferences settings = context.getSharedPreferences(habitTypePrefFile, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        jsonString = gson.toJson(typeList);
+        editor.putString(typeListKey, jsonString);
+        editor.apply();
+    }
+
+    public ArrayList<String> loadHabitTypeList() {
+        SharedPreferences settings = context.getSharedPreferences(habitTypePrefFile, Context.MODE_PRIVATE);
+        String typeListData = settings.getString(typeListKey, "");
+        if (typeListData.equals("")){
+            return null;
+        } else{
+            Type listType = new TypeToken<ArrayList<String>>(){}.getType();
+            return gson.fromJson(typeListData, listType);
+        }
+    }
+
     public void loadSharedPrefs(String ... prefs) {
         // Helper function to view local data within shared preferences
         // Taken from https://stackoverflow.com/questions/23635644/
@@ -148,6 +167,13 @@ public class LocalDataManager {
         // Clear the users habit events that are stored locally
         SharedPreferences habitEventPref = context.getSharedPreferences(habitHistoryPreFile, Context.MODE_PRIVATE);
         editor = habitEventPref.edit();
+        editor.clear();
+        editor.commit();
+
+        // Clear the users habit types thata re stored locally
+        SharedPreferences habitTypeEventPref =
+                context.getSharedPreferences(habitTypePrefFile, Context.MODE_PRIVATE);
+        editor = habitTypeEventPref.edit();
         editor.clear();
         editor.commit();
     }

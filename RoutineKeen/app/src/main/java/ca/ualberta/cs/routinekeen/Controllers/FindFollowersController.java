@@ -1,5 +1,7 @@
 package ca.ualberta.cs.routinekeen.Controllers;
 
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
@@ -34,5 +36,9 @@ public class FindFollowersController {
         catch (NetworkUnavailableException e){
             //hmmm
         }
+    }
+    public static ArrayList<String> getFollowerRequests(User user)
+    {
+        return user.getFollowerRequests();
     }
 }

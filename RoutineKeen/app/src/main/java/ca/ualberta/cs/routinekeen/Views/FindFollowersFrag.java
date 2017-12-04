@@ -12,13 +12,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import ca.ualberta.cs.routinekeen.Controllers.FindFollowersController;
+import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
+import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.R;
 
 public class FindFollowersFrag extends Fragment {
-
-    private User currentUser = UserSingleton.getCurrentUser();
+    private static IOManager ioManager = IOManager.getManager();
+    private User currentUser;
 
 
     public FindFollowersFrag() {
@@ -31,6 +33,12 @@ public class FindFollowersFrag extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_find_followers, container, false);
 
+        try{
+            currentUser = ioManager.getUser(UserSingleton.getCurrentUser().getUsername());
+        }catch (NetworkUnavailableException e){
+
+        }
+
         Button btn = (Button) view.findViewById(R.id.searchButton);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -40,8 +48,14 @@ public class FindFollowersFrag extends Fragment {
                 //Implement the code to run on button click here
                 EditText userSearch = (EditText) getActivity().findViewById(R.id.userSearch);
                 String userToSearch = userSearch.getText().toString();
+                User requestedUser = null;
+                try{
+                    requestedUser = ioManager.getUser(userToSearch);
+                }catch(NetworkUnavailableException e){
+                    Toast.makeText(getActivity(), "Network Unavailable. Try again later.", Toast.LENGTH_SHORT).show();
+                    getActivity().finish();
+                }
 
-                User requestedUser = FindFollowersController.getUsers(userToSearch);
                 if(requestedUser == null)
                 {
                     //Print out user does not exist
@@ -51,13 +65,21 @@ public class FindFollowersFrag extends Fragment {
                 else
                 {
                     //User exist, add to their request list
-                    if(requestedUser.getFollowerRequests().contains(currentUser))
+                    try{
+                        requestedUser = ioManager.getUser(userToSearch);
+                    }catch(NetworkUnavailableException e){
+                        Toast.makeText(getActivity(), "Network Unavailable. Try again later.", Toast.LENGTH_SHORT).show();
+                        getActivity().finish();
+                    }
+
+                    if(FindFollowersController.getFollowerRequests(requestedUser).contains(currentUser.getUsername()))
                     {
                         Toast.makeText(getActivity(), "You have already made a request previously.", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
                         FindFollowersController.addToRequestList(currentUser, requestedUser);
+                        Toast.makeText(getActivity(), "Your request has been sent", Toast.LENGTH_SHORT).show();
                     }
 
                 }

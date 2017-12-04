@@ -15,14 +15,20 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ca.ualberta.cs.routinekeen.Controllers.FindFollowersController;
+import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
+import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.R;
 
 
 
 public class FollowRequestsFrag extends Fragment {
-    private User currentUser = UserSingleton.getCurrentUser();
+    private static IOManager ioManager = IOManager.getManager();
+    private User currentUser;
+
+
 
     private String clickedUser;
     private int clickedPosition;
@@ -37,30 +43,33 @@ public class FollowRequestsFrag extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_follow_requests, container, false);
+
+        try{
+            currentUser = ioManager.getUser(UserSingleton.getCurrentUser().getUsername());
+        }catch(NetworkUnavailableException e){
+
+        }
         //Find followers
-        //userRequestList = currentUser.getFollowerRequests();//get follower request as arraylist should maybe get from data
-        userRequestList.add(("test1"));
-        userRequestList.add(("test2"));
+        userRequestList = FindFollowersController.getFollowerRequests(currentUser);
         findListView = (ListView) view.findViewById(R.id.followerRequestList);
         findAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, userRequestList);
         if(findAdapter != null){
             findListView.setAdapter(findAdapter);
         }
 
-        //Click on lsitview to get user
+        //Click on listview to get user
         findListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
             {
                 clickedUser = userRequestList.get(position);
+                clickedPosition = position;
                 Toast.makeText(getActivity(), "Please choose Allow or deny for: " + clickedUser, Toast.LENGTH_SHORT).show();
             }
-
         });
 
         Button denyBtn = (Button) view.findViewById(R.id.Deny);
@@ -74,6 +83,9 @@ public class FollowRequestsFrag extends Fragment {
                 * Remove from request list
                 * add to following list feed or not
                 */
+                userRequestList.remove(clickedPosition);
+                findAdapter.notifyDataSetChanged();
+
             }
         });
 

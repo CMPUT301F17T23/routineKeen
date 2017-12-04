@@ -9,15 +9,12 @@ import com.searchly.jestdroid.JestDroidClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.Models.User;
 import io.searchbox.client.JestResult;
-import io.searchbox.client.JestResultHandler;
 import io.searchbox.core.Delete;
-import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -69,6 +66,7 @@ public class ElasticSearchController {
             verifySettings();
             User userResult = null;
             String username = search_parameters[0];
+//            Log.d("tag1", "ElasticSearchController: "+username);
             String query = "{\n" +
                     "    \"query\": {\n" +
                     "        \"query_string\" : {\n" +
@@ -208,6 +206,47 @@ public class ElasticSearchController {
             }
 
             return habitsResult;
+        }
+    }
+
+    public static class GetUserHabitTypesTask extends AsyncTask<String, Void, ArrayList<String>> {
+        @Override
+        protected ArrayList<String> doInBackground(String... user_ids) {
+            verifySettings();
+
+            if(user_ids.length > 1){
+                throw new RuntimeException("Only one User ID is expected for task.");
+            }
+
+            ArrayList<String> typesResult = new ArrayList<String>();
+            String query = "{\n" +
+                    "    \"query\": {\n" +
+                    "        \"query_string\" : {\n" +
+                    "           \"default_field\" : \"associatedUserID\",\n" +
+                    "               \"query\" : \"" + user_ids[0] + "\"\n" +
+                    "               }\n" +
+                    "           }\n" +
+                    "       }";
+
+            Search search = new Search.Builder(query)
+                    .addIndex(INDEX_NAME)
+                    .addType("habit")
+                    .build();
+
+            SearchResult result = null;
+            try{
+                result = client.execute(search);
+                if(result.isSucceeded()){
+                    for(SearchResult.Hit x: result.getHits(Habit.class)){
+                        Habit retrievedType = (Habit)x.source;
+                        typesResult.add(retrievedType.getHabitTitle());
+                    }
+                }
+            } catch (Exception e){
+                Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
+            }
+
+            return typesResult;
         }
     }
 

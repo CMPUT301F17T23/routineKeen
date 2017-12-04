@@ -7,12 +7,16 @@ import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,18 +27,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.ArrayList;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
-import android.net.Uri;
-import android.provider.MediaStore;
-import android.util.Log;
-
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import ca.ualberta.cs.routinekeen.Controllers.HabitHistoryController;
 import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
@@ -70,12 +65,14 @@ public class AddHabitEvent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_habit_event);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         IOManager.initManager(this.getApplicationContext());
         ActivityCompat.requestPermissions(this,
                 new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                 REQUEST_LOCATION);
         service = (LocationManager) getSystemService(LOCATION_SERVICE);
+
         spinner = (Spinner) findViewById(R.id.habitTypeSpinner);
         eventTitle = (EditText) findViewById(R.id.eventTitle);
         eventComment = (EditText) findViewById(R.id.eventComment);
@@ -86,7 +83,7 @@ public class AddHabitEvent extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        typeList = new ArrayList<String>(HabitListController.getTypeList());
+        typeList = HabitListController.getTypeList();
         typeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
                 typeList);
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -175,7 +172,7 @@ public class AddHabitEvent extends AppCompatActivity {
 
     protected void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Please Turn ON your GPS Connection")
+        builder.setMessage("Please enable location")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {

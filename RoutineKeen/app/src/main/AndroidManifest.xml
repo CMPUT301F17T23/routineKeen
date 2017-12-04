@@ -29,8 +29,11 @@
         <activity
             android:name=".Views.AddHabitEvent"
             android:parentActivityName=".Views.HabitHistoryActivity"/>
-        <activity android:name=".Views.ViewHabitEvent" />
-        <activity android:name=".Views.HabitProgressActivity"
+        <activity
+            android:name=".Views.ViewHabitEvent"
+            android:parentActivityName=".Views.HabitHistoryActivity"/>
+        <activity
+            android:name=".Views.HabitProgressActivity"
             android:parentActivityName=".Views.HabitEditActivity"/>
         <activity android:name=".Views.UserMenu" />
         <activity
@@ -52,7 +55,8 @@
         <activity
             android:name=".Views.HabitScheduleActivity"
             android:parentActivityName=".Views.UserMenu" />
-        <activity android:name=".Views.MapFilter" />
+        <activity android:name=".Views.MapFilter"
+            android:parentActivityName=".Views.UserMenu"/>
         <activity
             android:name=".Views.MapsActivity"
             android:label="@string/title_activity_maps"/>
@@ -61,6 +65,9 @@
             android:parentActivityName=".Views.UserMenu"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
+
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

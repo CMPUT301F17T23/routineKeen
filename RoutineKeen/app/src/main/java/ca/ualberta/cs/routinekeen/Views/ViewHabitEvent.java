@@ -46,7 +46,7 @@ public class ViewHabitEvent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_habit_event);
-        //IOManager.initManager(getApplicationContext());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Grab data from previous activity
         Intent intent = getIntent();
         index = intent.getIntExtra("View Event", -1);
@@ -73,6 +73,7 @@ public class ViewHabitEvent extends AppCompatActivity {
                 // TODO Auto-generated method stub
             }
         });
+
         //Show respective values in view
         TextView newEventTitle = (TextView) findViewById(R.id.eventTitle);
         newEventTitle.setText(HabitHistoryController.getHabitEvent(index).getTitle());
@@ -128,14 +129,6 @@ public class ViewHabitEvent extends AppCompatActivity {
     }
 
     public void attachUpdatedLocation(View view) {
-        boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if (!enabled) {
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(intent);
-        } else {
-            getDeviceLoc();
-        }
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
