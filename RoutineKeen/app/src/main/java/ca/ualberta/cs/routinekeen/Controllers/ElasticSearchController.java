@@ -119,6 +119,30 @@ public class ElasticSearchController {
         }
     }
 
+    public static class DeleteUserTask extends AsyncTask<String, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... userID) {
+            verifySettings();
+
+            if(userID.length > 1)
+                throw new RuntimeException("Illegal Task Call. Oner user at a time only");
+
+            Delete delete = new Delete.Builder(userID[0])
+                    .index(INDEX_NAME)
+                    .type("user")
+                    .build();
+
+            JestResult result = null;
+            try{
+                result = client.execute(delete);
+            } catch(Exception e ){
+                Log.i("Error", "Something went wrong when trying to delete the user on elastic search!");
+            }
+
+            return  result.isSucceeded() ? Boolean.TRUE : Boolean.FALSE;
+        }
+    }
+
     public static class AddHabitTask extends AsyncTask<Habit, Void, String> {
         @Override
         protected String doInBackground(Habit... habits){
@@ -206,6 +230,47 @@ public class ElasticSearchController {
             }
 
             return habitsResult;
+        }
+    }
+
+    public static class GetUserHabitTypesTask extends AsyncTask<String, Void, ArrayList<String>> {
+        @Override
+        protected ArrayList<String> doInBackground(String... user_ids) {
+            verifySettings();
+
+            if(user_ids.length > 1){
+                throw new RuntimeException("Only one User ID is expected for task.");
+            }
+
+            ArrayList<String> typesResult = new ArrayList<String>();
+            String query = "{\n" +
+                    "    \"query\": {\n" +
+                    "        \"query_string\" : {\n" +
+                    "           \"default_field\" : \"associatedUserID\",\n" +
+                    "               \"query\" : \"" + user_ids[0] + "\"\n" +
+                    "               }\n" +
+                    "           }\n" +
+                    "       }";
+
+            Search search = new Search.Builder(query)
+                    .addIndex(INDEX_NAME)
+                    .addType("habit")
+                    .build();
+
+            SearchResult result = null;
+            try{
+                result = client.execute(search);
+                if(result.isSucceeded()){
+                    for(SearchResult.Hit x: result.getHits(Habit.class)){
+                        Habit retrievedType = (Habit)x.source;
+                        typesResult.add(retrievedType.getHabitTitle());
+                    }
+                }
+            } catch (Exception e){
+                Log.i("Error", "Something went wrong when we tried to communicate with the elastic search server!");
+            }
+
+            return typesResult;
         }
     }
 

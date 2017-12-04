@@ -88,6 +88,22 @@ public class IOManager {
         localDM.saveHabitHistory(habitHistory);
     }
 
+    public ArrayList<String> loadUserHabitTypes(String userID){
+        ArrayList<String> typeList = null;
+        if(isNetworkAvailable()){
+            typeList = NetworkDataManager.GetUserHabitTypes(userID);
+            localDM.saveHabitTypeList(typeList);
+        } else {
+            typeList = localDM.loadHabitTypeList();
+        }
+
+        return typeList;
+    }
+
+    public void saveUserHabitTypes(ArrayList<String> typeList){
+        localDM.saveHabitTypeList(typeList);
+    }
+
     public String addUser(User user) throws NetworkUnavailableException{
         String userID = null;
         if (isNetworkAvailable()) {
@@ -97,6 +113,25 @@ public class IOManager {
         }
 
         return userID;
+    }
+
+    public User getUser(String username) throws NetworkUnavailableException{
+        User retrievedUser;
+        if(isNetworkAvailable()){
+            retrievedUser = NetworkDataManager.GetUser(username);
+        } else {
+            throw new NetworkUnavailableException();
+        }
+
+        return retrievedUser;
+    }
+
+    public void deleteUser(String userID) throws NetworkUnavailableException {
+        if(isNetworkAvailable()){
+            NetworkDataManager.DeleteUser(userID);
+        } else{
+            throw new NetworkUnavailableException();
+        }
     }
 
     public String addHabit(Habit habit) throws NetworkUnavailableException{
@@ -113,17 +148,6 @@ public class IOManager {
         } else {
             throw new NetworkUnavailableException();
         }
-    }
-
-    public User getUser(String username) throws NetworkUnavailableException{
-        User retrievedUser;
-        if(isNetworkAvailable()){
-            retrievedUser = NetworkDataManager.GetUser(username);
-        } else {
-            throw new NetworkUnavailableException();
-        }
-        
-        return retrievedUser;
     }
 
     public void deleteHabit(String habitID) throws NetworkUnavailableException{
@@ -176,25 +200,26 @@ public class IOManager {
         }
     }
 
-    public void acceptFollowerRequest(User follower, User followee) throws NetworkUnavailableException{
-
+    public void respondToFollowerRequest(User follower, User followee, boolean choice) throws NetworkUnavailableException {
         // Take the follower off the followee's request list
         // since they have now accepted it
         ArrayList<String> usersFollowerRequests = followee.getFollowerRequests();
         usersFollowerRequests.remove(follower.getUsername());
         followee.setFollowerRequests(usersFollowerRequests);
 
-        // Put the followee on the followers follow list
         ArrayList<String> usersFollowerList = follower.getFollowerList();
-        if(usersFollowerList == null)
-            usersFollowerList = new ArrayList<>();
-        usersFollowerList.add(followee.getUsername());
-        follower.setFollowerList(usersFollowerList);
 
-        if(isNetworkAvailable()) {
+        // followee accepts the follower request
+        if (choice == true) {
+            // Put the followee on the followers follow list
+            usersFollowerList.add(followee.getUsername());
+            follower.setFollowerList(usersFollowerList);
+        }
+
+        if (isNetworkAvailable()) {
             NetworkDataManager.UpdateUser(followee);
             NetworkDataManager.UpdateUser(follower);
-        } else{
+        } else {
             throw new NetworkUnavailableException();
         }
     }

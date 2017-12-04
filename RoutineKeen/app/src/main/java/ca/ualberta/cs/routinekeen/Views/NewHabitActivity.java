@@ -126,7 +126,7 @@ public class NewHabitActivity extends AppCompatActivity {
 
     private boolean validationSuccess() {
         ArrayList typeList = HabitListController.getTypeList();
-        if(typeList.indexOf((hTitle.getText().toString()))!= -1 ){
+        if(typeList.indexOf(hTitle.getText().toString().trim())!= -1 ){
             Toast.makeText(this, "This habit type already exist.",
                     Toast.LENGTH_SHORT).show();
             return false;

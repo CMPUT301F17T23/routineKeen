@@ -35,6 +35,19 @@ public class NetworkDataManager {
         return referenceID;
     }
 
+    public static boolean DeleteUser(String userID){
+        ElasticSearchController.DeleteUserTask deleteUserTask =
+                new ElasticSearchController.DeleteUserTask();
+        Boolean result = null;
+        try{
+            result = deleteUserTask.execute(userID).get();
+        } catch(Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return result.booleanValue();
+    }
+
     public static User GetUser(String username){
         ElasticSearchController.GetUserTask getUserTask = new ElasticSearchController.GetUserTask();
         User retrievedUser = null;
@@ -107,6 +120,19 @@ public class NetworkDataManager {
         }
 
         return new HabitList(userHabits);
+    }
+
+    public static ArrayList<String> GetUserHabitTypes(String userId){
+        ElasticSearchController.GetUserHabitTypesTask getUserHabitTypesTask =
+                new ElasticSearchController.GetUserHabitTypesTask();
+        ArrayList<String> typeList = null;
+        try{
+            typeList = getUserHabitTypesTask.execute(userId).get();
+        } catch (Exception e){
+            Log.i("Error", "SOMETHING WENT WRONG WITH ELASTIC SEARCH MOFO!");
+        }
+
+        return typeList;
     }
 
     public static Habit GetHabit(String habitType){

@@ -54,4 +54,13 @@
         app:layout_constraintLeft_toLeftOf="@+id/login_listview_userSelect"
         app:layout_constraintTop_toBottomOf="@+id/login_listview_userSelect"
         tools:layout_editor_absoluteX="8dp" />
+
+    <Button
+        android:id="@+id/login_btn_deleteUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Delete Profile"
+        app:layout_constraintRight_toRightOf="@+id/login_listview_userSelect"
+        app:layout_constraintTop_toBottomOf="@+id/login_listview_userSelect" />
 </android.support.constraint.ConstraintLayout>
