@@ -76,7 +76,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
                 habitEvents.addAll(HabitHistoryController.getHabitHistory().getEvents());
                 adapter = new ArrayAdapter<HabitEvent>(HabitHistoryActivity.this, android.R.layout.simple_list_item_1, habitEvents);
                 CL.setAdapter(adapter);
-                filterFlag.setText("Filter Off");
+                filterFlag.setText("Filter: Off");
             }
         });
 
