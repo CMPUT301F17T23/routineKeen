@@ -33,7 +33,11 @@ public class HabitScheduleActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        scheduledHabitList.addAll(HabitListController.getTodaysHabits().getHabits());
+        try{
+            scheduledHabitList.addAll(HabitListController.getTodaysHabits().getHabits());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         habitArrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, scheduledHabitList);
         lv.setAdapter(habitArrayAdapter);
     }

@@ -18,10 +18,12 @@ import java.util.concurrent.TimeUnit;
 import ca.ualberta.cs.routinekeen.Views.AddHabitEvent;
 import ca.ualberta.cs.routinekeen.Views.HabitEditActivity;
 import ca.ualberta.cs.routinekeen.Views.HabitHistoryActivity;
+import ca.ualberta.cs.routinekeen.Views.HabitHistoryFilterActivity;
 import ca.ualberta.cs.routinekeen.Views.HabitListActivity;
 import ca.ualberta.cs.routinekeen.Views.LoginActivity;
 import ca.ualberta.cs.routinekeen.Views.NewHabitActivity;
 import ca.ualberta.cs.routinekeen.Views.UserMenu;
+import ca.ualberta.cs.routinekeen.Views.ViewHabitEvent;
 
 /**
  * Created by aridgway120 on 2017-12-03.
@@ -110,6 +112,53 @@ public class HabitTrackerFullTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnButton("ADD");
     }
 
+    public void filterHabitHistoryByComment(String comment) {
+        // launch and check filter activity
+        solo.assertCurrentActivity("Wrong Activity", HabitHistoryActivity.class);
+        solo.clickOnButton("Filter List");
+        solo.assertCurrentActivity("Wrong Activity", HabitHistoryFilterActivity.class);
+
+        // enter filter comment
+        solo.enterText((EditText) solo.getView(R.id.commentFilterText), comment);
+
+        solo.clickOnView(solo.getView(R.id.applyFilterByCommentButton));
+    }
+
+    public void filterHabitHistoryByType(String type) {
+        // launch and check filter activity
+        solo.assertCurrentActivity("Wrong Activity", HabitHistoryActivity.class);
+        solo.clickOnButton("Filter List");
+        solo.assertCurrentActivity("Wrong Activity", HabitHistoryFilterActivity.class);
+
+        // change habit type if needed
+        if (!solo.isSpinnerTextSelected(type)) {
+            solo.clickOnView(solo.getView(R.id.habitTypeSpinner));
+            solo.clickOnText(type);
+        }
+
+        solo.clickOnView(solo.getView(R.id.applyFilterByTypeButton));
+    }
+
+    public void clearHabitList() {
+        solo.assertCurrentActivity("Wrong Activity", HabitListActivity.class);
+
+        while (((ListView)solo.getView("listOfUserHabits")).getAdapter().getCount() > 0) {
+            solo.clickInList(0);
+            solo.assertCurrentActivity("Wrong Activity", HabitEditActivity.class);
+            solo.clickOnButton("Delete");
+        }
+    }
+
+    public void clearEventList() {
+        solo.assertCurrentActivity("Wrong Activity", HabitHistoryActivity.class);
+
+        while (((ListView)solo.getView("habitHistoryList")).getAdapter().getCount() > 0) {
+            solo.clickInList(0);
+            solo.assertCurrentActivity("Wrong Activity", ViewHabitEvent.class);
+            solo.clickOnButton("Delete");
+        }
+    }
+
 
     /**
      * Adds a new habit, saves it, then edits its habit reason and schedule and saves again
@@ -145,16 +194,12 @@ public class HabitTrackerFullTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnButton("Save");
 
         // delete habit
-        solo.assertCurrentActivity("Wrong Activity", HabitListActivity.class);
-        solo.clickInList(0);
-        solo.assertCurrentActivity("Wrong Activity", HabitEditActivity.class);
-        solo.clickOnButton("Delete");
-        int habitCount = ((ListView)solo.getView("listOfUserHabits")).getAdapter().getCount();
-        assertEquals(habitCount, 0);
+        clearHabitList();
     }
 
     @Test
     public void testHabitHistory() {
+        // UNSTABLE
 
         login();
         solo.assertCurrentActivity("Wrong Activity", UserMenu.class);
@@ -171,7 +216,27 @@ public class HabitTrackerFullTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnText("View Habit History");
         addTestHabitEvent(TEST_HABIT_EVENT_TITLE, "", TEST_HABIT_NAME, false);
         addTestHabitEvent(TEST_HABIT_EVENT_TITLE, TEST_HABIT_EVENT_COMMENT, TEST_HABIT_NAME, false);
-        addTestHabitEvent(TEST_HABIT_EVENT_TITLE, "", TEST_HABIT_NAME2, false);
+        addTestHabitEvent(TEST_HABIT_EVENT_TITLE, TEST_HABIT_EVENT_COMMENT, TEST_HABIT_NAME2, false);
 
+        solo.assertCurrentActivity("Wrong Activity", HabitHistoryActivity.class);
+
+        filterHabitHistoryByComment(TEST_HABIT_EVENT_COMMENT);
+        // check # of results here (should be 2)
+        solo.clickOnButton("Clear Filter");
+
+        filterHabitHistoryByType(TEST_HABIT_NAME2);
+        // check # of results here (should be 1)
+        solo.clickOnButton("Clear Filter");
+
+        filterHabitHistoryByComment(TEST_HABIT_EVENT_COMMENT);
+        filterHabitHistoryByType(TEST_HABIT_NAME);
+        // check # of results here (should be 1)
+        solo.clickOnButton("Clear Filter");
+
+
+        clearEventList();
+        solo.goBack();
+        solo.clickOnText("View Habit List");
+        clearHabitList();
     }
 }

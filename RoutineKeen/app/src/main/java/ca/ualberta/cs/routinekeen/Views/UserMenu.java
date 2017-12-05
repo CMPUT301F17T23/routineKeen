@@ -7,8 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import ca.ualberta.cs.routinekeen.Controllers.HabitHistoryController;
+import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
 import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
+import ca.ualberta.cs.routinekeen.Models.HabitHistory;
 import ca.ualberta.cs.routinekeen.R;
 
 /**
@@ -49,6 +52,8 @@ public class UserMenu extends AppCompatActivity{
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                HabitHistoryController.clearController();
+                HabitListController.clearController();
                 ioManager.clearUserSharedPrefs();
                 finish();
             }
@@ -82,9 +87,8 @@ public class UserMenu extends AppCompatActivity{
         userSocialMedia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // change from LoginActivity.class to appropriate class
-                // LoginActivity.class was used for testing
-                Intent intent = new Intent(UserMenu.this, LoginActivity.class);
+
+                Intent intent = new Intent(UserMenu.this, HabitFollowingSharing.class);
                 startActivity(intent);
             }
         });
