@@ -1,14 +1,11 @@
 package ca.ualberta.cs.routinekeen.Controllers;
 
-
-import android.net.Network;
-import android.util.Pair;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
 import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
-import ca.ualberta.cs.routinekeen.Helpers.MarkedForStatus;
 import ca.ualberta.cs.routinekeen.Models.HabitHistory;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 
@@ -16,9 +13,9 @@ public class HabitHistoryController {
     private HabitHistoryController(){}
     private static HabitHistory habitHistory = null;
     private static IOManager ioManager = IOManager.getManager();
-    private static Queue<String> offlineDeletedEventIds = new LinkedList<String>();
-    private static Queue<Pair<HabitEvent,Integer>> offlineUpdatedEvents = new LinkedList<>();
-    private static Queue<Pair<HabitEvent,Integer>> offlineAddedEvents = new LinkedList<>();
+    private static Queue<String> offlineDeletedEventIds = new LinkedList<>();
+    private static Queue<HabitEvent> offlineUpdatedEvents = new LinkedList<>();
+    private static Queue<HabitEvent> offlineAddedEvents = new LinkedList<>();
 
     public static void initHabitHistory() {
             String userID = UserSingleton.getCurrentUser().getUserID();
@@ -41,15 +38,11 @@ public class HabitHistoryController {
         } catch (NetworkUnavailableException e){
             // mark the event to be added/updated to elastic search
             // upon reconnection with an available network
-            event.setMarkedForStatus(MarkedForStatus.ADD);
+            offlineAddedEvents.add(event);
         }
         event.setEventID(assignedEventID);
         getHabitHistory().addHabitEvent(event);
         ioManager.saveHabitHistory(getHabitHistory());
-    }
-
-    public static void updateHabitEvent(){
-
     }
 
     public static void removeHabitEvent(HabitEvent event){
@@ -63,30 +56,50 @@ public class HabitHistoryController {
         ioManager.saveHabitHistory(getHabitHistory());
     }
 
+    public static void updateHabitEvent(String title, String comment, String habitType,
+                                        byte[] photo, LatLng location, int position){
+        HabitEvent habitToUpdate = getHabitHistory().getHabitEvent(position);
+        habitToUpdate.setTitle(title);
+        habitToUpdate.setComment(comment);
+        habitToUpdate.setLocation(location);
+        habitToUpdate.setPhoto(photo);
+        habitToUpdate.setEventHabitType(habitType);
+        try{
+            ioManager.updateHabitEvent(habitToUpdate);
+        } catch(NetworkUnavailableException e) {
+            offlineUpdatedEvents.add(habitToUpdate);
+        }
+        getHabitHistory().updateHabitEvent(title, comment, habitType,
+                photo, location, position);
+        saveHabitHistory();
+    }
+
     public static HabitEvent getHabitEvent(int position)
     {
         return habitHistory.getHabitEvent(position);
     }
 
     public static void executeOfflineQueuedRequests(){
-        for(HabitEvent event: habitHistory.getEvents()){
-            if(event.getMarkedForStatus() == MarkedForStatus.ADD){
-                try{
-                    event.setEventID(ioManager.addHabitEvent(event));
-                } catch (NetworkUnavailableException e){
-                    continue;
-                }
-                event.setMarkedForStatus(MarkedForStatus.NONE);
+        int addQueueSize = offlineAddedEvents.size();
+        for(int i = 0; i < addQueueSize; i++){
+            HabitEvent eventToAdd = offlineAddedEvents.peek();
+            try{
+                ioManager.addHabitEvent(eventToAdd);
+            } catch(NetworkUnavailableException e){
+                continue;
             }
+            offlineAddedEvents.poll();
+        }
 
-            if (event.getMarkedForStatus() == MarkedForStatus.UPDATE){
-                try{
-                    ioManager.updateHabitEvent(event);
-                } catch (NetworkUnavailableException e){
-                    continue;
-                }
-                event.setMarkedForStatus(MarkedForStatus.NONE);
+        int updateQueueSize = offlineUpdatedEvents.size();
+        for(int i = 0; i < updateQueueSize; i++){
+            HabitEvent eventToUpdate = offlineUpdatedEvents.peek();
+            try{
+                ioManager.updateHabitEvent(eventToUpdate);
+            } catch(NetworkUnavailableException e){
+                continue;
             }
+            offlineUpdatedEvents.poll();
         }
 
         for(int i = 0; i < offlineDeletedEventIds.size(); i++){
@@ -102,5 +115,9 @@ public class HabitHistoryController {
 
     public static void saveHabitHistory(){
         ioManager.saveHabitHistory(habitHistory);
+    }
+
+    public static void clearController(){
+        habitHistory = null;
     }
 }

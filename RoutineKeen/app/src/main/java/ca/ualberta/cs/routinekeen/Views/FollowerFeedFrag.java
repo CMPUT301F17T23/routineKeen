@@ -71,7 +71,7 @@ public class FollowerFeedFrag extends Fragment {
 
             try {
                 usersHabitEvents = FindFollowersController.getHabitHistory(tempUser);
-                HabitEvent recentEvent = usersHabitEvents.getHabitEvent(usersHabitEvents.getSize() - 1);//Gets most reecnt event
+                HabitEvent recentEvent = usersHabitEvents.getHabitEvent(0);//Gets most reecnt event
                 String eventTitle = recentEvent.getTitle();
                 String habitType = recentEvent.getEventHabitType();
 
