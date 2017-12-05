@@ -24,7 +24,13 @@ import java.util.BitSet;
 import java.util.Date;
 
 /**
- * Created by hughc on 2017-12-01.
+ * A set of helpers used to upload, save, and load HabitEvent photos
+ *
+ * @author Alex Ridgway
+ * @see     ca.ualberta.cs.routinekeen.Models.HabitEvent
+ * @see     ca.ualberta.cs.routinekeen.Views.AddHabitEvent
+ * @see     ca.ualberta.cs.routinekeen.Views.ViewHabitEvent
+ * @version 1.0.0
  */
 
 public class PhotoHelpers extends ContextWrapper {
@@ -37,6 +43,13 @@ public class PhotoHelpers extends ContextWrapper {
     }
     // taken from https://itekblog.com/android-context-in-non-activity-class/
     // on Dec 2, 2017
+
+
+    /**
+     * Converts an InputStream containing an image to a byte array
+     * @param imageStream An InputStream containing an image
+     * @return The supplied image in byte[] from
+     */
 
     public static byte[] convertImageStreamToByteArray(InputStream imageStream){
         // Taken from: https://stackoverflow.com/questions/10296734/image-uri-to-bytesarray
@@ -57,10 +70,33 @@ public class PhotoHelpers extends ContextWrapper {
         return byteBuffer.toByteArray();
     }
 
+
+    /**
+     * Converts an InputStream containing an image to a bitmap. If the Stream is too big to load
+     * into memory, the function returns null.
+     * @param imageStream   An InputStream containing an image to be decoded
+     * @return The supplied image in bitmap form, or null if decode fails
+     */
+
     public static Bitmap convertImageStreamToBitMap(InputStream imageStream){
-        Bitmap image = BitmapFactory.decodeStream(imageStream);
+        Bitmap image = null;
+        try {
+            image = BitmapFactory.decodeStream(imageStream);
+        } catch (OutOfMemoryError e){
+            return null;
+        }
         return image;
     }
+
+
+    /**
+     * Takes an InputStream containing an image and scales it down to a bitmap thumbnail with
+     * supplied dimensions.
+     * @param imageStream   An InputStream containing an image to be decoded and scaled
+     * @param width         Width for output thumbnail
+     * @param height        Height for output thumbnail
+     * @return      A bitmap thumbnail with dimensions width*height
+     */
 
     public static Bitmap convertImageStreamToThumbnail(InputStream imageStream, int width, int height){
 
@@ -78,6 +114,7 @@ public class PhotoHelpers extends ContextWrapper {
         // Taken from https://stackoverflow.com/questions/7138645/catching-outofmemoryerror-in-decoding-bitmap
         // on Dec 2, 2017
 
+
         // convert selected image to thumbnail smaller than IMAGE_MAX_BYTES
         Bitmap thumbImage = ThumbnailUtils.extractThumbnail(selectedImage,
                 width, height);
@@ -86,6 +123,13 @@ public class PhotoHelpers extends ContextWrapper {
 
         return thumbImage;
     }
+
+
+    /**
+     * Compresses a bitmap image until it is below a set number of bytes
+     * @param imageBmp  The bitmap to be compressed
+     * @return  The compressed bitmap
+     */
 
     public byte[] compressImage (Bitmap imageBmp) {
         File destFile = new File(this.getFilesDir().getAbsolutePath(),"tempDestFile.png");
@@ -123,22 +167,6 @@ public class PhotoHelpers extends ContextWrapper {
         }
 
         return returnArray;
-    }
-
-    public static void closeSilently(Closeable c) {
-        if (c == null)
-            return;
-        try {
-            c.close();
-        } catch (Throwable t) {
-            // Do nothing
-        }
-    }
-
-    private static String getTempFilename(Context context) throws IOException {
-        File outputDir = context.getCacheDir();
-        File outputFile = File.createTempFile("image", "tmp", outputDir);
-        return outputFile.getAbsolutePath();
     }
 
 }
