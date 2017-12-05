@@ -1,25 +1,18 @@
 package ca.ualberta.cs.routinekeen.Views;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.primitives.Booleans;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -29,7 +22,6 @@ import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
 import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Models.Habit;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
-import ca.ualberta.cs.routinekeen.Models.HabitList;
 import ca.ualberta.cs.routinekeen.R;
 
 
@@ -56,7 +48,7 @@ public class HabitProgressActivity extends AppCompatActivity {
         Bundle data = getIntent().getExtras();
         Bundle habitData = data.getBundle("habit");
         Habit habit = HabitListController.getHabitList().getHabitByPosition(habitData.getInt("position"));
-        String string = "For your habit " + habit.getHabitTitle() + ", your current progress is:";
+        String string = "For your habit " + habit.getHabitTitle() + ",\nyour current progress is:";
         habitTypeTextView.setText(string);
 
         ArrayList<HabitEvent> filteredList = new ArrayList<>();
