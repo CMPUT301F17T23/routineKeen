@@ -27,6 +27,7 @@ import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.R;
 
 
+
 public class FollowerFeedFrag extends Fragment {
     private static IOManager ioManager = IOManager.getManager();
     private User currentUser = UserSingleton.getCurrentUser();
@@ -71,11 +72,13 @@ public class FollowerFeedFrag extends Fragment {
 
             try {
                 usersHabitEvents = FindFollowersController.getHabitHistory(tempUser);
+
                 HabitEvent recentEvent = usersHabitEvents.getHabitEvent(0);//Gets most reecnt event
                 String eventTitle = recentEvent.getTitle();
                 String habitType = recentEvent.getEventHabitType();
 
-                feedView.add(tempUser.getUsername() + "\nMost Recent Habit: " + habitType + "\nEvent Title:" + eventTitle);
+                feedView.add(tempUser.getUsername());
+
             }catch (Exception e){
 
             }
