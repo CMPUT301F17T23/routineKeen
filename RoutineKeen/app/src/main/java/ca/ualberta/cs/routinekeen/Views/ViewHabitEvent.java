@@ -68,7 +68,7 @@ public class ViewHabitEvent extends AppCompatActivity {
         //Grab data from previous activity
         Intent intent = getIntent();
         index = intent.getIntExtra("View Event", -1);
-        Spinner spinner = (Spinner) findViewById(R.id.typeSpinner);
+        spinner = (Spinner) findViewById(R.id.typeSpinner);
 
 //        ActivityCompat.requestPermissions(this,
 //                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
@@ -76,7 +76,6 @@ public class ViewHabitEvent extends AppCompatActivity {
 
         eventTitle = (EditText) findViewById(R.id.eventTitle);
         eventComment = (EditText) findViewById(R.id.eventComment);
-        spinner = (Spinner) findViewById(R.id.typeSpinner);
         photoImageButton = (ImageButton) findViewById(R.id.imageButtonPhoto);
 
         photoImageButton.setOnClickListener( new View.OnClickListener() {
