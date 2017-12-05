@@ -40,17 +40,21 @@ import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.R;
 
 public class ViewHabitEvent extends AppCompatActivity {
-    private String eventType;
-    private int index;
+    private Spinner spinner;
     private EditText eventTitle;
     private EditText eventComment;
     private ImageButton photoImageButton;
 
     private byte[] photoByteArray;
+    private String eventType;
+    private int index;
+    private ArrayList<String> typeList;
+    private ArrayAdapter<String> typeAdapter;
 
-    Location location;
-    LocationManager service;
-    LocationManager locationManager;
+    private Location location;
+    private LocationManager service;
+    private LocationManager locationManager;
+
     private static final int REQUEST_LOCATION = 1;
     protected static final int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 2;
     protected static final int REQUEST_SELECT_IMAGE = 3;
@@ -61,41 +65,26 @@ public class ViewHabitEvent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_habit_event);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //Grab data from previous activity
-        Intent intent = getIntent();
-        index = intent.getIntExtra("View Event", -1);
-        Spinner spinner = (Spinner) findViewById(R.id.typeSpinner);
-
+        eventTitle = (EditText) findViewById(R.id.eventTitle);
+        eventComment = (EditText) findViewById(R.id.eventComment);
+        spinner = (Spinner) findViewById(R.id.typeSpinner);
+        photoImageButton = (ImageButton) findViewById(R.id.imageButtonPhoto);
+        service = (LocationManager) getSystemService(LOCATION_SERVICE);
         ActivityCompat.requestPermissions(this,
                 new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-        service = (LocationManager) getSystemService(LOCATION_SERVICE);
+    }
 
-        photoImageButton = (ImageButton) findViewById(R.id.imageButtonPhoto);
-        photoImageButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectImage();
-            }
-        });
-
-        ArrayList<String> typeList = new ArrayList<String>(HabitListController.getTypeList());
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+    @Override
+    protected void onStart(){
+        super.onStart();
+        typeList = HabitListController.getTypeList();
+        typeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
                 typeList);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                eventType =  (String) parent.getItemAtPosition(position);
-            }
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(typeAdapter);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-            }
-        });
+        Intent intent = getIntent();
+        index = intent.getIntExtra("View Event", -1);
 
         //Show respective values in view
         TextView newEventTitle = (TextView) findViewById(R.id.eventTitle);
@@ -113,26 +102,18 @@ public class ViewHabitEvent extends AppCompatActivity {
 
     public void saveEvent(View view)
     {
-        eventTitle = (EditText) findViewById(R.id.eventTitle);
-        eventComment = (EditText) findViewById(R.id.eventComment);
         if(validationSuccess()) {
-
-            HabitHistoryController.getHabitHistory().getHabitEvent(index).setTitle(eventTitle.getText().toString());
-            HabitHistoryController.saveHabitHistory();
-            HabitHistoryController.getHabitHistory().getHabitEvent(index).setComment(eventComment.getText().toString());
-            HabitHistoryController.saveHabitHistory();
-            HabitHistoryController.getHabitHistory().getHabitEvent(index).setEventHabitType(eventType);
-            HabitHistoryController.getHabitHistory().getHabitEvent(index).setPhoto(photoByteArray);
-            HabitHistoryController.saveHabitHistory();
-
+            String title = eventTitle.getText().toString().trim();
+            String comment = eventComment.getText().toString().trim();
+            String habitType = spinner.getSelectedItem().toString();
+            LatLng eventLocation = null;
             try {
-                LatLng newEventLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                HabitHistoryController.getHabitHistory().getHabitEvent(index).setLocation(newEventLocation);
-                Log.d("tag1", "location success!"+String.valueOf(newEventLocation));
-            } catch (Exception e) {
-                // no new location attached OR location error
-                // do nothing
+                eventLocation = new LatLng(location.getLatitude(), location.getLongitude());
+            } catch(Exception e){
+                // no location attached OR location error
             }
+            HabitHistoryController.updateHabitEvent(title, comment, habitType,
+                    photoByteArray, eventLocation, index);
             finish();
         }
     }
@@ -266,5 +247,28 @@ public class ViewHabitEvent extends AppCompatActivity {
                 Log.e("AHELog", "unknown", e);
             }
         }
+    }
+
+    private void initListeners(){
+        photoImageButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                eventType =  (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
     }
 }

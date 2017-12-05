@@ -1,5 +1,7 @@
 package ca.ualberta.cs.routinekeen.Models;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,6 +29,17 @@ public class HabitHistory extends Observable{
         setChanged();
         notifyObservers();
 
+    }
+
+    public void updateHabitEvent(String title, String comment, String habitType,
+                                 byte[] photo, LatLng location, int position){
+        habitHistory.get(position).setTitle(title);
+        habitHistory.get(position).setComment(comment);
+        habitHistory.get(position).setEventHabitType(habitType);
+        habitHistory.get(position).setPhoto(photo);
+        habitHistory.get(position).setLocation(location);
+        setChanged();
+        notifyObservers(habitHistory);
     }
 
     public int getSize(){

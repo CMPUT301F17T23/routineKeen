@@ -74,7 +74,6 @@ public class AddHabitEvent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_habit_event);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         IOManager.initManager(this.getApplicationContext());
         ActivityCompat.requestPermissions(this,
@@ -110,8 +109,8 @@ public class AddHabitEvent extends AppCompatActivity {
         if(validationSuccess()) {
             try {
                 LatLng newEventLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                toAddEvent = new HabitEvent(eventTitle.getText().toString(), eventType,
-                        eventComment.getText().toString(), newEventLocation, photoByteArray);
+                toAddEvent = new HabitEvent(eventTitle.getText().toString().trim(), eventType,
+                        eventComment.getText().toString().trim(), newEventLocation, photoByteArray);
             } catch (Exception e) {
                 // no location attached OR location error
                 toAddEvent = new HabitEvent(eventTitle.getText().toString(), eventType,

@@ -24,6 +24,8 @@ import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
+import ca.ualberta.cs.routinekeen.Controllers.HabitHistoryController;
+import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
 import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Controllers.LocalDataManager;
 import ca.ualberta.cs.routinekeen.Controllers.UserListController;
@@ -160,6 +162,8 @@ public class LoginActivity extends AppCompatActivity implements Observer{
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // Navigate to the main menu for the selected user
                 UserSingleton.setCurrentUser(users.get(i));
+                HabitHistoryController.clearController();
+                HabitListController.clearController();
                 Intent intent = new Intent(LoginActivity.this, UserMenu.class);
                 startActivity(intent);
             }
