@@ -36,6 +36,15 @@ import ca.ualberta.cs.routinekeen.Helpers.PhotoHelpers;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.R;
 
+
+/**
+ * A menu in the app that allows users to enter and save the details of a new habit event
+ *
+ * @author  RoutineKeen
+ * @see     HabitEvent
+ * @see     ViewHabitEvent
+ */
+
 public class AddHabitEvent extends AppCompatActivity {
     private Spinner spinner;
     private EditText eventTitle;
@@ -87,6 +96,13 @@ public class AddHabitEvent extends AppCompatActivity {
         spinner.setAdapter(typeAdapter);
     }
 
+
+    /**
+     * Creates a new Habit Event, adds it to the user's HabitHistory, and exits AddHabitEvent
+     *
+     * @param view  View
+     */
+
     public void addEvent(View view) {
         if(validationSuccess()) {
             try {
@@ -104,6 +120,13 @@ public class AddHabitEvent extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Checks if all of the required fields have been filled
+     *
+     * @return  true if required fields are filled, false otherwise.
+     */
+
     private boolean validationSuccess() {
         if (eventTitle.getText().toString().isEmpty()) {
             Toast.makeText(this, "Please enter a title for event.",
@@ -117,6 +140,13 @@ public class AddHabitEvent extends AppCompatActivity {
         }
         return true;
     }
+
+
+    /**
+     * Adds the user's current location the the habit event
+     *
+     * @param view  View
+     */
 
     public void attachLocation(View view) {
 //        boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -141,10 +171,14 @@ public class AddHabitEvent extends AppCompatActivity {
         }
     }
 
+
     /**
+     * Gets the device's current location
+     *
      * ref: https://chantisandroid.blogspot.ca/2017/06/get-current-location-example-in-android.html
      * @return current location
      */
+
     private Location getDeviceLoc() {
         service = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(AddHabitEvent.this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -168,6 +202,11 @@ public class AddHabitEvent extends AppCompatActivity {
         return null;
     }
 
+
+    /**
+     * Notifies the user that their location services are disabled
+     */
+
     protected void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Please enable location")
@@ -186,11 +225,27 @@ public class AddHabitEvent extends AppCompatActivity {
         alert.show();
     }
 
+
+    /**
+     * Requests READ_EXTERNAL_STORAGE permission to allow the user to attach at photo from storage
+     * to the HabitEvent
+     */
+
     public void selectImage() {
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
     }
+
+
+    /**
+     * Launches the gallery, allowing the user to pick an image to upload
+     * (if EXTERNAL_STORAGE permission was granted)
+     *
+     * @param requestCode   permissions request code
+     * @param permissions
+     * @param grantResults  array of permission request results
+     */
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -205,6 +260,16 @@ public class AddHabitEvent extends AppCompatActivity {
             }
         }
     }
+
+
+    /**
+     * Receives the URI of the image chosen by the user, and calls methods to load it into memory,
+     * scale it down, compress it, and add it to the HabitEvent
+     *
+     * @param requestCode   request code (int)
+     * @param resultCode    denotes whether the activity was successful
+     * @param data          Intent containing URI of selected image
+     */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -231,6 +296,11 @@ public class AddHabitEvent extends AppCompatActivity {
             }
         }
     }
+
+
+    /**
+     * Initializes the various Listeners in the view.
+     */
 
     private void initListeners(){
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

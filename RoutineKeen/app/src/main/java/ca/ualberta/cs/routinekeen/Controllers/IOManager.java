@@ -74,7 +74,12 @@ public class IOManager {
     }
 
     public HabitHistory loadUserHabitHistory(String userID) {
-        return localDM.loadHabitHistory();
+        HabitHistory habitHistory = localDM.loadHabitHistory();
+        if(habitHistory.getEvents().isEmpty() && isNetworkAvailable()){
+            habitHistory = NetworkDataManager.GetUserHabitEvents(userID);
+        }
+
+        return habitHistory;
     }
 
     public void saveHabitHistory(HabitHistory habitHistory) {
