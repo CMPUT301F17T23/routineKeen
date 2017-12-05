@@ -87,7 +87,7 @@ public class FollowerFeedFrag extends Fragment {
         feedListView = (ListView) view.findViewById(R.id.feedList);
         feedAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, feedView);//Change to user list view for users only
         feedListView.setAdapter(feedAdapter);
-/*
+
         feedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
@@ -95,10 +95,10 @@ public class FollowerFeedFrag extends Fragment {
                 clickedUser = userFeedList.get(position);
                 clickedPosition = position;
                 Intent intent = new Intent(getActivity(), FollowerHistoryActivity.class);
-                intent.putExtra("View History", position);
+                intent.putExtra("Follower Name", clickedUser);
                 startActivity(intent);
             }
-        });*/
+        });
 
 
         // Inflate the layout for this fragment
