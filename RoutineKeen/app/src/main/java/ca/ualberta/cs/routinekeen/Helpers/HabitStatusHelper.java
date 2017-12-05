@@ -15,7 +15,11 @@ import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.Models.User;
 
 /**
- * Created by Mikee V on 2017-12-03.
+ * A set of helper methods used in displaying the status of a habit
+ *
+ * @author  Mikee V
+ * @see     ca.ualberta.cs.routinekeen.Views.HabitProgressActivity
+ * @version 1.0.0
  */
 
 public class HabitStatusHelper {
@@ -62,6 +66,13 @@ public class HabitStatusHelper {
     }*/
 
 
+    /**
+     * Returns a list of all dates between startDate and curDate inclusive
+     * @param startDate The first date in the set
+     * @param curDate   The last date in the set
+     * @return  All dates from startDate to curDate inclusive
+     */
+
     private ArrayList<Date> getBetweenDates(Date startDate, Date curDate) {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(startDate);
@@ -75,10 +86,25 @@ public class HabitStatusHelper {
     }
 
 
+    /**
+     * Checks if a date matches a certain day of the week
+     * @param day   day of the week (String)
+     * @param date  Date to be checked
+     * @return  True if day of the week matches, otherwise false
+     */
+
     private boolean sameDay1(String day, Date date) {
         String eventDate = new SimpleDateFormat("EE").format(date);
         return eventDate.equals(day);
     }
+
+
+    /**
+     * Compares two Dates, checking if they represent the same day
+     * @param day1  First date to be compared
+     * @param day2  Second date to be compared
+     * @return  True if dates match, false otherwise
+     */
 
     private boolean sameDay2(Date day1, Date day2) {
         Calendar cal1 = Calendar.getInstance();
