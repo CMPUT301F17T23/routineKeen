@@ -182,4 +182,9 @@ public class HabitListController{
     public static void saveTypeList() {
         ioManager.saveUserHabitTypes(typeList);
     }
+
+    public static void clearController(){
+        typeList = null;
+        habitList = null;
+    }
 }

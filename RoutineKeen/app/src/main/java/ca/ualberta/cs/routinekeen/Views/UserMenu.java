@@ -7,8 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import ca.ualberta.cs.routinekeen.Controllers.HabitHistoryController;
+import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
 import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
+import ca.ualberta.cs.routinekeen.Models.HabitHistory;
 import ca.ualberta.cs.routinekeen.R;
 
 /**
@@ -49,6 +52,8 @@ public class UserMenu extends AppCompatActivity{
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                HabitHistoryController.clearController();
+                HabitListController.clearController();
                 ioManager.clearUserSharedPrefs();
                 finish();
             }

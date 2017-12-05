@@ -74,14 +74,7 @@ public class IOManager {
     }
 
     public HabitHistory loadUserHabitHistory(String userID) {
-        HabitHistory retrievedHabitEvents;
-        if (isNetworkAvailable()){
-            retrievedHabitEvents = NetworkDataManager.GetUserHabitEvents(userID);
-        } else{
-            retrievedHabitEvents = localDM.loadHabitHistory();
-        }
-
-        return retrievedHabitEvents;
+        return localDM.loadHabitHistory();
     }
 
     public void saveHabitHistory(HabitHistory habitHistory) {

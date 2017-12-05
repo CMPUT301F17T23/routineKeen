@@ -72,12 +72,6 @@ public class HabitEditActivity extends AppCompatActivity {
         setDaySwitches();
     }
 
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        HabitListController.saveHabitList();
-    }
-
     private void initListeners(){
         cancelBtn = (Button) findViewById(R.id.cancelButton);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
