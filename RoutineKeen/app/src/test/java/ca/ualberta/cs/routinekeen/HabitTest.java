@@ -6,7 +6,8 @@ import ca.ualberta.cs.routinekeen.Models.Habit;
 
 import static org.junit.Assert.*;
 
-public class HabitTest{    @Test
+public class HabitTest{
+    @Test
     public void testHabit() throws Exception{
     String habitTitle = "test habit title", habitReason = "test habit reason";
     Date startDate = new Date();

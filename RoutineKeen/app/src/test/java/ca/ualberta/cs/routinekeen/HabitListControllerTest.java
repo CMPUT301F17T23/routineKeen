@@ -1,6 +1,9 @@
 package ca.ualberta.cs.routinekeen;
+import org.junit.Test;
+
 import java.util.Date;
 
+import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
 import ca.ualberta.cs.routinekeen.Models.Habit;
 
 import static org.junit.Assert.*;
@@ -10,8 +13,9 @@ import static org.junit.Assert.*;
  */
 
 public class HabitListControllerTest {
+    @Test
     public void testHabitListController() throws Exception {
-       /* HabitListController testController = new HabitListController();
+        /*HabitListController testController = new HabitListController();
         String habitTitle = "test habit title";
         String habitReason = "test habit reason";
         Date testDate = new Date();
