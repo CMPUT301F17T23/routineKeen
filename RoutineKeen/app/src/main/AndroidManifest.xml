@@ -28,45 +28,42 @@
         </activity>
         <activity
             android:name=".Views.AddHabitEvent"
-            android:parentActivityName=".Views.HabitHistoryActivity"/>
+            android:parentActivityName=".Views.HabitHistoryActivity" />
         <activity
             android:name=".Views.ViewHabitEvent"
-            android:parentActivityName=".Views.HabitHistoryActivity"/>
+            android:parentActivityName=".Views.HabitHistoryActivity" />
         <activity
             android:name=".Views.HabitProgressActivity"
-            android:parentActivityName=".Views.HabitEditActivity"/>
+            android:parentActivityName=".Views.HabitEditActivity" />
         <activity android:name=".Views.UserMenu" />
         <activity
             android:name=".Views.HabitListActivity"
-
-            android:parentActivityName=".Views.UserMenu"/>
+            android:parentActivityName=".Views.UserMenu" />
         <activity
             android:name=".Views.NewHabitActivity"
-            android:parentActivityName=".Views.HabitListActivity"/>
+            android:parentActivityName=".Views.HabitListActivity" />
         <activity
             android:name=".Views.HabitHistoryActivity"
-            android:parentActivityName=".Views.UserMenu"/>
+            android:parentActivityName=".Views.UserMenu" />
         <activity
             android:name=".Views.HabitHistoryFilterActivity"
-            android:parentActivityName=".Views.HabitHistoryActivity"/>
+            android:parentActivityName=".Views.HabitHistoryActivity" />
         <activity
             android:name=".Views.HabitEditActivity"
-            android:parentActivityName=".Views.HabitListActivity"/>
+            android:parentActivityName=".Views.HabitListActivity" />
         <activity
             android:name=".Views.HabitScheduleActivity"
             android:parentActivityName=".Views.UserMenu" />
-        <activity android:name=".Views.MapFilter"
-            android:parentActivityName=".Views.UserMenu"/>
+        <activity
+            android:name=".Views.MapFilter"
+            android:parentActivityName=".Views.UserMenu" />
         <activity
             android:name=".Views.MapsActivity"
-            android:label="@string/title_activity_maps"/>
+            android:label="@string/title_activity_maps" />
         <activity
             android:name=".Views.HabitFollowingSharing"
             android:parentActivityName=".Views.UserMenu"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -80,16 +77,16 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        
         <receiver
             android:name=".Helpers.NetworkChangeReceiver"
-            android:label="NetworkChangeReceiver" >
+            android:label="NetworkChangeReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
 
+        <activity android:name=".Views.FollowerHistoryActivity"></activity>
     </application>
 
 </manifest>

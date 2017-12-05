@@ -1,10 +1,10 @@
 package ca.ualberta.cs.routinekeen.Controllers;
 
-import android.widget.Toast;
-
 import java.util.ArrayList;
 
 import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
+import ca.ualberta.cs.routinekeen.Models.HabitEvent;
+import ca.ualberta.cs.routinekeen.Models.HabitHistory;
 import ca.ualberta.cs.routinekeen.Models.User;
 import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 
@@ -34,7 +34,7 @@ public class FindFollowersController {
             ioManager.sendFollowerRequest(userRequesting, requestedUser);
         }
         catch (NetworkUnavailableException e){
-            //hmmm
+
         }
     }
     public static ArrayList<String> getFollowerRequests(User user)
@@ -45,5 +45,12 @@ public class FindFollowersController {
     public static ArrayList<String> getFeedList(User user)
     {
         return user.getFollowerList();
+    }
+    public static HabitHistory getHabitHistory(User user)
+    {
+        //HabitHistory habitHistory;
+        return ioManager.loadUserHabitHistory(user.getUserID());
+
+        //return habitHistory;
     }
 }
