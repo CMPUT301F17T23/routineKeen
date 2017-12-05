@@ -13,6 +13,7 @@ import com.robotium.solo.Solo;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 import ca.ualberta.cs.routinekeen.Views.AddHabitEvent;
@@ -31,13 +32,15 @@ import ca.ualberta.cs.routinekeen.Views.ViewHabitEvent;
 
 public class HabitTrackerFullTest extends ActivityInstrumentationTestCase2 {
     private static final String LOG = "SoloTestTag";
-    private static final String TEST_USER_NAME = "Test User Dec 2017";
+    private static final String TEST_USER_NAME = "Test User Fa17";
     private static final String TEST_HABIT_NAME = "Practice Juggling";
     private static final String TEST_HABIT_NAME2 = "Learn to Unicycle";
+    private static final String TEST_HABIT_NAME3 = "Make balloon animals";
     private static final String TEST_HABIT_REASON = "Become a clown";
     private static final String TEST_HABIT_REASON2 = "Become something else";
 
     private static final String TEST_HABIT_EVENT_TITLE = "Juggled for 15 min";
+    private static final String TEST_HABIT_EVENT_TITLE2 = "Unicycled for 20 min";
     private static final String TEST_HABIT_EVENT_COMMENT = "CommentFilterFlag";
 
     private Solo solo;
@@ -63,6 +66,7 @@ public class HabitTrackerFullTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void login() {
+        addTestUser();
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         ListView loginLv = (ListView) solo.getView("login_listview_userSelect");
         userIndex = loginLv.getAdapter().getCount();
@@ -74,7 +78,6 @@ public class HabitTrackerFullTest extends ActivityInstrumentationTestCase2 {
         solo.assertCurrentActivity("Wrong Activity", HabitListActivity.class);
         // click on add button
         solo.clickOnImageButton(0);
-        Log.d(LOG, "check2");
 
         // NEW HABIT
         solo.assertCurrentActivity("Wrong Activity", NewHabitActivity.class);
@@ -91,12 +94,10 @@ public class HabitTrackerFullTest extends ActivityInstrumentationTestCase2 {
         // HABIT HISTORY
         solo.assertCurrentActivity("Wrong Activity", HabitHistoryActivity.class);
         solo.clickOnButton("Add Habit Event");
-        Log.d(LOG, "check4");
 
         // ADD HABIT EVENT
         solo.assertCurrentActivity("Wrong Activity", AddHabitEvent.class);
-        //solo.clickOnText("ALLOW");
-        solo.clickOnButton(2);
+
         // set title & comment (if included)
         solo.enterText((EditText) solo.getView(R.id.eventTitle), title);
         if (comment != "") {
@@ -109,7 +110,7 @@ public class HabitTrackerFullTest extends ActivityInstrumentationTestCase2 {
         if (includeLocation) {
             solo.clickOnImageButton(R.id.imageButtonLocation);
         }
-        solo.clickOnButton("ADD");
+        solo.clickOnButton("Add");
     }
 
     public void filterHabitHistoryByComment(String comment) {
@@ -120,6 +121,7 @@ public class HabitTrackerFullTest extends ActivityInstrumentationTestCase2 {
 
         // enter filter comment
         solo.enterText((EditText) solo.getView(R.id.commentFilterText), comment);
+        try { TimeUnit.SECONDS.sleep(1); } catch (InterruptedException e) { Log.d(LOG, "wait interrupted"); }
 
         solo.clickOnView(solo.getView(R.id.applyFilterByCommentButton));
     }
@@ -131,8 +133,9 @@ public class HabitTrackerFullTest extends ActivityInstrumentationTestCase2 {
         solo.assertCurrentActivity("Wrong Activity", HabitHistoryFilterActivity.class);
 
         // change habit type if needed
-        if (!solo.isSpinnerTextSelected(type)) {
-            solo.clickOnView(solo.getView(R.id.habitTypeSpinner));
+        Boolean b = solo.isSpinnerTextSelected(type);
+        if (!b) {
+            solo.clickOnView(solo.getView(R.id.typeFilterSpinner));
             solo.clickOnText(type);
         }
 
@@ -159,6 +162,17 @@ public class HabitTrackerFullTest extends ActivityInstrumentationTestCase2 {
         }
     }
 
+    public void disableAllDays() {
+        solo.assertCurrentActivity("Wrong Activity", HabitEditActivity.class);
+        solo.clickOnText("Mon");
+        solo.clickOnText("Tue");
+        solo.clickOnText("Wed");
+        solo.clickOnText("Thu");
+        solo.clickOnText("Fri");
+        solo.clickOnText("Sat");
+        solo.clickOnText("Sun");
+    }
+
 
     /**
      * Adds a new habit, saves it, then edits its habit reason and schedule and saves again
@@ -167,13 +181,14 @@ public class HabitTrackerFullTest extends ActivityInstrumentationTestCase2 {
     @Test
     public void testHabitList() {
 
-        Log.d(LOG, "check1");
         login();
 
         // USER MENU
         solo.assertCurrentActivity("Wrong Activity", UserMenu.class);
         // open habit list
         solo.clickOnText("View Habit List");
+
+        clearHabitList();
 
         addTestHabit(TEST_HABIT_NAME, TEST_HABIT_REASON);
 
@@ -199,7 +214,6 @@ public class HabitTrackerFullTest extends ActivityInstrumentationTestCase2 {
 
     @Test
     public void testHabitHistory() {
-        // UNSTABLE
 
         login();
         solo.assertCurrentActivity("Wrong Activity", UserMenu.class);
@@ -207,36 +221,98 @@ public class HabitTrackerFullTest extends ActivityInstrumentationTestCase2 {
         // add 2 habits
         solo.assertCurrentActivity("Wrong Activity", UserMenu.class);
         solo.clickOnText("View Habit List");
+        clearHabitList();
+
         addTestHabit(TEST_HABIT_NAME, TEST_HABIT_REASON);
         addTestHabit(TEST_HABIT_NAME2, TEST_HABIT_REASON);
         solo.goBack();
+
         // add a variety of habit events
         solo.assertCurrentActivity("Wrong Activity", UserMenu.class);
 
         solo.clickOnText("View Habit History");
+        clearEventList();
+
         addTestHabitEvent(TEST_HABIT_EVENT_TITLE, "", TEST_HABIT_NAME, false);
         addTestHabitEvent(TEST_HABIT_EVENT_TITLE, TEST_HABIT_EVENT_COMMENT, TEST_HABIT_NAME, false);
-        addTestHabitEvent(TEST_HABIT_EVENT_TITLE, TEST_HABIT_EVENT_COMMENT, TEST_HABIT_NAME2, false);
+        addTestHabitEvent(TEST_HABIT_EVENT_TITLE2, TEST_HABIT_EVENT_COMMENT, TEST_HABIT_NAME2, false);
 
         solo.assertCurrentActivity("Wrong Activity", HabitHistoryActivity.class);
 
+        // Test filter by comment
         filterHabitHistoryByComment(TEST_HABIT_EVENT_COMMENT);
-        // check # of results here (should be 2)
+        // check # of results (should be 2)
+        Log.d(LOG, "check1");
+        assertEquals(((ListView)solo.getView("habitHistoryList")).getAdapter().getCount(), 2);
+        Log.d(LOG, "check2");
+
+        try { TimeUnit.SECONDS.sleep(2); } catch (InterruptedException e) { Log.d(LOG, "wait interrupted"); }
         solo.clickOnButton("Clear Filter");
 
+
+        // Test filter by habit type
         filterHabitHistoryByType(TEST_HABIT_NAME2);
-        // check # of results here (should be 1)
+        // check # of results (should be 1)
+        assertEquals(((ListView)solo.getView("habitHistoryList")).getAdapter().getCount(), 1);
+
+        try { TimeUnit.SECONDS.sleep(2); } catch (InterruptedException e) { Log.d(LOG, "wait interrupted"); }
         solo.clickOnButton("Clear Filter");
 
-        filterHabitHistoryByComment(TEST_HABIT_EVENT_COMMENT);
-        filterHabitHistoryByType(TEST_HABIT_NAME);
-        // check # of results here (should be 1)
-        solo.clickOnButton("Clear Filter");
+
+        try { TimeUnit.SECONDS.sleep(1); } catch (InterruptedException e) { Log.d(LOG, "wait interrupted"); }
 
 
         clearEventList();
         solo.goBack();
         solo.clickOnText("View Habit List");
         clearHabitList();
+    }
+
+    @Test
+    public void testHabitSchedule() {
+
+        // Get current day of the week in string form
+        String today;
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        switch (day) {
+            case Calendar.SUNDAY:   today = "Sun";  break;
+            case Calendar.MONDAY:   today = "Mon";  break;
+            case Calendar.TUESDAY:  today = "Tue";  break;
+            case Calendar.WEDNESDAY:today = "Wed";  break;
+            case Calendar.THURSDAY: today = "Thu";  break;
+            case Calendar.FRIDAY:   today = "Fri";  break;
+            case Calendar.SATURDAY: today = "Sat";  break;
+            default:                today = null;   break;
+        }
+
+        login();
+
+        // add 2 habits
+        solo.assertCurrentActivity("Wrong Activity", UserMenu.class);
+        solo.clickOnText("View Habit List");
+        clearHabitList();
+
+        addTestHabit(TEST_HABIT_NAME, TEST_HABIT_REASON);
+        addTestHabit(TEST_HABIT_NAME2, TEST_HABIT_REASON);
+        addTestHabit(TEST_HABIT_NAME3, TEST_HABIT_REASON);
+
+        solo.assertCurrentActivity("Wrong Activity", HabitListActivity.class);
+        solo.clickOnText(TEST_HABIT_NAME);
+        disableAllDays();
+        solo.clickOnButton("Save");
+
+        solo.assertCurrentActivity("Wrong Activity", HabitListActivity.class);
+        solo.clickOnText(TEST_HABIT_NAME2);
+        disableAllDays();
+        solo.clickOnText(today);
+        solo.clickOnButton("Save");
+
+        solo.goBack();
+        solo.assertCurrentActivity("Wrong Activity", UserMenu.class);
+        solo.clickOnText("View Habit Schedule");
+
+        try { TimeUnit.SECONDS.sleep(2); } catch (InterruptedException e) { Log.d(LOG, "wait interrupted"); }
+        // check that there are 2 habits in today's schedule
+        assertEquals(((ListView)solo.getView("habitSchedule_listView")).getAdapter().getCount(), 2);
     }
 }
