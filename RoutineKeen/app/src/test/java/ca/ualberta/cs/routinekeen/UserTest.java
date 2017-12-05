@@ -1,4 +1,6 @@
 package ca.ualberta.cs.routinekeen;
+import org.junit.Test;
+
 import java.util.Date;
 
 import ca.ualberta.cs.routinekeen.Models.Habit;
@@ -11,6 +13,7 @@ import static org.junit.Assert.*;
  */
 
 public class UserTest {
+    @Test
     public void testUser() throws Exception{
         String testUniqueUserName = "Test username";
         String testUniqueFollowerName = "Test follower name";
@@ -19,18 +22,5 @@ public class UserTest {
         assertTrue(testUser.getUsername().equals(testUniqueUserName));
         assertTrue(testFollower.getUsername().equals(testUniqueFollowerName));
 
-        String habitTitle = "test habit title", habitReason = "test habit reason";
-        Date testDate = new Date();
-        Habit testHabit = new Habit(habitTitle,habitReason,testDate);
-
-        testUser.getHabits().add(testHabit);
-        assertTrue(testUser.getHabits().size() == 1);
-        assertTrue(testUser.getHabitEvents().size() == 0);
-
-        //testUser.getFollowerRequests().add(testFollower);
-        //testUser.getFollowerList().add(testFollower);
-        // get(0) hardcoded for testing purposes
-        //assertTrue(testUser.getFollowerRequests().get(0).equals(testUniqueFollowerName));
-        //assertTrue(testUser.getFollowerList().get(0).equals(testUniqueFollowerName));
     }
 }

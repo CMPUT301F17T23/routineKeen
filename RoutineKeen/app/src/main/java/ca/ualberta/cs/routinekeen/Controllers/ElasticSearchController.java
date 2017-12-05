@@ -35,6 +35,13 @@ public class ElasticSearchController {
     private static final String ELASTICSEARCH_URL = "http://cmput301.softwareprocess.es:8080";
     private static final String INDEX_NAME = "cmput301f17t23_routinekeen";
 
+    /**
+     * A static class representing an asynchronous task to add a
+     * new user on the elastic search server. The task takes a user,
+     * and returns a String representing the uniquely assigned ID
+     * given to that user.
+     * @see NetworkDataManager
+     */
     public static class AddUserTask extends AsyncTask<User, Void, String> {
         @Override
         protected String doInBackground(User... users) {
@@ -60,6 +67,12 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static class representing an asynchronous task to get a user
+     * from the elastic search server. The task takes a string representing
+     * the user's username, and returns the entire user and its data.
+     * @see NetworkDataManager
+     */
     public static class GetUserTask extends AsyncTask<String, Void, User> {
         @Override
         protected User doInBackground(String... search_parameters) {
@@ -93,6 +106,13 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static class representing an asynchronous task to update an
+     * existing user on the elastic search server. The task takes a user
+     * class containing the updated data, and returns a boolean determining
+     * whether the update completed successfully.
+     * @see NetworkDataManager
+     */
     public static class UpdateUserTask extends AsyncTask<User, Void, Boolean> {
         @Override
         protected Boolean doInBackground(User... user) {
@@ -119,6 +139,12 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static class representing an asynchronous task to delete an existing
+     * user on the elastic search server. The task takes a user ID as a String
+     * and returns a boolean determining whether the delete completed successfully.
+     * @see NetworkDataManager
+     */
     public static class DeleteUserTask extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... userID) {
@@ -143,6 +169,13 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static class representing an asynchronous task to add a
+     * new habit on the elastic search server. The task takes a habit,
+     * and returns a String representing the uniquely assigned ID
+     * given to that habit.
+     * @see NetworkDataManager
+     */
     public static class AddHabitTask extends AsyncTask<Habit, Void, String> {
         @Override
         protected String doInBackground(Habit... habits){
@@ -169,6 +202,12 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static class representing an asynchronous task to delete an existing
+     * habit on the elastic search server. The task takes a habit ID as a String
+     * and returns a boolean determining whether the delete completed successfully.
+     * @see NetworkDataManager
+     */
     public static class DeleteHabitTask extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... habitID) {
@@ -193,6 +232,12 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static class representing an asynchronous task to retrieve all the habits
+     * associated with a user. The task takes a String representing the user ID and
+     * returns an ArrayList<Habit> containing all of the users current habits.
+     * @see NetworkDataManager
+     */
     public static class GetUserHabitsTask extends AsyncTask<String, Void, ArrayList<Habit>> {
         @Override
         protected ArrayList<Habit> doInBackground(String... user_ids) {
@@ -233,6 +278,12 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static class representing an asynchronous task to retrieve all the habit types
+     * associated with a user. The task takes a String representing the user ID and
+     * returns an ArrayList<String> containing all of the users current habit types.
+     * @see NetworkDataManager
+     */
     public static class GetUserHabitTypesTask extends AsyncTask<String, Void, ArrayList<String>> {
         @Override
         protected ArrayList<String> doInBackground(String... user_ids) {
@@ -274,6 +325,12 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static class representing an asynchronous task to get a specific habit
+     * from the elastic search server. The task takes a String representing
+     * the habit type, and returns the habit associated with that type.
+     * @see NetworkDataManager
+     */
     public static class GetHabitByTitleTask extends AsyncTask<String, Void, Habit> {
         @Override
         protected Habit doInBackground(String... search_parameters) {
@@ -307,6 +364,13 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static class representing an asynchronous task to update an
+     * existing habit on the elastic search server. The task takes a habit
+     * class containing the updated data, and returns a boolean determining
+     * whether the update completed successfully.
+     * @see NetworkDataManager
+     */
     public static class UpdateHabitTask extends AsyncTask<Habit, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Habit... habits) {
@@ -331,6 +395,13 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static class representing an asynchronous task to get the habit ID of
+     * an existing habit on the elastic search server. The task takes a String
+     * representing the habit type, and returns a String representing the ID of
+     * the habit.
+     * @see NetworkDataManager
+     */
     public static class GetHabitIdTask extends AsyncTask<String, Void, String>{
         @Override
         protected String doInBackground(String... habitType) {
@@ -365,6 +436,13 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static class representing an asynchronous task to add a
+     * new habit event on the elastic search server. The task takes a
+     * HabitEvent and returns a String representing the uniquely assigned ID
+     * given to that habit event.
+     * @see NetworkDataManager
+     */
     public static class AddHabitEventTask extends AsyncTask<HabitEvent, Void, String> {
         @Override
         protected String doInBackground(HabitEvent... habitEvents) {
@@ -390,6 +468,12 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static class representing an asynchronous task to retrieve all the habit events
+     * associated with a user. The task takes a String representing the user ID and
+     * returns an ArrayList<HabitEvent> containing all of the users current habits events.
+     * @see NetworkDataManager
+     */
     public static class GetUserHabitEventsTask extends AsyncTask<String, Void, ArrayList<HabitEvent>> {
         @Override
         protected ArrayList<HabitEvent> doInBackground(String... user_ids) {
@@ -431,6 +515,13 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static class representing an asynchronous task to update an existing
+     * habit event on the elastic search server. The task takes a HabitEvent
+     * class containing the updated data, and returns a boolean determining
+     * whether the update completed successfully.
+     * @see NetworkDataManager
+     */
     public static class UpdateHabitEventTask extends AsyncTask<HabitEvent, Void, Boolean> {
         @Override
         protected Boolean doInBackground(HabitEvent... habitEvents) {
@@ -456,6 +547,12 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static class representing an asynchronous task to delete an existing habit
+     * event on the elastic search server. The task takes a habit event ID as a String
+     * and returns a boolean determining whether the delete completed successfully.
+     * @see NetworkDataManager
+     */
     public static class DeleteHabitEventTask extends AsyncTask<String, Void, Boolean>{
         @Override
         protected Boolean doInBackground(String... eventID) {
@@ -480,6 +577,11 @@ public class ElasticSearchController {
         }
     }
 
+    /**
+     * A static method to create the jest droid client with the
+     * static elastic search server URL attribute of this class.
+     * @return void
+     */
     private static void verifySettings() {
         if (client == null){
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder(ELASTICSEARCH_URL);
