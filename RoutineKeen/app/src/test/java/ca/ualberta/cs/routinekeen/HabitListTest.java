@@ -15,9 +15,9 @@ public class HabitListTest{    @Test
         Date testDate = new Date();
         Habit testHabit = new Habit(habitTitle,habitReason,testDate);
 
-        assertTrue(testHabit.getHabitTitle().equals(habitTitle));
-        assertTrue(testHabit.getHabitReason().equals(habitReason));
-        assertTrue(testHabit.getStartDate().equals(testDate));
+        assertEquals(testHabit.getHabitTitle(), habitTitle);
+        assertEquals(testHabit.getHabitReason(), habitReason);
+        assertEquals(testHabit.getStartDate(), testDate);
 
         String newTitle = "another habit title";
         testHabit.setHabitTitle(newTitle);
@@ -25,7 +25,5 @@ public class HabitListTest{    @Test
         testHabitList.addHabit(testHabit);
         assertTrue(testHabitList.getHabitByType(newTitle).equals(testHabit));
 
-        testHabitList.removeHabitByType(newTitle);
-        assertTrue(testHabitList.habitListSize() == 0);
     }
 }

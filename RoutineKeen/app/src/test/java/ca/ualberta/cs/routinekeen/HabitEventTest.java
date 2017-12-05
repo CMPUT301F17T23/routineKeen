@@ -1,9 +1,13 @@
 package ca.ualberta.cs.routinekeen;
 
+import org.junit.Test;
+
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 
 import static org.junit.Assert.*;
 public class HabitEventTest {
+
+    @Test
     public void testHabitEvent() throws Exception {
         String testHabitEventTitle = "Test HabitEvent title";
         String testHabitComment = "Test HabitEvent comment";
