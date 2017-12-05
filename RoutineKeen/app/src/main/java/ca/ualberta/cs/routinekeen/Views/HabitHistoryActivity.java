@@ -142,7 +142,7 @@ public class HabitHistoryActivity extends AppCompatActivity implements Observer{
                 filter = filterData.getStringExtra("FILTER TYPE");
                 ArrayList<HabitEvent> filteredList = new ArrayList<>();
                 for (HabitEvent event : habitEvents){
-                    if (event.getComment().contains(filter)){
+                    if (event.getComment().toLowerCase().contains(filter.toLowerCase())){
                         filteredList.add(event);
                     }
                 }

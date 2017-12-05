@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">RoutineKeen</string>
-    <string name="login_addProfileTip">Add a new user profile, or enter an existing profile name to retrieve the account.</string>
+    <string name="login_addProfileTip">Add a new user profile by entering a profile name.</string>
     <string name="login_delProfileText">Enter the name of the user profile currently in your list that you wish to delete.
                                         Please ensure that the entered name exactly matches the existing one.</string>
     <string name="login_delProfileWarn">NOTE: PROCEEDING WITH THIS ACTION WILL DELETE YOUR USER ACCOUNT AND ALL OF ITS
