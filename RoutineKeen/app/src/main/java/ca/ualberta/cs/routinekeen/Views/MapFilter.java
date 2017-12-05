@@ -506,10 +506,16 @@ public class MapFilter extends AppCompatActivity{
         }
 
         users.clear();
-        users.addAll(FindFollowersController.getFeedList(UserSingleton.getCurrentUser()));
+        User currentUser = null;
+        try {
+            currentUser = ioManager.getUser(UserSingleton.getCurrentUser().getUsername());
+        } catch (NetworkUnavailableException e) {
+            e.printStackTrace();
+        }
+        users.addAll(FindFollowersController.getFeedList(currentUser));
+//        Log.d("tag1", "USERS: " + users);
         for (String s : users) {
             try {
-                IOManager.getManager().getUser(s);
                 tempArray = (ArrayList<HabitEvent>) NetworkDataManager.GetUserHabitEvents(IOManager
                         .getManager().getUser(s).getUserID()).getEvents();
                 for (HabitEvent he : tempArray) {
