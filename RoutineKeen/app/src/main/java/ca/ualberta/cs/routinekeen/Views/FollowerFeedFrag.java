@@ -59,6 +59,8 @@ public class FollowerFeedFrag extends Fragment {
 
         }
 
+        userFeedList.clear();
+        feedView.clear();
         userFeedList = FindFollowersController.getFeedList(currentUser);
         //Calculate feed here given user list
         for(int i = 0; i < userFeedList.size(); i++)

@@ -29,7 +29,7 @@ public class FollowRequestsFrag extends Fragment {
     private User currentUser;
 
     private String clickedUser;
-    private int clickedPosition;
+    private int clickedPosition = -1;
     //Find followers
     private ListView findListView;
     private ArrayList<String> userRequestList = new ArrayList<String>();
@@ -66,7 +66,6 @@ public class FollowRequestsFrag extends Fragment {
             {
                 clickedUser = userRequestList.get(position);
                 clickedPosition = position;
-                Toast.makeText(getActivity(), "Please choose Allow or deny for: " + clickedUser, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -81,17 +80,22 @@ public class FollowRequestsFrag extends Fragment {
                 * Remove from request list
                 * add to following list feed or not
                 */
-                userRequestList.remove(clickedPosition);
-                findAdapter.notifyDataSetChanged();
-                try{
-                    currentUser = ioManager.getUser(UserSingleton.getCurrentUser().getUsername());
-                    requestedUser = ioManager.getUser(clickedUser);
-                    ioManager.respondToFollowerRequest(requestedUser, currentUser, false);
 
-                }catch(NetworkUnavailableException e){
+                if(clickedPosition != -1) {
+                    userRequestList.remove(clickedPosition);
+                    findAdapter.notifyDataSetChanged();
+                    try {
+                        currentUser = ioManager.getUser(UserSingleton.getCurrentUser().getUsername());
+                        requestedUser = ioManager.getUser(clickedUser);
+                        ioManager.respondToFollowerRequest(requestedUser, currentUser, false);
 
+                    } catch (NetworkUnavailableException e) {
+
+                    }
+                } else{
+                    Toast.makeText(getActivity(), "Please click on a user before" +
+                            " accept/reject of request.", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
@@ -99,14 +103,19 @@ public class FollowRequestsFrag extends Fragment {
             @Override
             public void onClick(View view)
             {
-                userRequestList.remove(clickedPosition);
-                findAdapter.notifyDataSetChanged();
-                try{
-                    currentUser = ioManager.getUser(UserSingleton.getCurrentUser().getUsername());
-                    requestedUser = ioManager.getUser(clickedUser);
-                    ioManager.respondToFollowerRequest(requestedUser, currentUser, true);
-                }catch(NetworkUnavailableException e){
+                if(clickedPosition != -1) {
+                    userRequestList.remove(clickedPosition);
+                    findAdapter.notifyDataSetChanged();
+                    try {
+                        currentUser = ioManager.getUser(UserSingleton.getCurrentUser().getUsername());
+                        requestedUser = ioManager.getUser(clickedUser);
+                        ioManager.respondToFollowerRequest(requestedUser, currentUser, true);
+                    } catch (NetworkUnavailableException e) {
 
+                    }
+                } else{
+                    Toast.makeText(getActivity(), "Please click on a user before" +
+                            " accept/reject of request.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
