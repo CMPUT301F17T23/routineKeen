@@ -3,7 +3,6 @@ package ca.ualberta.cs.routinekeen.Views;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,7 +32,6 @@ import java.util.ArrayList;
 
 import ca.ualberta.cs.routinekeen.Controllers.HabitHistoryController;
 import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
-import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Helpers.PhotoHelpers;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.R;
@@ -67,11 +65,11 @@ public class AddHabitEvent extends AppCompatActivity {
         setContentView(R.layout.activity_add_habit_event);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        IOManager.initManager(this.getApplicationContext());
-        ActivityCompat.requestPermissions(this,
-                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                REQUEST_LOCATION);
-        service = (LocationManager) getSystemService(LOCATION_SERVICE);
+//        IOManager.initManager(this.getApplicationContext());
+//        ActivityCompat.requestPermissions(this,
+//                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+//                REQUEST_LOCATION);
+
 
         spinner = (Spinner) findViewById(R.id.habitTypeSpinner);
         eventTitle = (EditText) findViewById(R.id.eventTitle);
@@ -149,6 +147,7 @@ public class AddHabitEvent extends AppCompatActivity {
      * @return current location
      */
     private Location getDeviceLoc() {
+        service = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(AddHabitEvent.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
                 (AddHabitEvent.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

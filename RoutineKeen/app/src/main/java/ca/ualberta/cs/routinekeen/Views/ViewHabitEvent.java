@@ -34,7 +34,6 @@ import java.util.ArrayList;
 
 import ca.ualberta.cs.routinekeen.Controllers.HabitHistoryController;
 import ca.ualberta.cs.routinekeen.Controllers.HabitListController;
-import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Helpers.PhotoHelpers;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
 import ca.ualberta.cs.routinekeen.R;
@@ -67,9 +66,9 @@ public class ViewHabitEvent extends AppCompatActivity {
         index = intent.getIntExtra("View Event", -1);
         Spinner spinner = (Spinner) findViewById(R.id.typeSpinner);
 
-        ActivityCompat.requestPermissions(this,
-                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-        service = (LocationManager) getSystemService(LOCATION_SERVICE);
+//        ActivityCompat.requestPermissions(this,
+//                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+
 
         photoImageButton = (ImageButton) findViewById(R.id.imageButtonPhoto);
         photoImageButton.setOnClickListener( new View.OnClickListener() {
@@ -179,6 +178,7 @@ public class ViewHabitEvent extends AppCompatActivity {
      * @return current location
      */
     private Location getDeviceLoc() {
+        service = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(ViewHabitEvent.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
                 (ViewHabitEvent.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -187,6 +187,7 @@ public class ViewHabitEvent extends AppCompatActivity {
 
         }
         else {
+
             Location location = service.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             Location location1 = service.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             Location location2 = service.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
