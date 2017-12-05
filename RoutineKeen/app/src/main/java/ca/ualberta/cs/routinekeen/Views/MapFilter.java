@@ -33,10 +33,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.ualberta.cs.routinekeen.Controllers.FindFollowersController;
 import ca.ualberta.cs.routinekeen.Controllers.HabitHistoryController;
 import ca.ualberta.cs.routinekeen.Controllers.IOManager;
 import ca.ualberta.cs.routinekeen.Controllers.NetworkDataManager;
-import ca.ualberta.cs.routinekeen.Controllers.UserListController;
 import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
 import ca.ualberta.cs.routinekeen.Exceptions.NetworkUnavailableException;
 import ca.ualberta.cs.routinekeen.Models.HabitEvent;
@@ -66,11 +66,12 @@ public class MapFilter extends AppCompatActivity{
     private int isCheckedFlag = 0;
     int isFiltered = 0;
     int markerCount = 0;
+    private static IOManager ioManager = IOManager.getManager();
     String searchVal;
     private static final int REQUEST_LOCATION = 1;
     public static final int REQUESTION_LOCATION_CODE = 99;
     private FusedLocationProviderClient mFusedLocationClient;
-    private ArrayList<User> users = new ArrayList<User>();
+    private ArrayList<String> users = new ArrayList<String>();
     private ArrayList<HabitEvent> tempArray = new ArrayList<>();
     Map<String, HabitEvent> mapEventsToDisplay = new HashMap<>();
     Map<String, HabitEvent> sMapEventsToDisplay = new HashMap<>();
@@ -391,6 +392,7 @@ public class MapFilter extends AppCompatActivity{
                 Log.d("tag1", "e not okay");
             }
             if (!eventsError) {
+                Log.d("tag1", "here");
                 for (HabitEvent e : mapEventsToDisplay.values()) {
                     if (e.getLocation() != null) {
                         markerCount += 1;
@@ -398,6 +400,8 @@ public class MapFilter extends AppCompatActivity{
                 }
             }
         }
+
+        Log.d("tag1", "Marker Count: " + String.valueOf(markerCount));
     }
 
     private void countSpecial(String string) throws NetworkUnavailableException {
@@ -502,18 +506,15 @@ public class MapFilter extends AppCompatActivity{
         }
 
         users.clear();
-        users.addAll(UserListController.getUserList().getUsers());
-        for (User s : users) {
+        users.addAll(FindFollowersController.getFeedList(UserSingleton.getCurrentUser()));
+        for (String s : users) {
             try {
-                String username = s.getUsername();
-//                Log.d("tag1", "username: "+username);
-                username = "Tanis";
-                IOManager.getManager().getUser(username);
+                IOManager.getManager().getUser(s);
                 tempArray = (ArrayList<HabitEvent>) NetworkDataManager.GetUserHabitEvents(IOManager
-                        .getManager().getUser(username).getUserID()).getEvents();
+                        .getManager().getUser(s).getUserID()).getEvents();
                 for (HabitEvent he : tempArray) {
                     if (he.getTitle().toLowerCase().contains(string.toLowerCase())) {
-                        sMapEventsToDisplay.put(String.valueOf(i)+"/?"+username, he);
+                        sMapEventsToDisplay.put(String.valueOf(i)+"/?"+s, he);
 //                        sEventsToDisplay.add(he);
                         i += 1;
                     }
@@ -657,19 +658,20 @@ public class MapFilter extends AppCompatActivity{
 
     private void getFollowingEvents() throws NetworkUnavailableException {
         users.clear();
-        users.addAll(UserListController.getUserList().getUsers());
+        User currentUser = ioManager.getUser(UserSingleton.getCurrentUser().getUsername());
+        users.addAll(FindFollowersController.getFeedList(currentUser));
+        Log.d("tag1", "Users: " + users);
 
-        for (User s : users) {
+        for (String s : users) {
+            Log.d("tag1", "User: " + s);
             try {
-                String username = s.getUsername();
 //                Log.d("tag1", "username: "+username);
-                username = "Tanis";
-                IOManager.getManager().getUser(username);
+                IOManager.getManager().getUser(s);
                 tempArray = (ArrayList<HabitEvent>) NetworkDataManager.GetUserHabitEvents(IOManager
-                        .getManager().getUser(username).getUserID()).getEvents();
+                        .getManager().getUser(s).getUserID()).getEvents();
                 int i = 0;
                 for (HabitEvent he : tempArray) {
-                    mapEventsToDisplay.put(String.valueOf(i)+"/?"+username, he);
+                    mapEventsToDisplay.put(String.valueOf(i)+"/?"+s, he);
 //                    eventsToDisplay.add(he);
                     i += 1;
                 }
@@ -678,23 +680,21 @@ public class MapFilter extends AppCompatActivity{
             }
 
         }
-//        Log.d("tag1", "string"+String.valueOf(eventsToDisplay));
+//        Log.d("tag1", "Map Events to Display: "+String.valueOf(mapEventsToDisplay));
     }
 
     private void getRecentFollowingEvents() throws NetworkUnavailableException {
         ArrayList<ArrayList<HabitEvent>> recentArray = new ArrayList<>();
         users.clear();
-        users.addAll(UserListController.getUserList().getUsers());
+        User currentUser = ioManager.getUser(UserSingleton.getCurrentUser().getUsername());
+        users.addAll(FindFollowersController.getFeedList(currentUser));
         ArrayList<HabitEvent> hbal = new ArrayList<>();
 
-        for (User s : users) {
+        for (String s : users) {
             try {
-                String username = s.getUsername();
-//                Log.d("tag1", "username: "+username);
-                username = "Tanis";
-                IOManager.getManager().getUser(username);
+                IOManager.getManager().getUser(s);
                 tempArray = (ArrayList<HabitEvent>) NetworkDataManager.GetUserHabitEvents(IOManager
-                        .getManager().getUser(username).getUserID()).getEvents();
+                        .getManager().getUser(s).getUserID()).getEvents();
 
                 for (HabitEvent he : tempArray) {
                     try {
@@ -710,7 +710,7 @@ public class MapFilter extends AppCompatActivity{
                 }
                 recentArray.add(hbal);
                 // no need to increment 0 because hash gets unique key only anyway
-                mapRecentEvents.put(String.valueOf(0)+"/?"+username, recentArray);
+                mapRecentEvents.put(String.valueOf(0)+"/?"+s, recentArray);
 
             } catch (Exception e) {
                 Log.d("tag1", "Could not complete for User: "+s);
