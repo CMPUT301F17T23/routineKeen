@@ -75,7 +75,7 @@ public class FollowerFeedFrag extends Fragment {
                 String eventTitle = recentEvent.getTitle();
                 String habitType = recentEvent.getEventHabitType();
 
-                feedView.add(tempUser.getUsername() + "Most Recent Activity: " + habitType + "\nEvent Title:" + eventTitle);
+                feedView.add(tempUser.getUsername() + "\nMost Recent Habit: " + habitType + "\nEvent Title:" + eventTitle);
             }catch (Exception e){
 
             }
