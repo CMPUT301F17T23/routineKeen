@@ -22,6 +22,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -32,6 +33,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
+import ca.ualberta.cs.routinekeen.Controllers.UserSingleton;
 import ca.ualberta.cs.routinekeen.Models.Markers;
 import ca.ualberta.cs.routinekeen.R;
 
@@ -78,11 +80,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // no events to display
         }
 
-        //  check if we have permission to get user's location
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            checkLocationPermission();
-//        }
-
         // If GPS (location) is not enabled, User is sent to the settings to turn it on!
         service = (LocationManager) getSystemService(LOCATION_SERVICE);
         boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -96,8 +93,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent i = new Intent(MapsActivity.this, MapFilter.class);
-//                startActivity(i);
                 finish();
             }
         });
@@ -155,9 +150,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         placeMarkers();
 
-        // Adding a marker in Edmonton and move the Camera
-        LatLng edmonton = new LatLng(54.523219, -113.526319);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 10));
+        Toast.makeText(this, "Red: Personal Events \nBlue: Following Events", Toast.LENGTH_LONG).show();
+
+//        // Adding a marker in Edmonton and move the Camera
+//        LatLng edmonton = new LatLng(54.523219, -113.526319);
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton, 10));
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -177,13 +174,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLocationChanged(Location location) {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions();
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
 
-        markerOptions.position(latLng);
-        markerOptions.title("Current Location");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.moveCamera(cameraUpdate);
 
         if (client != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
@@ -223,7 +216,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void placeMarkers() {
         for (Markers m : toDisplayAL) {
-            mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation()).title(m.getMarkerTitle()).snippet(m.getMarkerId()));
+            if ((m.getMarkerId()).equals(UserSingleton.getCurrentUser().getUsername())) {
+                mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                        .title(m.getMarkerTitle()).snippet(m.getMarkerId()));
+            } else {
+                mMap.addMarker(new MarkerOptions().position(m.getMarkerLocation())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                        .title(m.getMarkerTitle()).snippet(m.getMarkerId()));
+            }
         }
     }
 

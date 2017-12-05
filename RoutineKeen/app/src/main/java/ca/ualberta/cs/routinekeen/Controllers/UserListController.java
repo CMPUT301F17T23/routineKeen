@@ -24,7 +24,7 @@ public class UserListController {
         return userList;
     }
 
-    public static boolean addUserToList(String username){
+    public static boolean addUser(String username){
         User retrievedUser;
         try{
             retrievedUser = ioManager.getUser(username);
@@ -37,6 +37,23 @@ public class UserListController {
         }
         getUserList().addUser(retrievedUser);
         ioManager.saveUserList(getUserList());
+        return true;
+    }
+
+    public static boolean containsUser(String username){
+        return userList.containsUser(username);
+    }
+
+    public static boolean removeUser(String username){
+        User userToDelete = userList.getUser(username);
+        try{
+            ioManager.deleteUser(userToDelete.getUserID());
+        } catch (NetworkUnavailableException e){
+            return false;
+        }
+
+        userList.removeUser(username);
+        ioManager.saveUserList(userList);
         return true;
     }
 

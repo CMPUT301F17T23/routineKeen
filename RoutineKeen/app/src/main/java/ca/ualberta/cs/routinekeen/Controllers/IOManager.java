@@ -115,6 +115,25 @@ public class IOManager {
         return userID;
     }
 
+    public User getUser(String username) throws NetworkUnavailableException{
+        User retrievedUser;
+        if(isNetworkAvailable()){
+            retrievedUser = NetworkDataManager.GetUser(username);
+        } else {
+            throw new NetworkUnavailableException();
+        }
+
+        return retrievedUser;
+    }
+
+    public void deleteUser(String userID) throws NetworkUnavailableException {
+        if(isNetworkAvailable()){
+            NetworkDataManager.DeleteUser(userID);
+        } else{
+            throw new NetworkUnavailableException();
+        }
+    }
+
     public String addHabit(Habit habit) throws NetworkUnavailableException{
         if(isNetworkAvailable()){
             return NetworkDataManager.AddNewHabit(habit);
@@ -129,17 +148,6 @@ public class IOManager {
         } else {
             throw new NetworkUnavailableException();
         }
-    }
-
-    public User getUser(String username) throws NetworkUnavailableException{
-        User retrievedUser;
-        if(isNetworkAvailable()){
-            retrievedUser = NetworkDataManager.GetUser(username);
-        } else {
-            throw new NetworkUnavailableException();
-        }
-        
-        return retrievedUser;
     }
 
     public void deleteHabit(String habitID) throws NetworkUnavailableException{
