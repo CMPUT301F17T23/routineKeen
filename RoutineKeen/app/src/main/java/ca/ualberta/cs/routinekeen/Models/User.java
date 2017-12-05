@@ -21,11 +21,15 @@ public class User {
 
     public User(String username) {
         this.username = username;
+        followerRequests = new ArrayList<String>();
+        followerList = new ArrayList<String>();
     }
 
     public User(String username, String userID) {
         this.username = username;
         this.userID = userID;
+        followerRequests = new ArrayList<String>();
+        followerList = new ArrayList<String>();
     }
 
     public String getUserID() {
