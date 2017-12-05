@@ -1,4 +1,6 @@
 package ca.ualberta.cs.routinekeen;
+import android.util.Log;
+
 import org.junit.Test;
 
 import ca.ualberta.cs.routinekeen.Models.User;
@@ -17,12 +19,9 @@ public class FollowerListTest {
     User testFollower = new User(testUniqueFollowerName);
     assertTrue(testFollower.getUsername().equals(testUniqueFollowerName));
     
-    //testUser.getFollowerList().add(testFollower);
+    testUser.getFollowerList().add(testUniqueFollowerName);
     // get(0) hardcoded for testing purposes
-    //assertTrue(testUser.getFollowerList().get(0).equals(testUniqueFollowerName));
-    
-    //testUser.getFollowerList().remove(testFollower);
-    //assertEquals(testUser.getFollowerList().size(), 0);
+    assertTrue(testUser.getFollowerList().get(0).equals(testUniqueFollowerName));
     
   }
   

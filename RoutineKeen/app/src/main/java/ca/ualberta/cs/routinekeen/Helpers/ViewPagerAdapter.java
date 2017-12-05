@@ -7,7 +7,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 
 /**
- * Created by Mikee V on 2017-11-30.
+ * A simple helper class used as a custom adapter for viewing fragments in HabitFollowingSharing Activity
+ *
+ * @author Mikee V
+ * @see ca.ualberta.cs.routinekeen.Views.HabitFollowingSharing
+ * @version 1.0.0
  */
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -23,9 +27,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     }
 
 
-    public ViewPagerAdapter(FragmentManager fm)
+    public ViewPagerAdapter(FragmentManager fragment)
     {
-        super(fm);
+        super(fragment);
     }
 
     @Override

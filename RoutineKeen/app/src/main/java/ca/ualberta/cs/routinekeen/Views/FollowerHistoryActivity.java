@@ -73,8 +73,11 @@ public class FollowerHistoryActivity extends AppCompatActivity {
             countOfEvents.add(count);
         }
 
-        Log.d("tag1", String.valueOf(habits));
-        Log.d("tag1", "Recent: "+String.valueOf(recentEvent));
+        //Log.d("tag1", String.valueOf(habits));
+        //Log.d("tag1", "Recent: "+String.valueOf(recentEvent));
+        /*
+        Adds appropriate view to Array to be seen by the user
+         */
         for(int i = 0; i < habits.size();i++)
         {
             String view = "Habit Type: " + habits.get(i) + "\nHabit Status: " + countOfEvents.get(i).toString()
@@ -84,7 +87,7 @@ public class FollowerHistoryActivity extends AppCompatActivity {
 
         }
 
-
+        //Set up adapter
         CL = (ListView) findViewById(R.id.habitHistoryList);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, viewList);
         CL.setAdapter(adapter);
